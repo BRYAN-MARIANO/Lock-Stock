@@ -8,6 +8,10 @@ app.get('/', (_req, res)=>{
     res.send('hola mundo')
 });
 
+app.get('/prueba', (_req, res)=>{
+    res.send('adios mundo')
+});
+
 
 app.listen(PORT, ()=>{
     console.log(`app corriendo en http://localhost:${PORT}`)
