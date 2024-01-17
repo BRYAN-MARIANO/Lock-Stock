@@ -1,7 +1,19 @@
 import express from 'express';
+import cors from 'cors';
+import adminRouter from './routes/adminsRouter';
+import applicationsRouter from './routes/applicationsRouter';
+import devicesRouter from './routes/devicesRouter';
+import notificationsRouter from './routes/notificationsRouter';
+import usersRouter from './routes/userRouter';
 
-const app = express();
-const PORT = 4000;
+export const app = express();
+
+
+
+app.use(express.json());
+app.use(cors());
+
+
 
 
 app.get('/', (_req, res)=>{
@@ -9,6 +21,8 @@ app.get('/', (_req, res)=>{
 });
 
 
-app.listen(PORT, ()=>{
-    console.log(`app corriendo en http://localhost:${PORT}`)
-});
+app.use('/', adminRouter)
+app.use('/', applicationsRouter)
+app.use('/', devicesRouter)
+app.use('/', notificationsRouter)
+app.use('/', usersRouter)
