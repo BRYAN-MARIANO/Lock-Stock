@@ -5,7 +5,7 @@ const notificationsRouter = express.Router();
 
 notificationsRouter.get('/notifications', notificationsGet);
 
-
+//get, delete, post
 
 
 export default notificationsRouter;

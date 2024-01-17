@@ -15,7 +15,6 @@ app.use(cors());
 
 
 
-
 app.get('/', (_req, res)=>{
     res.send('hola mundo')
 });
