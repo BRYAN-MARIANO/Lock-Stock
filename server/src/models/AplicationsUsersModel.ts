@@ -39,3 +39,5 @@ Id_User: {
 AplicationsUsersModel.belongsTo(AplicationsUsersModel, { foreignKey: 'Id_Users' });
 
 export default AplicationsUsersModel;
+
+

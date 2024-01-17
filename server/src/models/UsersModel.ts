@@ -55,3 +55,5 @@ const UsersModel = db.define('Users', {
 });
 
 export default UsersModel;
+
+
