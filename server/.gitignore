@@ -4,7 +4,7 @@ Thumbs.db
 
 # Local development environment directories
 node_modules/
-env/
+.env/
 venv/
 ENV/
 
