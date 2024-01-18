@@ -9,7 +9,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <p className="text-gray-600 mt-4">
           Este es un ejemplo de texto con Tailwind CSS.
         </p>
-        <button className="bg-green-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-green-600">
+        <button className="bg-green-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-green-600  border-red-900">
           Haz clic aquí
         </button>
       </div>
