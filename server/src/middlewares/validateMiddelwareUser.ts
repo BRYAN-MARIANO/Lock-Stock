@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 
 
 
-const validationMiddleware = (schema: z.ZodObject<{}>) => {
+const validateMiddelwareUser = (schema: z.ZodObject<{}>) => {
     return(
     req: Request,
     res: Response,
@@ -24,4 +24,4 @@ const validationMiddleware = (schema: z.ZodObject<{}>) => {
 }
 }};
 
-export default validationMiddleware;
+export default validateMiddelwareUser;

@@ -54,6 +54,7 @@ const UsersModel = db.define('Users', {
   timestamps: false
 });
 
+
 export default UsersModel;
 
 
