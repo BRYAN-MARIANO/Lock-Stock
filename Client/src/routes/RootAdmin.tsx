@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom"
 
-const Root = (): React.JSX.Element => {
+const RootAdmin = (): React.JSX.Element => {
   return (
     <>
         <Outlet />
@@ -9,4 +9,4 @@ const Root = (): React.JSX.Element => {
   )
 }
 
-export default Root;
+export default RootAdmin;
