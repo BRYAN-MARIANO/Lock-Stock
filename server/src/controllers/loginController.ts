@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/UsersModel';
 import { Op } from 'sequelize';
+import bcrypt from 'bcrypt'; 
+
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -22,6 +24,11 @@ export const login = async (req: Request, res: Response) => {
   });
 
   if (!user) {
+    return res.status(401).json({ message: 'Invalid username or password' });
+  }
+  const PasswordInstance = user.get({ plain: true })
+  const isPasswordValid = await bcrypt.compare(password, PasswordInstance.Password_Master_User);
+  if (!isPasswordValid) {
     return res.status(401).json({ message: 'Invalid username or password' });
   }
 
