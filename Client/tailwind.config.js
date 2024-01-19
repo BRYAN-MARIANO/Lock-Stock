@@ -8,7 +8,7 @@ export default {
         'primary': '#1D7607'
       }),
       textColor: {
-        'primary': 'black'
+        'primary': '#1D7607'
       },
       fontFamily: {
         'sans': ['Roboto', 'sans-serif'],
