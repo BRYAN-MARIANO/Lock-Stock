@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import UsersModel from '../models/UsersModel';
-import { v4 as generateUuid } from 'uuid'; // Importar el módulo uuid
-import bcrypt from 'bcrypt'; // Importar el módulo bcrypt
-import { sign } from 'jsonwebtoken'; // Importar la función sign de jsonwebtoken
-import validateMiddelwareUser from '../middlewares/validateMiddelwareUser'; // Importar el módulo de validación de datos de usuario
+import { v4 as generateUuid } from 'uuid'; 
+import bcrypt from 'bcrypt'; 
+import { sign } from 'jsonwebtoken'; 
+import validateMiddelwareUser from '../middlewares/validateMiddelwareUser';
 import 'dotenv/config';
 
 export const usersGet = async (_req: Request, res: Response) => {
@@ -39,23 +39,16 @@ export const usersGetById = async (req: Request, res: Response) => {
 
 export const usersPost = async (req: Request, res: Response) => {
  try {
-   // Validar los datos del usuario
    validateMiddelwareUser(req.body);
-
-   // Generar UUID para el nuevo usuario
    const userUuid = generateUuid();
-
-   // Hashear la contraseña
    const hashedPassword = await bcrypt.hash(req.body.Password_User, 10);
-
-   // Generar el token JWT
    const SECRET_KEY = process.env.SECRET_KEY;
+   
    if (!SECRET_KEY) {
      throw new Error('SECRET_KEY environment variable is not set');
    }
    const token = sign({ userUuid }, SECRET_KEY, { expiresIn: '86400s' });
 
-   // Crear el nuevo usuario en la base de datos
    await UsersModel.create({
      Id_User: userUuid,
      Password_User: hashedPassword,
@@ -72,7 +65,6 @@ export const usersPost = async (req: Request, res: Response) => {
      Delete_User: req.body.Delete_User,
    });
 
-   // Devolver una respuesta HTTP 201 con el token JWT
    res.status(201).json({ token });
  } catch (error) {
    if (error instanceof Error) {
@@ -83,10 +75,8 @@ export const usersPost = async (req: Request, res: Response) => {
 
 export const usersPut = async (req: Request, res: Response) => {
  try {
-   // Validar los datos del usuario
    validateMiddelwareUser(req.body);
 
-   // Actualizar el usuario en la base de datos
    await UsersModel.update(
      {
        Email_User: req.body.Email_User,
@@ -107,7 +97,6 @@ export const usersPut = async (req: Request, res: Response) => {
      }
    );
 
-   // Devolver una respuesta HTTP 200
    res.status(200).json({ message: 'Usuario actualizado' });
  } catch (error) {
    if (error instanceof Error) {
@@ -118,14 +107,12 @@ export const usersPut = async (req: Request, res: Response) => {
 
 export const usersDelete = async (req: Request, res: Response) => {
  try {
-   // Eliminar el usuario de la base de datos
    await UsersModel.destroy({
      where: {
        Id_User: req.params.id,
      },
    });
 
-   // Devolver una respuesta HTTP 200
    res.status(200).json({ message: 'Usuario eliminado' });
  } catch (error) {
    if (error instanceof Error) {

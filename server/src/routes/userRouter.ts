@@ -1,6 +1,6 @@
-import express from 'express'; // import { Router } from 'express';
+import express from 'express'; 
 import { usersGet, usersGetById, usersPost, usersPut, usersDelete} from '../controllers/usersController';
-import validateMiddelwareUser from '../middlewares/validateMiddelwareUser'; // Importar el módulo de validación de datos de usuario
+import validateMiddelwareUser from '../middlewares/validateMiddelwareUser';
 import UserSchema from '../schemas/usersSchema';
 
 const usersRouter = express.Router();

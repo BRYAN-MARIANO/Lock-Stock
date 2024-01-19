@@ -5,6 +5,7 @@ import applicationsRouter from './routes/applicationsRouter';
 import devicesRouter from './routes/devicesRouter';
 import notificationsRouter from './routes/notificationsRouter';
 import usersRouter from './routes/userRouter';
+import authRoutes from './routes/authRoutes';
 
 export const app = express();
 
@@ -25,3 +26,4 @@ app.use('/', applicationsRouter)
 app.use('/', devicesRouter)
 app.use('/', notificationsRouter)
 app.use('/', usersRouter)
+app.use('/', authRoutes)
