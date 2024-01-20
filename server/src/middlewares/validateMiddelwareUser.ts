@@ -1,8 +1,6 @@
 import { z, ZodError } from 'zod';
 import { Request, Response, NextFunction } from 'express';
 
-
-
 const validateMiddelwareUser = (schema: z.ZodObject<{}>) => {
     return(
     req: Request,
