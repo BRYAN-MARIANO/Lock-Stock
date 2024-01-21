@@ -28,7 +28,7 @@ export const usersGetById = async (req: Request, res: Response) => {
     if (user) {
       res.status(200).json(user);
     } else {
-      res.status(404).json({ message: "Usuario no encontrado" });
+      res.status(404).json({ message: "Credenciales Inválidas" });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -41,8 +41,8 @@ export const usersPost = async (req: Request, res: Response) => {
   try {
     validateMiddelwareUser(req.body);
     const userUuid = generateUuid();
-    const hashedPassword = await bcrypt.hash(req.body.Password_Master_User, 10);
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
+    const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
     const SECRET_KEY = process.env.SECRET_KEY;
 
     if (!SECRET_KEY) {
@@ -52,8 +52,8 @@ export const usersPost = async (req: Request, res: Response) => {
 
       await UsersModel.create({
         Id_User: userUuid,
-        Password_User: hashedPassword,
-        Password_Master_User: hashedPassword_User,
+        Password_User: hashedPassword_User,
+        Password_Master_User: hashedPassword_Master_User,
         Email_User: req.body.Email_User,
         Name_User: req.body.Name_User,
         SurName_User: req.body.SurName_User,
@@ -62,10 +62,12 @@ export const usersPost = async (req: Request, res: Response) => {
         Answer_Security_User: req.body.Answer_Security_User,
         Device_User: req.body.Device_User,
         Notifications_User: req.body.Notifications_User,
+        loginAttempts: 0,
         Block_User: req.body.Block_User,
         Delete_User: req.body.Delete_User,
         //añadir fecha de creación/envío/conexión
         //añadir ubicación de creación/envío/conexión
+        //almacenar token haseado y guardar en bbdd y volver a crear para incluir los nuevos datos. y llevar al modelo y middelware
       });
 
       res.status(201).json({ token });
