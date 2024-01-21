@@ -18,6 +18,7 @@ CREATE TABLE Users (
   Answer_Security_User VARCHAR(30) NOT NULL,
   Device_User VARCHAR(30),
   Notifications_User VARCHAR(30),
+  loginAttempts NUMBER (30)
   Block_User BOOLEAN,
   Delete_User BOOLEAN
 );

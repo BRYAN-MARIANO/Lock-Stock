@@ -43,6 +43,9 @@ const UsersModel = db.define('Users', {
     Notifications_User: {
       type: DataTypes.STRING(30),
   },
+  loginAttempts: {
+      type: DataTypes.NUMBER,
+  },
     Block_User: {
       type: DataTypes.BOOLEAN,
   },

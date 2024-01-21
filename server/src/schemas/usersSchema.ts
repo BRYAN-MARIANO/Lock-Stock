@@ -15,6 +15,7 @@ const UserSchema = z.object({
   Answer_Security_User: z.string().min(5).max(30),
   Device_User: z.string().max(30).optional(),
   Notifications_User: z.string().max(30).optional(),
+  loginAttempts: z.number().min(0).max(3),
   Block_User: z.boolean().optional(),
   Delete_User: z.boolean().optional(),
 });
