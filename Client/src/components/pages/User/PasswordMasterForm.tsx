@@ -1,7 +1,12 @@
 import React from "react";
 import HeaderMenu from "../../templates/HeaderMenu";
+import { useForm } from 'react-hook-form'
 
 const PasswordMasterForm = (): React.JSX.Element => {
+
+  const { handleSubmit, register, setError } = useForm()
+
+
   return (
     <>
     <HeaderMenu />
@@ -10,23 +15,32 @@ const PasswordMasterForm = (): React.JSX.Element => {
 
         <form action="" className="flex flex-col w-2/4 gap-3">
           <label htmlFor="" className="flex flex-col">Establecer Contraseña
-            <input type="text" className="border border-black rounded"/>
+            <input type="text" className="border border-black rounded" {...register('')}/>
           </label>
           <label htmlFor="" className="flex flex-col">Confirmar Contraseña
             <input type="text" className="border border-black rounded"/>
           </label>
+
+
+
+
           <label htmlFor="" className="flex flex-col">Establecer Pregunta de Seguridad
-            <input type="text" className="border border-black rounded"/>
+            <input type="text" className="border border-black rounded" {...register('')}/>
           </label>
           <label htmlFor="" className="flex flex-col">Confirmar Pregunta de Seguridad
             <input type="text" className="border border-black rounded"/>
           </label>
+
+
+
+
           <label htmlFor="" className="flex flex-col">Establecer Respuesta
-            <input type="text" className="border border-black rounded"/>
+            <input type="text" className="border border-black rounded" {...register('')}/>
           </label>
           <label htmlFor="" className="flex flex-col">Confirmar Respuesta
             <input type="text" className="border border-black rounded"/>
           </label>
+
 
           <input type="submit" value="Confirmar" className="m-auto w-full rounded bg-primary text-white font-medium mt-4 h-10"/>
         </form>

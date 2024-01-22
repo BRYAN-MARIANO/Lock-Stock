@@ -1,8 +1,49 @@
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
+import { useLoaderData } from "react-router-dom";
+import { servicesApp } from "../../../services/services";
+import { usersContext } from "../../../UserContext";
+
+
+
 
 const UserProfile = (): React.JSX.Element => {
+
+
+// // Almacenar el token en sessionStorage
+// sessionStorage.setItem('token', 'hola mundo');
+// let token = sessionStorage.getItem('token');
+
+
+const user = useContext(usersContext)
+
+//editar perfil
+const nameRef = useRef(null)
+const lastNameRef = useRef(null)
+const emailRef = useRef(null)
+const mobileRef = useRef(null)
+const nameUserRef = useRef(null)
+
+
+const editProfile = async (ref, fieldName) => {
+  try {
+    await servicesApp.putProfile(
+      { [fieldName]: `${ref.current.textContent}` },
+      user.id
+    );
+  } catch (error) {
+    console.error(`Error al editar ${fieldName}:`, error);
+  }
+};
+
+
+
+
+
+
+
+
   return (
     <>
       <HeaderMenu />
@@ -23,73 +64,88 @@ const UserProfile = (): React.JSX.Element => {
             </article>
             <article className="flex-col w-1/2">
 
-                
-              <table className="w-full h-full">
+
+
+              <table className="w-full h-full ">
+
+
+
+                    <tr>
+                      <td className="font-semibold">Nombre</td>
+
+
+                      <td contentEditable ref={nameRef}>{user.Name_User}</td>
+
+
+                      <td>
+
+
+                        <figure className="flex gap-10">
+
+
+                        <img src="/src/images/editar-icon.svg" alt="edit-icon" onClick={() => editProfile(nameRef, 'Name_User')} />
 
 
 
 
-                <tr>
-                  <td className="font-semibold">Nombre</td>
-                  <td>Homer</td>
-                  <td>
-                    <figure className="flex gap-10">
-                      <img src="/src/images/editar-icon.svg" alt="" />
-                      <img src="/src/images/eliminar-icon.svg" alt="" />
-                    </figure>
-                  </td>
-                </tr>
+
+                          <img src="/src/images/eliminar-icon.svg" alt="delete-icon" />
+                        </figure>
 
 
-                <tr>
-                  <td className="font-semibold">Apellidos</td>
-                  <td>Simpson</td>
-                  <td>
-                    <figure className="flex gap-10">
-                      <img src="/src/images/editar-icon.svg" alt="" />
-                      <img src="/src/images/eliminar-icon.svg" alt="" />
-                    </figure>
-                  </td>
-                </tr>
+
+                      </td>
+                    </tr>
 
 
-                <tr>
-                  <td className="font-semibold">Correo Electrónico</td>
-                  <td>Homer1929@gmail.com</td>
-                  <td>
-                    <figure className="flex gap-10">
-                      <img src="/src/images/editar-icon.svg" alt="" />
-                      <img src="/src/images/eliminar-icon.svg" alt="" />
-                    </figure>
-                  </td>
-                </tr>
 
 
-                <tr>
-                  <td className="font-semibold">Teléfono Móvil</td>
-                  <td>674257642</td>
-                  <td>
-                    <figure className="flex gap-10">
-                      <img src="/src/images/editar-icon.svg" alt="" />
-                      <img src="/src/images/eliminar-icon.svg" alt="" />
-                    </figure>
-                  </td>
-                </tr>
 
 
-                <tr>
-                  <td className="font-semibold">Nombre de Usuario</td>
-                  <td>Homer123</td>
-                  <td>
-                    <figure className="flex gap-10">
-                      <img src="/src/images/editar-icon.svg" alt="" />
-                      <img src="/src/images/eliminar-icon.svg" alt="" />
-                    </figure>
-                  </td>
-                </tr>
 
 
-     
+
+                    <tr>
+                      <td className="font-semibold">Apellidos</td>
+                      <td>{user.SurName_User}</td>
+                      <td>
+                        <figure className="flex gap-10">
+                          <img src="/src/images/editar-icon.svg" alt="edit-icon" />
+                          <img src="/src/images/eliminar-icon.svg" alt="delete-icon" />
+                        </figure>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="font-semibold">Correo Electrónico</td>
+                      <td>{user.Email_User}</td>
+                      <td>
+                        <figure className="flex gap-10">
+                          <img src="/src/images/editar-icon.svg" alt="edit-icon" />
+                          <img src="/src/images/eliminar-icon.svg" alt="delete-icon" />
+                        </figure>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="font-semibold">Teléfono Móvil</td>
+                      <td>{user.Mobile_User}</td>
+                      <td>
+                        <figure className="flex gap-10">
+                          <img src="/src/images/editar-icon.svg" alt="edit-icon" />
+                          <img src="/src/images/eliminar-icon.svg" alt="delete-icon" />
+                        </figure>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="font-semibold">Nombre de Usuario</td>
+                      <td>{'bryan'}</td>
+                      <td>
+                        <figure className="flex gap-10">
+                          <img src="/src/images/editar-icon.svg" alt="edit-icon" />
+                          <img src="/src/images/eliminar-icon.svg" alt="delete-icon" />
+                        </figure>
+                      </td>
+                    </tr>
               </table>
             </article>
           </section>

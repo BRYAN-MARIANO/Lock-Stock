@@ -3,6 +3,35 @@ import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
 
 const ConnectedDevices = (): React.JSX.Element => {
+
+  //dispositivo desde el que se conecta
+  const obtenerTipoDispositivo = () => {
+
+    const userAgent = navigator.userAgent;
+  
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+      return 'Móvil';
+    } else if (/iPad|Tablet|PlayBook|Kindle|KFAPWI|Silk|GT-P|SM-T|Nexus|TAB|SCH-I|Acer Iconia|Asus|Dell|HP|Lenovo|YOGA|ThinkPad|IdeaPad/i.test(userAgent)) {
+      return 'Tableta';
+    } else {
+      return 'Ordenador';
+    }
+  }
+
+  //ultima vez que se conectaron
+  const lastConexion = new Date()
+  console.log(lastConexion)
+
+  //eliminar dispositivo
+
+
+
+
+
+  const tipoDispositivo = obtenerTipoDispositivo();
+  console.log('Tipo de dispositivo:', tipoDispositivo);
+  
+
   return (
     <>
       <HeaderMenu />

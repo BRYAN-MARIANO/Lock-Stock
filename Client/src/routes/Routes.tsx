@@ -13,6 +13,9 @@ import Help from "../components/pages/User/Help";
 import HowUse from "../components/pages/User/HowUse";
 import UserProfile from "../components/pages/User/UserProfile";
 import ConnectedDevices from "../components/pages/User/ConnectedDevices";
+import React from "react";
+import { servicesApp } from "../services/services";
+import TokenAccess from "../TokenAccess";
 
 
 export const router = createBrowserRouter([
@@ -22,31 +25,34 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/password-master',
-                element: <PasswordMasterForm />
+                element: <TokenAccess><PasswordMasterForm /></TokenAccess>
             },
             {
                 path: '/help',
-                element: <Help/>
+                element: <TokenAccess><Help/></TokenAccess>
             },
             {
                 path:'/how-use',
-                element: <HowUse/>
+                element: <TokenAccess><HowUse/></TokenAccess>
             },
             {
                 path: 'user-profile',
-                element: <UserProfile />
+                element: <TokenAccess><UserProfile /></TokenAccess>,
+                loader: servicesApp.getProfile
             },
             {
                 path: 'connected-devices',
-                element: <ConnectedDevices />
+                element: <TokenAccess><ConnectedDevices /></TokenAccess>
             },
             {
                 path: 'notification-mailbox',
-                element: <NotificationMailbox />
+                element: <TokenAccess><NotificationMailbox /></TokenAccess>,
+                loader: servicesApp.getNotifications
             },
             {
                 path: 'password-generator',
-                element: <PasswordGenerator />
+                element: <TokenAccess><PasswordGenerator /></TokenAccess>,
+                loader: servicesApp.getAplications
             }
         ],
     },

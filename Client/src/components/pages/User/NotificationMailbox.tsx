@@ -1,7 +1,26 @@
+import React, { useState } from "react";
 import HeaderMenu from "../../templates/HeaderMenu";
 import Navbar from "../../templates/Navbar";
+import Notification from "../../molecules/Notification";
+import { useLoaderData } from 'react-router-dom'
 
 const NotificationMailbox = (): React.JSX.Element => {
+
+  const { response } = useLoaderData()
+
+  const notifications = response.map((a)=>{
+    return a.Notes_Notification
+  })
+  
+
+  const [image, setImage] = useState("/src/images/notification-open-icon.svg");
+  
+  const changeImage = () => {
+    setImage("/src/images/notification-close-icon.svg");
+  };
+
+
+
   return (
     <>
       <HeaderMenu />
@@ -16,42 +35,11 @@ const NotificationMailbox = (): React.JSX.Element => {
             </h1>
           </div>
           <section className="flex flex-col w-full h-full gap-5"> 
-
-            <article className="flex justify-center gap-3">
-              <div className="w-3/4 border border-black rounded-xl flex items-center">
-                <p className="mx-2">Nueva Contraseña</p>
-              </div>
-              <figure>
-                <img src="/src/images/notification-open-icon.svg" alt="" />
-              </figure>
-            </article>
-
-            <article className="flex justify-center gap-3">
-              <div className="w-3/4 border border-black rounded-xl flex items-center">
-                <p className="mx-2">Nueva Contraseña</p>
-              </div>
-              <figure>
-                <img src="/src/images/notification-close-icon.svg" alt="" />
-              </figure>
-            </article>
-
-            <article className="flex justify-center gap-3">
-              <div className="w-3/4 border border-black rounded-xl flex items-center">
-                <p className="mx-2">Nueva Contraseña</p>
-              </div>
-              <figure>
-                <img src="/src/images/notification-close-icon.svg" alt="" />
-              </figure>
-            </article>
-
-            <article className="flex justify-center gap-3">
-              <div className="w-3/4 border border-black rounded-xl flex items-center">
-                <p className="mx-2">Nueva Contraseña</p>
-              </div>
-              <figure>
-                <img src="/src/images/notification-close-icon.svg" alt="" />
-              </figure>
-            </article>
+          
+          {notifications.map((messages, index) => (
+          <Notification key={index} messages={messages} changeImage={changeImage} image={image} />
+        ))}
+          
 
           </section>
         </section>
