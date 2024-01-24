@@ -7,7 +7,7 @@ const NotificationAdmin = (): React.JSX.Element => {
     <>
                  <HeaderMenu />
     <section className="flex">
-        <NavbarAdmin />
+        <NavbarAdmin notifications/>
 
         <section className="w-full min-h-screen flex flex-col gap-10 py-20 bg-gradient-to-b from-green-700 to-black">
           <div className="flex gap-2 justify-center items-center">

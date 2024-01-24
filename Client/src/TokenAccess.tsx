@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 const TokenAccess = ({children}) => {
 
     const [ rendering, setRendering ] = useState(true)
+    
 
 
     const haveToken = async ()=>{

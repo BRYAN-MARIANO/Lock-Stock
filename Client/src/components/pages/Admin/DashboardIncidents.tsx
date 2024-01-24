@@ -7,7 +7,7 @@ const DashboardIncidents = (): React.JSX.Element => {
     <>
               <HeaderMenu />
     <section className="flex">
-        <NavbarAdmin />
+        <NavbarAdmin incidents/>
       <section className="w-full min-h-screen justify-start py-20 flex flex-col gap-10 bg-gradient-to-b from-green-700 to-black">
         <h1 className="text-white text-center text-3xl font-semibold">
           Incidencias

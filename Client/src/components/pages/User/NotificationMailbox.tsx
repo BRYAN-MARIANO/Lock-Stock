@@ -25,7 +25,7 @@ const NotificationMailbox = (): React.JSX.Element => {
     <>
       <HeaderMenu />
       <section className="flex">
-        <Navbar />
+        <Navbar buzon/>
         <section className="w-full flex flex-col gap-10 my-20">
           <div className="flex gap-2 justify-center items-center">
             <h1 className="text-primary text-5xl font-semibold">3</h1>

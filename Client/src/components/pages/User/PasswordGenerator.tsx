@@ -4,12 +4,10 @@ import HeaderMenu from "../../templates/HeaderMenu";
 import { servicesApp } from "../../../services/services";
 import { useForm } from "react-hook-form";
 import { useParams, useLoaderData } from "react-router-dom";
+import { hashData } from "../../../services/hash";
 
 const PasswordGenerator = (): React.JSX.Element => {
-
   const id = "1";
-
-
 
   // ver contraseña
   const [view, setView] = useState("password");
@@ -17,72 +15,48 @@ const PasswordGenerator = (): React.JSX.Element => {
     view === "password" ? setView("text") : setView("password");
   };
 
-
-  //actualizar datos
-
+  // actualizar datos
   const editDataAplication = async (data) => {
     try {
 
-      await servicesApp.patchAplications(data, id);
+      const { } = data;
 
-      console.log(data)
+
+      const newData = {
+
+      }
+
+      await servicesApp.patchAplications(newData, id);
+      
+      console.log(data);
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error
+        throw new Error();
       }
     }
   };
 
-  //cancelar nuevos datos y recuperar los antiguos
-  const { register, handleSubmit, setError } = useForm();
+  // cancelar nuevos datos y recuperar los antiguos
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { response } = useLoaderData();
 
+  const aplication = response.find((a: { Id_Aplications: string }) => {
+    return a.Id_Aplications === id;
+  });
 
-  const { response } = useLoaderData();
-
-  const aplication = response.find((a: { Id_Aplications: string; })=>{return a.Id_Aplications === id})
-
-  console.log(aplication)
-
-
-  const cancelarEdit = ()=> {
+  const cancelarEdit = () => {
     window.location.reload();
-  }
+  };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //generar contraseña
+  // generar contraseña
   function generarLetraAleatoria() {
-    var tipoLetra = Math.random() < 0.5 ? "mayuscula" : "minuscula";
+    let tipoLetra = Math.random() < 0.5 ? "mayuscula" : "minuscula";
 
     if (tipoLetra === "mayuscula") {
-      // Generar letra mayúscula (código ASCII 65-90)
       return String.fromCharCode(
         Math.floor(Math.random() * (90 - 65 + 1)) + 65
       );
     } else {
-      // Generar letra minúscula (código ASCII 97-122)
       return String.fromCharCode(
         Math.floor(Math.random() * (122 - 97 + 1)) + 97
       );
@@ -90,7 +64,7 @@ const PasswordGenerator = (): React.JSX.Element => {
   }
 
   function generarCaracterEspecial() {
-    var caracteresEspeciales = [
+    let caracteresEspeciales = [
       " ",
       ".",
       "/",
@@ -103,14 +77,14 @@ const PasswordGenerator = (): React.JSX.Element => {
       "?",
       "¿",
       "^",
-      "*",
       "{",
       "}",
       "-",
       ",",
       ".",
+      "@",
     ];
-    var caracterAleatorio =
+    let caracterAleatorio =
       caracteresEspeciales[
         Math.floor(Math.random() * caracteresEspeciales.length)
       ];
@@ -122,67 +96,65 @@ const PasswordGenerator = (): React.JSX.Element => {
     incluirNumeros = true,
     incluirSimbolos = true
   ) {
-    var caracteres = [];
-    var totalCaracteres = longitud;
+    let caracteres = [];
+    let totalCaracteres = longitud;
 
-    // Generar letras aleatorias
-    for (var i = 0; i < totalCaracteres; i++) {
+    for (let i = 0; i < totalCaracteres; i++) {
       caracteres.push(generarLetraAleatoria());
     }
 
-    // Agregar números si es necesario
     if (incluirNumeros) {
-      for (var i = 0; i < totalCaracteres / 3; i++) {
+      for (
+        let i = 0;
+        i < totalCaracteres / 3 && i * 3 < totalCaracteres;
+        i++
+      ) {
         caracteres[i * 3] = Math.floor(Math.random() * 10).toString();
       }
     }
 
-    // Agregar símbolos si es necesario
     if (incluirSimbolos) {
-      for (var i = 0; i < totalCaracteres / 3; i++) {
+      for (
+        let i = 0;
+        i < totalCaracteres / 3 && i * 3 + 1 < totalCaracteres;
+        i++
+      ) {
         caracteres[i * 3 + 1] = generarCaracterEspecial();
       }
     }
 
-    // Mezclar los caracteres para que no estén agrupados
     caracteres.sort(() => Math.random() - 0.5);
 
-    return caracteres.join("");
+    return caracteres.slice(0, longitud).join("");
   }
 
-  // Ejemplo de uso
-
-
-
-
-  const [CheckedNumber, setCheckedNumber] = useState(false);
-  const [CheckedSpecial, setCheckedSpecial] = useState(false);
+  const [CheckedNumber, setCheckedNumber] = useState(true);
+  const [CheckedSpecial, setCheckedSpecial] = useState(true);
 
   const checkboxNumber = (event) => {
     setCheckedNumber(event.target.checked);
-    console.log(CheckedNumber)
+    console.log(CheckedNumber);
   };
 
   const checkboxSpecial = (event) => {
-    setCheckedSpecial(event.target.checked)
-    console.log(CheckedSpecial)
+    setCheckedSpecial(event.target.checked);
+    console.log(CheckedSpecial);
   };
 
+  const numberRef = useRef(null);
 
+  const generate = () => {
+    let longitud = parseInt(numberRef.current.value, 10);
+    let contraseña = "";
 
+    if (longitud >= 12 && longitud <= 20) {
+      contraseña = passwordRandom(longitud, CheckedNumber, CheckedSpecial);
+    }
 
-  const numberRef = useRef(null)
-  const generate =()=>{
+    setgeneratePassword(contraseña);
+  };
 
-    const longitud = numberRef.current.value
-    const contraseña = passwordRandom(longitud, CheckedNumber, CheckedSpecial);
-    setgeneratePassword(contraseña)
-  }
-
-
-
-
-  //copiar input
+  // copiar input
   const [textPassword, setTextPassword] = useState(aplication.Password_Aplication);
   const [textName, setTextName] = useState('');
   const [generatePassword, setgeneratePassword] = useState('contraseña');
@@ -190,14 +162,13 @@ const PasswordGenerator = (): React.JSX.Element => {
   const handleCopy = (input) => {
     navigator.clipboard.writeText(input);
   };
- 
 
 
   return (
     <>
       <HeaderMenu />
       <section className="flex">
-        <Navbar />
+        <Navbar generador/>
 
         <form className="w-full" onSubmit={handleSubmit(editDataAplication)} >
           <section className="w-full flex flex-col gap-10 my-20">
@@ -212,27 +183,41 @@ const PasswordGenerator = (): React.JSX.Element => {
             </div>
 
             <section className="w-3/4 flex flex-col mx-auto gap-3">
-              <label htmlFor="name_aplication" className="flex flex-col w-full text-xl gap-1">
-                Nombre de Aplicación
-                <input
-                  type="text"
-                  className="w-full h-8 border border-black rounded"
-                  id="name_aplication"
-                  defaultValue={aplication.Name_Aplication}
-                  {...register("Name_Aplication")}
-                />
-              </label>
+            <label htmlFor="name_aplication" className="flex flex-col w-full text-xl gap-1">
+  Nombre de Aplicación
+  <input
+    type="text"
+    className="w-full h-8 border border-black rounded"
+    id="name_aplication"
+    defaultValue={aplication.Name_Aplication}
+    {...register("Name_Aplication",{
+      required: true,
+      pattern: /^[a-zA-Z]+$/
+    })}
+  />
+  {errors.Name_Aplication && (
+    <p className="text-red-500 font-medium">nombre no valido</p>
+  )}
+</label>
 
-              <label htmlFor="email_user" className="flex flex-col w-full text-xl gap-1">
-                Correo Electronico
-                <input
-                  type="text"
-                  id="email_user"
-                  defaultValue={aplication.Email_Aplication}
-                  className="w-full h-8 border border-black rounded"
-                  {...register("Email_Aplication")}
-                />
-              </label>
+
+<label htmlFor="email_user" className="flex flex-col w-full text-xl gap-1">
+  Correo Electrónico
+  <input
+    type="text"
+    id="email_user"
+    defaultValue={aplication.Email_Aplication}
+    className="w-full h-8 border border-black rounded"
+    {...register("Email_Aplication", {
+      required: true,
+      pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+
+    })}
+  />
+  {errors.Email_Aplication && (
+    <p className="text-red-500 font-medium">correo invalido</p>
+  )}
+</label>
 
               <div className="flex">
                 <div className="w-1/2">
@@ -241,15 +226,21 @@ const PasswordGenerator = (): React.JSX.Element => {
                     className="flex flex-col w-5/6 text-xl gap-1"
                   >
                     Nombre de Usuario
-                  </label>
-                  <div className="flex border border-black rounded w-5/6 h-8">
-                    <input
-                      type="text"
-                      className="w-full h-full"
-                      id="name_user"
-                      defaultValue={aplication.Name_Aplication}
-                      {...register("Name_User", { onChange: e => setTextName(e.target.value) })}
-                    />
+                    </label>
+<div className="flex border border-black rounded w-5/6 h-8 ">
+  <input
+    type="text"
+    className="w-full h-full"
+    id="name_user"
+    defaultValue={aplication.Name_User}
+    {...register("Name_User", {
+      onChange: e => setTextName(e.target.value),
+      pattern: /^[a-zA-Z]+$/,
+    })}
+  />
+{errors.Name_User && (
+  <p className="text-red-500 font-medium">nombre de usuario invalido</p>
+)}
                     <img
                       src="/src/images/copy-icon.svg"
                       alt="copy-icon"
@@ -329,7 +320,7 @@ const PasswordGenerator = (): React.JSX.Element => {
                       Cantidad
                     </p>
                     <div className="col-start-2 row-end-3 bg-gray-200 p-2 w-10 h-8 flex justify-center items-center">
-                      <input className="w-full bg-gray-200" ref={numberRef}></input>
+                      <input className="w-8 bg-gray-200" ref={numberRef} defaultValue={12} type="number" max={20}></input>
                     </div>
 
                     <p className="row-start-3 flex justify-center items-center">
@@ -348,6 +339,7 @@ const PasswordGenerator = (): React.JSX.Element => {
                         className="sr-only peer"
                         checked={CheckedNumber}
                         onChange={checkboxNumber}
+            
                       />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
                     </label>

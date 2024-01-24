@@ -40,7 +40,7 @@
       "Password_User": "miClaveSecreta",
       "Password_Master_User": "claveMaestraSecreta",
       "Email_User": "usuario3@example.com",
-      "Name_User": "bryan",
+      "Name_User": "Bryan",
       "SurName_User": "Apellido3",
       "Mobile_User": 987654321,
       "Question_Security_User": "¿Cuál es tu película favorita?",
@@ -86,7 +86,7 @@
       "Name_Aplication": "Facebook",
       "Email_Aplication": "user@hotmail.com",
       "Category_Aplication": "social",
-      "Password_Aplication": "4^1!*&Ud18&4.e 86OSZ",
+      "Password_Aplication": "",
       "Id_User": "123e4567-e89b-12d3-a456-426614174000",
       "Email_User": "user@hotmail.com",
       "Name_User": "Facebook"

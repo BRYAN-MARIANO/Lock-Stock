@@ -1,42 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
 
 const ConnectedDevices = (): React.JSX.Element => {
+  const [filtro, setFiltro] = useState("");
 
-  //dispositivo desde el que se conecta
-  const obtenerTipoDispositivo = () => {
 
-    const userAgent = navigator.userAgent;
-  
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-      return 'Móvil';
-    } else if (/iPad|Tablet|PlayBook|Kindle|KFAPWI|Silk|GT-P|SM-T|Nexus|TAB|SCH-I|Acer Iconia|Asus|Dell|HP|Lenovo|YOGA|ThinkPad|IdeaPad/i.test(userAgent)) {
-      return 'Tableta';
-    } else {
-      return 'Ordenador';
+  const dispositivos = [
+    {
+      movil: "MovilM11T",
+      fecha: "23/11/2023 11:07",
+      delete: "/src/images/eliminar-icon.svg",
+    },
+    {
+      movil: "MovilM11T",
+      fecha: "23/11/2023 11:07",
+      delete: "/src/images/eliminar-icon.svg",
+    },
+    {
+      movil: "iphone",
+      fecha: "21/11/20",
+      delete: "/src/images/eliminar-icon.svg",
+    },
+    {
+      movil: "Samsung",
+      fecha: "23/11/2023 11:07",
+      delete: "/src/images/eliminar-icon.svg",
     }
-  }
+  ];
 
-  //ultima vez que se conectaron
-  const lastConexion = new Date()
-  console.log(lastConexion)
-
-  //eliminar dispositivo
-
-
-
-
-
-  const tipoDispositivo = obtenerTipoDispositivo();
-  console.log('Tipo de dispositivo:', tipoDispositivo);
-  
+  const dispositivosFiltrados = dispositivos.filter((dispositivo) =>
+    dispositivo.movil.toLowerCase().includes(filtro.toLowerCase()) ||
+    dispositivo.fecha.toLowerCase().includes(filtro.toLowerCase())
+  );
 
   return (
     <>
       <HeaderMenu />
       <section className="flex">
-        <Navbar />
+        <Navbar dispositivos/>
         <section className="w-full flex flex-col gap-10 my-20">
           <div className="flex gap-2 justify-center items-center">
             <img src="/src/images/mobile-icon.svg" alt="help-icon" />
@@ -46,71 +48,34 @@ const ConnectedDevices = (): React.JSX.Element => {
           </div>
 
           <label htmlFor="" className="h-8 flex items-center justify-center">
-            <input 
+            <input
               type="text"
-              className="w-3/4 border border-black rounded-xl"
+              className="p-3 w-3/4 border h-full border-black rounded-xl"
+              value={filtro} placeholder="busqueda"
+              onChange={(e) => setFiltro(e.target.value)}
             />
-            <button className="h-full bg-[url(/src/images/search.svg)] bg-center"></button>
           </label>
 
           <table className="w-3/4 mx-auto table-fixed">
             <thead>
               <tr>
-                <th className="text-primary">Dispositivos Conectados &#9660;</th>
+                <th className="text-primary">
+                  Dispositivos Conectados &#9660;
+                </th>
                 <th className="text-primary">Fecha de Conexión &#9660;</th>
                 <th className="text-primary">Eliminar &#9660;</th>
               </tr>
             </thead>
             <tbody className="text-center">
-              <tr>
-                <td>MovilM11T</td>
-                <td >23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
-              <tr>
-                <td>MovilM11T</td>
-                <td>23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
-              <tr>
-                <td>MovilM11T</td>
-                <td>23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
-              <tr>
-                <td>MovilM11T</td>
-                <td>23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
-              <tr>
-                <td>MovilM11T</td>
-                <td>23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
-              <tr>
-                <td>MovilM11T</td>
-                <td>23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
-              <tr>
-                <td>MovilM11T</td>
-                <td>23/11/2023 11:07</td>
-                <td className="flex justify-center">
-                  <img src="/src/images/eliminar-icon.svg" alt="Eliminar" />
-                </td>
-              </tr>
+              {dispositivosFiltrados.map((dispositivo, index) => (
+                <tr key={index}>
+                  <td>{dispositivo.movil}</td>
+                  <td>{dispositivo.fecha}</td>
+                  <td className="flex justify-center">
+                    <img src={dispositivo.delete} alt="delete-icon" />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </section>
