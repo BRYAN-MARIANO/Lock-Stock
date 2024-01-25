@@ -17,6 +17,7 @@ export const login = async (req: Request, res: Response) => {
   
   if (!username || !password) {
     return error400;
+    return error400;
   }
 
   let user = await User.findOne({
@@ -39,6 +40,7 @@ export const login = async (req: Request, res: Response) => {
   if (typeof currentAttempts === "number" && currentAttempts >> maxAttempts) {
     return error400;
   }
+
 
   const PasswordInstance = user.get({ plain: true });
   const isPasswordValid = await bcrypt.compare(

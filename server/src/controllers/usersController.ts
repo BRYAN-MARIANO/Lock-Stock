@@ -20,6 +20,7 @@ export const usersGetById = async (req: Request, res: Response) => {
       res.status(200).json(user);
     } else {
       res.status(404).json({ message: "Credenciales Inválidas" });
+      res.status(404).json({ message: "Credenciales Inválidas" });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -61,6 +62,7 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
     const hashedMobileUser_User = req.body.Mobile_User;
     // const hashedMobileUser_User = await bcrypt.hash(req.body.Mobile_User, 10);
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
+    const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
     const SECRET_KEY = process.env.SECRET_KEY;
 
     if (!SECRET_KEY) {
