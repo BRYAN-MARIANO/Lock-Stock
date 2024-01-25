@@ -25,3 +25,4 @@ export const usersGetApplications = async (_req: Request, res: Response) => {
     }
   };
   
+  

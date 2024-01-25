@@ -8,18 +8,16 @@ import "dotenv/config";
 
 export const usersGetById = async (req: Request, res: Response) => {
   try {
-    // tenemos que comparar el token, decoded y verify.
-    //validad un token y fecha de expiracion a la hora para echarle de la sesion
+    validateMiddelwareUser(req.body);
     const user = await UsersModel.findOne({
       where: {
         Id_User: req.params.id,
       },
     });
 
-    if (user) {
+    if (!user) {
       res.status(200).json(user);
     } else {
-      res.status(404).json({ message: "Credenciales Inválidas" });
       res.status(404).json({ message: "Credenciales Inválidas" });
     }
   } catch (error) {
@@ -37,10 +35,9 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
     const existingUser = await UsersModel.findOne({
       where: [{ 
         Email_User: req.body.Email_User 
-      },
-      { 
+      },{
         Name_User: req.body.Name_User 
-      }],
+      }]
     });
 
     if (existingUser) {
@@ -57,12 +54,11 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
     const hashedName_User = req.body.Name_User;
     // const hashedSurName_User = await bcrypt.hash( req.body.SurName_User, 10);
     const hashedSurName_User =  req.body.SurName_User;
-    const hashedPassword_Master_User = req.body.Password_Master_User;
     // const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
-    const hashedMobileUser_User = req.body.Mobile_User;
+    const hashedPassword_Master_User = req.body.Password_Master_User;
     // const hashedMobileUser_User = await bcrypt.hash(req.body.Mobile_User, 10);
+    const hashedMobileUser_User = req.body.Mobile_User;
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
-    const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
     const SECRET_KEY = process.env.SECRET_KEY;
 
     if (!SECRET_KEY) {
