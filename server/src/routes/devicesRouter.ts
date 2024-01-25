@@ -1,9 +1,9 @@
 import express from 'express';
-import { devicesGet } from '../controllers/devicesController';
+import { usersGetDevices } from '../controllers/devicesController';
 
 const devicesRouter = express.Router();
 
-devicesRouter.get('/devices', devicesGet);
+devicesRouter.get('/users/:id/devices', usersGetDevices);
 //get, post, delete
 
 

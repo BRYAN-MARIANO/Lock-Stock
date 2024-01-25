@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const UserSchema = z.object({
-  Id_User: z.string().uuid().optional(),
+  Id_User: z.string().uuid().optional(), // quitar el optional cuando este montado con el front
   Password_User: z.string().min(8).max(30).optional(),
   Password_Master_User: z.string().min(8).max(30).optional(),
   Email_User: z.string().email().min(7).max(30),

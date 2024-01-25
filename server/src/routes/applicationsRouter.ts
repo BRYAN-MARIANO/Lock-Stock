@@ -1,10 +1,9 @@
 import express from 'express';
-import { applicationsGet, usersGetApplications } from '../controllers/applicationsController';
+import { usersGetApplications } from '../controllers/applicationsController';
 
 const applicationsRouter = express.Router();
 
-applicationsRouter.get('/applications', applicationsGet);
-applicationsRouter.get('/users',usersGetApplications);
+applicationsRouter.get('/users/id:/applications',usersGetApplications);
 
 //patch, post, delete, get
 
