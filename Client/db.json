@@ -86,19 +86,86 @@
       "Name_Aplication": "Facebook",
       "Email_Aplication": "user@hotmail.com",
       "Category_Aplication": "social",
-      "Password_Aplication": "",
+      "Password_Aplication": "password",
       "Id_User": "123e4567-e89b-12d3-a456-426614174000",
       "Email_User": "user@hotmail.com",
       "Name_User": "Facebook"
     },
     {
-      "Id_Aplications": "2",
       "id": "2",
-      "Name_Aplication": "youtueb",
+      "Id_Aplications": "1",
+      "Name_Aplication": "YouTube",
       "Email_Aplication": "user2@hotmail.com",
       "Category_Aplication": "videos",
       "Password_Aplication": "1234567",
       "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "id": "3",
+      "Id_Aplications": "2",
+      "Name_Aplication": "Instagram",
+      "Email_Aplication": "user3@hotmail.com",
+      "Category_Aplication": "social",
+      "Password_Aplication": "password3",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "id": "4",
+      "Id_Aplications": "2",
+      "Name_Aplication": "Twitter",
+      "Email_Aplication": "user4@hotmail.com",
+      "Category_Aplication": "social",
+      "Password_Aplication": "password4",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "id": "5",
+      "Id_Aplications": "1",
+      "Name_Aplication": "YouTube",
+      "Email_Aplication": "user2@hotmail.com",
+      "Category_Aplication": "videos",
+      "Password_Aplication": "1234567",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "id": "6",
+      "Id_Aplications": "3",
+      "Name_Aplication": "Snapchat",
+      "Email_Aplication": "user6@hotmail.com",
+      "Category_Aplication": "social",
+      "Password_Aplication": "password6",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "id": "7",
+      "Id_Aplications": "4",
+      "Name_Aplication": "WhatsApp",
+      "Email_Aplication": "user7@hotmail.com",
+      "Category_Aplication": "messaging",
+      "Password_Aplication": "password7",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    {
+      "id": "8",
+      "Id_Aplications": "4",
+      "Name_Aplication": "Telegram",
+      "Email_Aplication": "user8@hotmail.com",
+      "Category_Aplication": "messaging",
+      "Password_Aplication": "password8",
+      "Id_User": "123e4567-e89b-12d3-a"
+    }
+  ],
+  "modal": [
+    {
+      "response": true
+    },
+    {
+      "id": "bda7",
+      "response": "$2a$10$kw62C.ThuR4k2UicH7h3f.nMrplHWgmQhagDy3wdS.6SKO0hM1OWm"
+    },
+    {
+      "id": "ef4b",
+      "response": "$2a$10$6QQ5hi1mquv9NpjrxJjpFOvDXoUwr9zNny2S1bTjtsddy4Kf0JDr6"
     }
   ]
 }

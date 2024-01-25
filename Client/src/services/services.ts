@@ -1,3 +1,4 @@
+import { FieldValues } from "react-hook-form";
 
 
 class Services {
@@ -52,6 +53,8 @@ class Services {
         }
       }
 
+
+
       //Aplications_User
 
       async deleteAplications (id: number){
@@ -92,7 +95,7 @@ class Services {
       }
 
 
-      async postAplications (data: object){
+      async postAplications (data: FieldValues){
         try {
             const methodCrud = await fetch(`http://localhost:3000/Devices_User`, {
                 method: 'POST',
@@ -114,7 +117,7 @@ class Services {
       }
 
 
-      async patchAplications(data: object, id: string){
+      async patchAplications(data: FieldValues, id: string){
         try {
 
             const methodCrud= await fetch(`http://localhost:3000/Aplications_User/${id}`, {
@@ -167,6 +170,38 @@ class Services {
                 throw new Error(error.message);
               }
         }
+      }
+
+
+
+
+
+
+
+
+
+
+      //pruebas
+      async postModal(data: FieldValues){
+        try {
+          const methodCrud = await fetch(`http://localhost:3000/modal`, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+
+            if (!methodCrud.ok) {
+              throw new Error('Error en la peticion');
+            }
+
+            const response = await methodCrud.json();
+            
+            return response
+      } catch (error) {
+          if (error instanceof Error) {
+              throw new Error(error.message);
+            }
+      }
       }
 
 

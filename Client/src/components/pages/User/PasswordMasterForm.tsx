@@ -5,6 +5,7 @@ import { usersContext } from "../../../UserContext";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordMasterSchema } from "./validations/passwordMaster";
 import { hashData } from "../../../services/hash";
+import { servicesApp } from "../../../services/services";
 
 
 const PasswordMasterForm = (): React.JSX.Element => {
@@ -23,6 +24,11 @@ const PasswordMasterForm = (): React.JSX.Element => {
     const hashedPassword = await hashData(password);
     const hashedAnswer = await hashData(answer);
     const hashedResponse = await hashData(response);
+
+
+    //autenticathion
+
+    
 
 
     const newData = {

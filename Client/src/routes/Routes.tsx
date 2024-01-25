@@ -18,6 +18,7 @@ import { servicesApp } from "../services/services";
 import TokenAccess from "../TokenAccess";
 import RecoverPasswordForm from "../components/pages/User/RecoverPasswordForm";
 import AccountsUser from "../components/pages/User/AccountsUser";
+import Terms from "../components/pages/User/terms";
 
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: '/password-master',
                 element: <TokenAccess><PasswordMasterForm /></TokenAccess>
+            },
+            {
+                path: 'terms',
+                element: <Terms />
             },
             {
                 path: '/help',
@@ -52,8 +57,8 @@ export const router = createBrowserRouter([
                 loader: servicesApp.getNotifications
             },
             {
-                path: 'password-generator',
-                element: <TokenAccess><PasswordGenerator /></TokenAccess>,
+                path: 'password-generator/:id?',
+                element: <TokenAccess><PasswordGenerator/></TokenAccess>,
                 loader: servicesApp.getAplications
             },
             {
@@ -62,7 +67,8 @@ export const router = createBrowserRouter([
             },
             {
                 path:'accounts-user',
-                element: <AccountsUser />
+                element: <AccountsUser />,
+                 loader: servicesApp.getAplications
             }
         ],
     },
