@@ -1,0 +1,104 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "Id_User": "223e4567-e89b-12d3-a456-426614174002",
+      "Password_User": "clave567",
+      "Password_Master_User": "claveMaster789",
+      "Email_User": "user@hotmail.com",
+      "Name_User": "Facebook",
+      "SurName_User": "Apellido2",
+      "Mobile_User": 987654321,
+      "Question_Security_User": "¿Cuál es el nombre de tu primera mascota?",
+      "Answer_Security_User": "Toby",
+      "Device_User": "Android",
+      "Notifications_User": "Inactivas",
+      "Block_User": true,
+      "Delete_User": false,
+      "Name_Aplication": "Facebook",
+      "Password_Aplication": "1234567"
+    },
+    {
+      "id": "2",
+      "Id_User": "223e4567-e89b-12d3-a456-426614174002",
+      "Password_User": "clave567",
+      "Password_Master_User": "claveMaster789",
+      "Email_User": "usuario2@example.com",
+      "Name_User": "Usuario2",
+      "SurName_User": "Apellido2",
+      "Mobile_User": 987654321,
+      "Question_Security_User": "¿Cuál es el nombre de tu primera mascota?",
+      "Answer_Security_User": "Toby",
+      "Device_User": "Android",
+      "Notifications_User": "Inactivas",
+      "Block_User": true,
+      "Delete_User": false
+    },
+    {
+      "id": "3",
+      "Id_User": "323e4567-e89b-12d3-a456-426614174003",
+      "Password_User": "miClaveSecreta",
+      "Password_Master_User": "claveMaestraSecreta",
+      "Email_User": "usuario3@example.com",
+      "Name_User": "usuario5",
+      "SurName_User": "Apellido3",
+      "Mobile_User": 987654321,
+      "Question_Security_User": "¿Cuál es tu película favorita?",
+      "Answer_Security_User": "El Padrino",
+      "Device_User": null,
+      "Notifications_User": "Activas",
+      "Block_User": false,
+      "Delete_User": true
+    }
+  ],
+  "Devices_User": [
+    {
+      "id": "1",
+      "Id_Device": "234f5678-f89c-23e4-b567-526715275002",
+      "Name_Device": "aplicacion editada",
+      "Date_Register_Device": "contacto@aplicacion1.com",
+      "Date_Last_Conexion_Device": "Productividad",
+      "Status_Device": "1234567",
+      "Ip_Direction_Device": "123e4567-e89b-12d3-a456-426614174000",
+      "Sistem_Operative_Device": "bryam@gmail.com",
+      "Id_USer": "william",
+      "Name_Aplication": "Facebookd",
+      "Email_User": "user@hotmail.com",
+      "Name_User": "Facebook",
+      "Password_Aplication": "1234567"
+    }
+  ],
+  "Notifications_User": [
+    {
+      "id_Notification": "1",
+      "Notes_Notification": [
+        "mensaje 1",
+        "mensaje 2",
+        "mensaje 3"
+      ],
+      "id_User": "1"
+    }
+  ],
+  "Aplications_User": [
+    {
+      "id": "1",
+      "Id_Aplications": "1",
+      "Name_Aplication": "Facebook",
+      "Email_Aplication": "user@hotmail.com",
+      "Category_Aplication": "social",
+      "Password_Aplication": "",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000",
+      "Email_User": "user@hotmail.com",
+      "Name_User": "Facebook"
+    },
+    {
+      "Id_Aplications": "2",
+      "id": "2",
+      "Name_Aplication": "youtueb",
+      "Email_Aplication": "user2@hotmail.com",
+      "Category_Aplication": "videos",
+      "Password_Aplication": "1234567",
+      "Id_User": "123e4567-e89b-12d3-a456-426614174000"
+    }
+  ]
+}
