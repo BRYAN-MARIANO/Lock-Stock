@@ -41,7 +41,7 @@ const UserProfile = (): React.JSX.Element => {
       <HeaderMenu />
       <section className="flex">
         <Navbar perfil />
-        <section className="w-full flex flex-col gap-10 my-20 table-fixed">
+        <section className="w-3/4 flex flex-col gap-10 my-20 table-fixed">
           <div className="flex gap-2 justify-center items-center">
             <img src="/src/images/perfil-user-icon.svg" alt="help-icon" />
             <h1 className="text-primary text-5xl font-medium">

@@ -4,7 +4,7 @@ const HeaderLogin = (): React.JSX.Element => {
   return (
     <>
       <header className="w-screen bg-black h-32 flex items-center">
-        <img src="/src/images/logo.png" alt="logo" className="h-2/4 m-4"/>
+        <img src="/src/images/logo.svg" alt="logo" className="h-2/4 m-4"/>
       </header>
     </>
   );

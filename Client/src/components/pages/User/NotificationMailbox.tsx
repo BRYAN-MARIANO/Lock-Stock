@@ -26,7 +26,7 @@ const NotificationMailbox = (): React.JSX.Element => {
       <HeaderMenu />
       <section className="flex">
         <Navbar buzon/>
-        <section className="w-full flex flex-col gap-10 my-20">
+        <section className="w-3/4 flex flex-col gap-10 my-20">
           <div className="flex gap-2 justify-center items-center">
             <h1 className="text-primary text-5xl font-semibold">3</h1>
             <img src="/src/images/mailbox-icon.svg" alt="help-icon" />

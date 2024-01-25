@@ -25,7 +25,7 @@ const HeaderMenu = (): React.JSX.Element => {
   return (
     <>
       <header className="w-screen bg-black h-32 flex items-center justify-between">
-        <img src="/src/images/logo.png" alt="logo" className="h-2/4 ml-4" />
+        <img src="/src/images/logo.svg" alt="logo" className="h-2/4 ml-4" />
 
         <figure className="h-full flex gap-5 items-center">
           <div className="h-full flex flex-col justify-center">

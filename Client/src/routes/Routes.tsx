@@ -16,6 +16,8 @@ import ConnectedDevices from "../components/pages/User/ConnectedDevices";
 import React from "react";
 import { servicesApp } from "../services/services";
 import TokenAccess from "../TokenAccess";
+import RecoverPasswordForm from "../components/pages/User/RecoverPasswordForm";
+import AccountsUser from "../components/pages/User/AccountsUser";
 
 
 export const router = createBrowserRouter([
@@ -53,6 +55,14 @@ export const router = createBrowserRouter([
                 path: 'password-generator',
                 element: <TokenAccess><PasswordGenerator /></TokenAccess>,
                 loader: servicesApp.getAplications
+            },
+            {
+                path: 'recovery-password',
+                element: <RecoverPasswordForm />
+            },
+            {
+                path:'accounts-user',
+                element: <AccountsUser />
             }
         ],
     },

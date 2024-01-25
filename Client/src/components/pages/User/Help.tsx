@@ -70,10 +70,10 @@ const Help = (): React.JSX.Element => {
       <HeaderMenu />
       <section className="flex">
         <Navbar ayuda />
-        <section className="w-full flex flex-col items-center gap-y-20">
+        <section className="w-3/4 flex flex-col items-center gap-y-20">
           <div className="w-full mt-10 flex flex-col gap-5">
             <div className="flex gap-2 justify-center items-center">
-              <img src="/src/images/help-icon.png" alt="help-icon" />
+              <img src="/src/images/help-icon.svg" alt="help-icon" />
               <h1 className="text-primary text-5xl font-medium">Ayuda</h1>
             </div>
             <label htmlFor="" className="flex justify-center h-8 w-full">

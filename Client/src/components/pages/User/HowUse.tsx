@@ -8,7 +8,7 @@ const HowUse = ():React.JSX.Element => {
     <HeaderMenu />
     <section className="flex">
         <Navbar usar/>
-        <section className="w-full flex flex-col justify-center gap-10">
+        <section className="w-3/4 flex flex-col justify-center gap-10">
         <div className="flex gap-2 justify-center items-center">
               <img src="/src/images/candado-icon.svg" alt="help-icon" />
               <h1 className="text-primary text-5xl font-medium">Cómo Usar Lock&Stock</h1>

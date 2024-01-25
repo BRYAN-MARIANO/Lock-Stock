@@ -5,6 +5,7 @@ import { servicesApp } from "../../../services/services";
 import { useForm } from "react-hook-form";
 import { useParams, useLoaderData } from "react-router-dom";
 import { hashData } from "../../../services/hash";
+import ModalPasswordMaster from "../../templates/modalPasswordMaster";
 
 const PasswordGenerator = (): React.JSX.Element => {
   const id = "1";
@@ -27,7 +28,7 @@ const PasswordGenerator = (): React.JSX.Element => {
       }
 
       await servicesApp.patchAplications(newData, id);
-      
+
       console.log(data);
     } catch (error) {
       if (error instanceof Error) {
@@ -170,7 +171,7 @@ const PasswordGenerator = (): React.JSX.Element => {
       <section className="flex">
         <Navbar generador/>
 
-        <form className="w-full" onSubmit={handleSubmit(editDataAplication)} >
+        <form className="w-3/4" onSubmit={handleSubmit(editDataAplication)} >
           <section className="w-full flex flex-col gap-10 my-20">
             <div className="flex gap-2 justify-center items-center">
               <img
@@ -374,6 +375,7 @@ const PasswordGenerator = (): React.JSX.Element => {
             </section>
           </section>
         </form>
+        <ModalPasswordMaster />
       </section>
     </>
   );

@@ -14,11 +14,11 @@ interface navbar {
 const Navbar = ({cuentas, generador, buzon, dispositivos, perfil, usar, ayuda}: navbar): React.JSX.Element => {
   return (
     <>
-      <nav className="w-1/3 min-h-screen bg-black border-t-8 border-green-800 flex justify-center items-start">
+      <nav className="w-1/4 min-h-screen bg-black border-t-8 border-green-800 flex justify-center items-start">
 
         <ul className="fixed flex flex-col mt-20 gap-3 text-xl">
           <li >
-            <Link to={"/"} className={`${cuentas? 'text-primary': 'text-white'} hover:text-primary`}>Cuentas</Link>
+            <Link to={"/accounts-user"} className={`${cuentas? 'text-primary': 'text-white'} hover:text-primary`}>Cuentas</Link>
           </li>
           <li>
             <Link to={"/password-generator"} className={`${generador? 'text-primary': 'text-white'} hover:text-primary`}>Generar Contraseña</Link>
