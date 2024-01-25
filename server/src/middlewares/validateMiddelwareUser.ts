@@ -8,7 +8,7 @@ const validateMiddelwareUser = (schema: z.ZodObject<{}>) => {
     next: NextFunction
 ) => {
     try {
-        schema.parse(req.body); 
+        schema.parse(req.body);     
         next();
     } catch (error) {
         if (error instanceof ZodError) {

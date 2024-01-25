@@ -2,32 +2,28 @@ import { DataTypes } from 'sequelize';
 import db from '../database/db';
 import UsersModel from './UsersModel';
 
-const DevicesUserModel = db.define('Devices_User', {
-  Id_Devide: {
+const LoginAttempsModels = db.define('Attemp_Login', {
+  Id_AttempLogin: {
     type: DataTypes.UUID(),
     primaryKey: true,
     allowNull: false
   },
-  Name_Device: {
+  Location: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  Date_Register_Device: {
-   type: DataTypes.DATE,
-   allowNull: false
- },
-  Date_Last_Conexion_Device: {
+  Device: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  Sistem_Operative: {
+    type: DataTypes.STRING(10)
+  },
+   Date: {
     type: DataTypes.DATE,
     allowNull: false
   },
-  Status_Device: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false
-  },
-  Sistem_Operative_Device: {
-    type: DataTypes.STRING(10)
-  },
-    Ip_Direction_Device: {
+    Ip_Direction: {
       type: DataTypes.INTEGER
   },
     Id_User: {
@@ -39,10 +35,10 @@ const DevicesUserModel = db.define('Devices_User', {
       }, 
     },
    }, {
-  tableName: 'Devices_User',
+  tableName: 'Attemp_Login',
   timestamps: false
 });
 
-DevicesUserModel.belongsTo(DevicesUserModel, { foreignKey: 'Id_Users' });
+LoginAttempsModels.belongsTo(LoginAttempsModels, { foreignKey: 'Id_Users' });
 
-export default DevicesUserModel;
+export default LoginAttempsModels;

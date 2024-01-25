@@ -6,19 +6,10 @@ import { sign } from "jsonwebtoken";
 import validateMiddelwareUser from "../middlewares/validateMiddelwareUser";
 import "dotenv/config";
 
-export const usersGet = async (_req: Request, res: Response) => {
-  try {
-    const users = await UsersModel.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-};
-
 export const usersGetById = async (req: Request, res: Response) => {
   try {
+    // tenemos que comparar el token, decoded y verify.
+    //validad un token y fecha de expiracion a la hora para echarle de la sesion
     const user = await UsersModel.findOne({
       where: {
         Id_User: req.params.id,
@@ -37,40 +28,70 @@ export const usersGetById = async (req: Request, res: Response) => {
   }
 };
 
-export const usersPost = async (req: Request, res: Response) => {
+
+export const usersRegisterPost = async (req: Request, res: Response) => {
   try {
     validateMiddelwareUser(req.body);
+
+    const existingUser = await UsersModel.findOne({
+      where: [{ 
+        Email_User: req.body.Email_User 
+      },
+      { 
+        Name_User: req.body.Name_User 
+      }],
+    });
+
+    if (existingUser) {
+      res.status(400).json({ message: "Ya existe un usuario con el mismo nombre o correo electrónico" });
+      return;
+    }
+    
     const userUuid = generateUuid();
+    // const hashedUserUuid = await bcrypt.hash(userUuid, 10);
+    const hashedUserUuid = userUuid;
+    // const hashedEmail_User = await bcrypt.hash(req.body.Email_User, 10);
+    const hashedEmail_User = req.body.Email_User;
+    // const hashedName_User = await bcrypt.hash(req.body.Name_User, 10);
+    const hashedName_User = req.body.Name_User;
+    // const hashedSurName_User = await bcrypt.hash( req.body.SurName_User, 10);
+    const hashedSurName_User =  req.body.SurName_User;
+    const hashedPassword_Master_User = req.body.Password_Master_User;
+    // const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
+    const hashedMobileUser_User = req.body.Mobile_User;
+    // const hashedMobileUser_User = await bcrypt.hash(req.body.Mobile_User, 10);
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
-    const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
     const SECRET_KEY = process.env.SECRET_KEY;
 
     if (!SECRET_KEY) {
-      throw new Error("SECRET_KEY environment variable is not set");
+      throw new Error("error");
     } else {
-      const token = sign({ userUuid }, SECRET_KEY, { expiresIn: "86400s" });
+      const tokenLogedUser = sign({ hashedUserUuid }, SECRET_KEY, { expiresIn: "86400s" });
+      const hashedTokenLogedUser = await bcrypt.hash(tokenLogedUser, 10);
+      const DateRegisterUser = new Date();
 
       await UsersModel.create({
-        Id_User: userUuid,
+        Id_User: hashedUserUuid,
         Password_User: hashedPassword_User,
         Password_Master_User: hashedPassword_Master_User,
-        Email_User: req.body.Email_User,
-        Name_User: req.body.Name_User,
-        SurName_User: req.body.SurName_User,
-        Mobile_User: req.body.Mobile_User,
+        Email_User: hashedEmail_User,
+        Name_User: hashedName_User,
+        SurName_User: hashedSurName_User,
+        Mobile_User: hashedMobileUser_User,
         Question_Security_User: req.body.Question_Security_User,
         Answer_Security_User: req.body.Answer_Security_User,
-        Device_User: req.body.Device_User,
+        //añadir fecha de creación/envío/conexión
+        //añadir ubicación de creación/envío/conexión:    DateRegisterUser
+        Device_User: req.body.Device_User, // tenemos que crearlo o se gwnera y guarda directamente?
         Notifications_User: req.body.Notifications_User,
         loginAttempts: 0,
-        Block_User: req.body.Block_User,
-        Delete_User: req.body.Delete_User,
-        //añadir fecha de creación/envío/conexión
-        //añadir ubicación de creación/envío/conexión
-        //almacenar token haseado y guardar en bbdd y volver a crear para incluir los nuevos datos. y llevar al modelo y middelware
+        TokenLogedUser:hashedTokenLogedUser,
+        ExpiryTokenDate: DateRegisterUser,
+        Block_User: false,
+        Delete_User: false,
       });
 
-      res.status(201).json({ token });
+      res.status(201).json({ hashedTokenLogedUser });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -81,6 +102,8 @@ export const usersPost = async (req: Request, res: Response) => {
 
 export const usersPut = async (req: Request, res: Response) => {
   try {
+    
+    // tenemos que comparar el token de sesión y la contraseña maestra
     validateMiddelwareUser(req.body);
 
     await UsersModel.update(
@@ -93,6 +116,9 @@ export const usersPut = async (req: Request, res: Response) => {
         Answer_Security_User: req.body.Answer_Security_User,
         Device_User: req.body.Device_User,
         Notifications_User: req.body.Notifications_User,
+        loginAttempts: 0,
+        TokenLogedUser:req.body.TokenLogedUser,
+        ExpiryTokenDate: req.body.ExpiryTokenDate,
         Block_User: req.body.Block_User,
         Delete_User: req.body.Delete_User,
         //añadir fecha de modificación/envío/conexión
@@ -115,6 +141,8 @@ export const usersPut = async (req: Request, res: Response) => {
 
 export const usersDelete = async (req: Request, res: Response) => {
   try {
+
+    // tenemos que comparar el token de sesión y la contraseña maestra
     await UsersModel.destroy({
       where: {
         Id_User: req.params.id,

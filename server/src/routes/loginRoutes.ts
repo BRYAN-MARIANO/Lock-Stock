@@ -1,11 +1,10 @@
 import express from 'express';
 import * as LoginController from '../controllers/loginController';
-import * as unblockController from "../controllers/loginUnblockController";
-
+import * as loginUnblockController from "../controllers/loginUnblockController";
 
 const router = express.Router();
 
 router.post('/login', LoginController.login);
-router.get("/unblock/:token", unblockController.unblock)
+router.get("/unblock/:token", loginUnblockController.unblock)
 
 export default router;

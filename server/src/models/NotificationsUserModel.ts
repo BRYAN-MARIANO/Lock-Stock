@@ -15,8 +15,8 @@ const NotificationsUserModel = db.define('Notifications_User', {
     type: DataTypes.UUID(),
     allowNull: false,
     references: {
-      model: UsersModel,  // Usa el modelo de Usuarios
-      key: 'Id_User'      // Columna en la tabla de Usuarios
+      model: UsersModel, 
+      key: 'Id_User'     
     },
   },
  }, {

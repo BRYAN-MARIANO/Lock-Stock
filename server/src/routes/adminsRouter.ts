@@ -1,13 +1,12 @@
 import express from 'express';
-import { adminsGet } from '../controllers/adminsController';
+import { adminGetUsers, AdminGetUsersByID, adminPutUsers, adminDeleteUsers } from '../controllers/adminsController';
 
 
 const adminRouter = express.Router();
 
-adminRouter.get('/admins',adminsGet);
-//post, get, patch, delete 
-
-
-
+adminRouter.get('/admin',adminGetUsers);
+adminRouter.get('/admin/:id',AdminGetUsersByID);
+adminRouter.put('/admin/:id',adminPutUsers);
+adminRouter.delete('/admin/:id',adminDeleteUsers);
 
 export default adminRouter;

@@ -18,7 +18,9 @@ CREATE TABLE Users (
   Answer_Security_User VARCHAR(30) NOT NULL,
   Device_User VARCHAR(30),
   Notifications_User VARCHAR(30),
-  loginAttempts NUMBER (30)
+  loginAttempts NUMBER (30),
+  TokenLogedUser VARCHAR,
+  ExpiryTokenDate DATETIME
   Block_User BOOLEAN,
   Delete_User BOOLEAN
 );
@@ -34,17 +36,27 @@ CREATE TABLE Aplications_User (
 CREATE TABLE Devices_User (
   Id_Device CHAR(36) PRIMARY KEY,
   Name_Device VARCHAR(255) NOT NULL,
-  Date_Register_Device DATETIME NOT NULL,
   Date_Last_Conexion_Device DATETIME NOT NULL,
-  Status_Device BOOLEAN NOT NULL,
-  Ip_Direction_Device INT,
+  -- Date_Register_Device DATETIME NOT NULL,
+  -- Status_Device BOOLEAN NOT NULL,
   Sistem_Operative_Device VARCHAR(10),
+  Ip_Direction_Device INT,
   Id_User CHAR(36) NOT NULL,
   FOREIGN KEY (Id_User) REFERENCES Users(Id_User)
 );
 CREATE TABLE Notifications_User (
   Id_Notification CHAR(36) PRIMARY KEY,
   Notes_Notification VARCHAR(500),
+  Id_User CHAR(36) NOT NULL,
+  FOREIGN KEY (Id_User) REFERENCES Users(Id_User)
+);
+CREATE TABLE Login_Attemps (
+  Id_AttempLogin CHAR (36) NOT NULL  PRIMARY KEY,
+  Location VARCHAR(255) NOT NULL,
+  Device VARCHAR(255) NOT NULL,
+  Sistem_Operative VARCHAR(10),
+  Date datetime NOT NULL,
+  Ip_Direction INT,
   Id_User CHAR(36) NOT NULL,
   FOREIGN KEY (Id_User) REFERENCES Users(Id_User)
 );
