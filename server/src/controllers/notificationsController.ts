@@ -1,12 +1,15 @@
 import { Request, Response } from "express"
+import DevicesUsersModel from "../models/DevicesUserModel";
 
-
-export const notificationsGet = async (_req: Request, res: Response)=>{
+//usersGetApplications => irá en applicationsModel
+export const usersGetNotifications = async (_req: Request, res: Response) => {
     try {
-    res.status(200).json('notifications router')   
+      const users = await DevicesUsersModel.findAll();
+      res.status(200).json(users);
     } catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({ message: error.message });      
-          }  
+      if (error instanceof Error) {
+        res.status(500).json({ message: error.message });
+      }
     }
-}
+  };
+  

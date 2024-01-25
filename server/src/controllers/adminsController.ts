@@ -26,7 +26,7 @@ export const adminGetUsers = async (_req: Request, res: Response) => {
 };
 
 
-export const AdminGetUsersByID = async (req: Request, res: Response) => {
+export const adminGetUsersByID = async (req: Request, res: Response) => {
   try {
     // tenemos que comparar el token de inicio de sesión de admin y 
   // y pedirle cu sontraseña maestra de administratorrr 
@@ -36,7 +36,7 @@ export const AdminGetUsersByID = async (req: Request, res: Response) => {
       where: {
         Id_User: req.params.id,
       },
-    });
+      });
     
     if (user) {
       res.status(200).json(user);

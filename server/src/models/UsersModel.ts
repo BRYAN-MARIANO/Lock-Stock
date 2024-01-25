@@ -18,32 +18,32 @@ const UsersModel = db.define(
       allowNull: false,
     },
     Email_User: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     Name_User: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     SurName_User: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
     },
     Mobile_User: {
       type: DataTypes.INTEGER,
     },
     Question_Security_User: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     Answer_Security_User: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     Device_User: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
     },
     Notifications_User: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
     },
     LoginAttempts: {
       type: DataTypes.NUMBER,

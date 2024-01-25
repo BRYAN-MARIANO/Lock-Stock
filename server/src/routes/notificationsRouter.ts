@@ -1,9 +1,9 @@
 import express from 'express';
-import { notificationsGet } from '../controllers/notificationsController';
+import { usersGetNotifications } from '../controllers/notificationsController';
 
 const notificationsRouter = express.Router();
 
-notificationsRouter.get('/notifications', notificationsGet);
+notificationsRouter.get('/users/id:/notifications', usersGetNotifications);
 
 //get, delete, post
 

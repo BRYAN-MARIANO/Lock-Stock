@@ -8,17 +8,18 @@ import "dotenv/config";
 
 export const usersGetById = async (req: Request, res: Response) => {
   try {
-    validateMiddelwareUser(req.body);
+    //enviar primero a comprobar token de bbdd haseado con token sesion en navegador haseado tambien 
+    // validateMiddelwareUser(req.body);
     const user = await UsersModel.findOne({
       where: {
         Id_User: req.params.id,
       },
     });
 
-    if (!user) {
+    if (user) {
       res.status(200).json(user);
     } else {
-      res.status(404).json({ message: "Credenciales Inválidas" });
+      res.status(404).json({ message: "Cedenciales Inválidas" });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -137,17 +138,18 @@ export const usersPut = async (req: Request, res: Response) => {
   }
 };
 
-export const usersDelete = async (req: Request, res: Response) => {
-  try {
 
+//modificar para que borre sus cuentas
+export const usersCountsDelete = async (req: Request, res: Response) => {
+  try {
     // tenemos que comparar el token de sesión y la contraseña maestra
     await UsersModel.destroy({
       where: {
-        Id_User: req.params.id,
+        Id_applications: req.params.id,
       },
     });
 
-    res.status(200).json({ message: "Usuario eliminado" });
+    res.status(200).json({ message: "Aplicación eliminado" });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
