@@ -93,7 +93,7 @@ INSERT INTO Aplications_User (
   'contacto@aplicacion1.com',             -- Email_Aplication
   'Productividad',                        -- Category_Aplication
   'hash_contraseña_aplicacion',           -- Password_Aplication
-  '123e4567-e89b-12d3-a456-426614174000'  -- Id_User (Debe existir en Users)
+  '309c43c9-3a7f-4c58-80ad-4fecc4dd78a3'  -- Id_User (Debe existir en Users)
 );
 INSERT INTO Devices_User (
   Id_Device, Name_Device, Date_Register_Device, Date_Last_Conexion_Device,
@@ -106,14 +106,14 @@ INSERT INTO Devices_User (
   TRUE,                                   -- Status_Device
   19216811,                               -- Ip_Direction_Device
   'Windows 10',                           -- Sistem_Operative_Device
-  '123e4567-e89b-12d3-a456-426614174000'  -- Id_User (Debe existir en Users)
+  '309c43c9-3a7f-4c58-80ad-4fecc4dd78a3'  -- Id_User (Debe existir en Users)
 );
 INSERT INTO Notifications_User (
   Id_Notification, Notes_Notification, Id_User
 ) VALUES (
   '456h7890-h89e-45g6-d789-748917497004', -- Id_Notification (UUID único)
   'Nota para Usuario1',                   -- Notes_Notification
-  '123e4567-e89b-12d3-a456-426614174000'  -- Id_User (Debe existir en Users)
+  '309c43c9-3a7f-4c58-80ad-4fecc4dd78a3'  -- Id_User (Debe existir en Users)
 );
 SHOW TABLES IN lock_and_stock;
 SELECT * FROM Admins;

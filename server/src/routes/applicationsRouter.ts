@@ -3,7 +3,7 @@ import { usersGetApplications } from '../controllers/applicationsController';
 
 const applicationsRouter = express.Router();
 
-applicationsRouter.get('/users/id:/applications',usersGetApplications);
+applicationsRouter.get('/applications/id:/',usersGetApplications);
 
 //patch, post, delete, get
 

@@ -3,7 +3,7 @@ import { usersGetDevices } from '../controllers/devicesController';
 
 const devicesRouter = express.Router();
 
-devicesRouter.get('/users/:id/devices', usersGetDevices);
+devicesRouter.get('/devices/:id', usersGetDevices);
 //get, post, delete
 
 
