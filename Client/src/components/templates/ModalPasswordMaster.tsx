@@ -1,43 +1,32 @@
 import React, { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { hashData } from "../../services/hash";
 import { Link } from "react-router-dom";
 import { servicesApp } from "../../services/services";
+import { zodResolver } from "@hookform/resolvers/zod";
+import validateMaster from "../pages/User/validations/accounts";
 
 
 interface modalInterface {
   modal: string,
   changeModal: (change: string)=>void,
-  password: ()=>void
+  password?: ()=>void,
+  postData?: SubmitHandler<FieldValues>; 
+  userData?: (change: boolean)=>void
 }
 
-const ModalPasswordMaster = ({ modal, changeModal, password }: modalInterface): React.JSX.Element => {
+const ModalPasswordMaster = ({ modal, changeModal, password, postData }: modalInterface): React.JSX.Element => {
 
 
-  const { handleSubmit, register } = useForm();
-
-  const postConfirmPassword = async (data: FieldValues) => {
-    try {
-
-      const { passwordMaster } = data;
-      const newData = await hashData(passwordMaster);
-
-      const response = await servicesApp.postModal({
-        response: newData
-      })
-
-      if (response) {
-        changeModal('hidden');
-      }
+  const { handleSubmit, register, formState: { errors }} = useForm({
+    resolver: zodResolver(validateMaster)
+  });
 
 
- 
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error);
-      }
-    }
-  };
+  //cerrar modal
+  const closeModal =()=>{
+    changeModal('hidden')
+  }
 
 
 
@@ -45,12 +34,17 @@ const ModalPasswordMaster = ({ modal, changeModal, password }: modalInterface): 
   return (
     <>
       <section className={`${modal} top-0 left-0 h-full w-full flex justify-center items-center z-50`}>
-        <article className="h-80 w-2/4 rounded bg-white border-4 border-green-700 flex flex-col justify-center items-center">
+        <article className="relative left-40 h-80 w-2/4 rounded bg-white border-4 border-green-700 flex flex-col justify-center items-center">
+
+
+<figure className="w-11/12 flex justify-end cursor-pointer" onClick={closeModal}>
+        <img  src="/src/images/plus-icon.svg" alt="plus-icon" />
+        </figure>
           <p className="text-center text-primary font-semibold">Contraseña Maestra</p>
 
           <form
             className="w-11/12 h-10/12 flex flex-col gap-4 mx-auto"
-            onSubmit={handleSubmit(postConfirmPassword)}
+            onSubmit={handleSubmit(postData)}
           >
             <label htmlFor="passwordMaster">
               <span>Contraseña</span>
@@ -60,6 +54,9 @@ const ModalPasswordMaster = ({ modal, changeModal, password }: modalInterface): 
                 className="w-full h-8 border border-black rounded"
                 {...register("passwordMaster")}
               />
+                {errors.passwordMaster && (
+              <p className="text-red-500 font-medium">{`${errors.passwordMaster.message}`}</p>
+            )}
             </label>
             <input
               type="submit"

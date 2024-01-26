@@ -272,6 +272,28 @@ class Services {
       }
       }
 
+      async postDelete(data: object){
+        try {
+          const methodCrud = await fetch(`http://localhost:3000/modal`, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+
+            if (!methodCrud.ok) {
+              throw new Error('Error en la peticion');
+            }
+
+            const response = await methodCrud.json();
+
+            return response
+      } catch (error) {
+          if (error instanceof Error) {
+              throw new Error(error.message);
+            }
+      }
+      }
+
 
 }
 

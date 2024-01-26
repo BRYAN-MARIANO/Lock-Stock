@@ -78,7 +78,7 @@ const Help = (): React.JSX.Element => {
             </div>
             <label htmlFor="" className="flex justify-center h-8 w-full">
               <figure className="bg-black flex justify-center items-center rounded w-32">
-                <img src="/src/images/logo.png" alt="logo" className="h-3/4" />
+                <img src="/src/images/logo.svg" alt="logo" className="h-3/4" />
               </figure>
               <input
                 type="text"
