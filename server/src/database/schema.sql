@@ -18,7 +18,9 @@ CREATE TABLE Users (
   Answer_Security_User VARCHAR(30) NOT NULL,
   Device_User VARCHAR(30),
   Notifications_User VARCHAR(30),
-  loginAttempts NUMBER (30)
+  loginAttempts NUMBER (30),
+  TokenLogedUser VARCHAR,
+  ExpiryTokenDate DATETIME
   Block_User BOOLEAN,
   Delete_User BOOLEAN
 );
@@ -34,17 +36,27 @@ CREATE TABLE Aplications_User (
 CREATE TABLE Devices_User (
   Id_Device CHAR(36) PRIMARY KEY,
   Name_Device VARCHAR(255) NOT NULL,
-  Date_Register_Device DATETIME NOT NULL,
   Date_Last_Conexion_Device DATETIME NOT NULL,
-  Status_Device BOOLEAN NOT NULL,
-  Ip_Direction_Device INT,
+  -- Date_Register_Device DATETIME NOT NULL,
+  -- Status_Device BOOLEAN NOT NULL,
   Sistem_Operative_Device VARCHAR(10),
+  Ip_Direction_Device INT,
   Id_User CHAR(36) NOT NULL,
   FOREIGN KEY (Id_User) REFERENCES Users(Id_User)
 );
 CREATE TABLE Notifications_User (
   Id_Notification CHAR(36) PRIMARY KEY,
   Notes_Notification VARCHAR(500),
+  Id_User CHAR(36) NOT NULL,
+  FOREIGN KEY (Id_User) REFERENCES Users(Id_User)
+);
+CREATE TABLE Login_Attemps (
+  Id_AttempLogin CHAR (36) NOT NULL  PRIMARY KEY,
+  Location VARCHAR(255) NOT NULL,
+  Device VARCHAR(255) NOT NULL,
+  Sistem_Operative VARCHAR(10),
+  Date datetime NOT NULL,
+  Ip_Direction INT,
   Id_User CHAR(36) NOT NULL,
   FOREIGN KEY (Id_User) REFERENCES Users(Id_User)
 );
@@ -81,7 +93,7 @@ INSERT INTO Aplications_User (
   'contacto@aplicacion1.com',             -- Email_Aplication
   'Productividad',                        -- Category_Aplication
   'hash_contraseña_aplicacion',           -- Password_Aplication
-  '123e4567-e89b-12d3-a456-426614174000'  -- Id_User (Debe existir en Users)
+  '309c43c9-3a7f-4c58-80ad-4fecc4dd78a3'  -- Id_User (Debe existir en Users)
 );
 INSERT INTO Devices_User (
   Id_Device, Name_Device, Date_Register_Device, Date_Last_Conexion_Device,
@@ -94,14 +106,14 @@ INSERT INTO Devices_User (
   TRUE,                                   -- Status_Device
   19216811,                               -- Ip_Direction_Device
   'Windows 10',                           -- Sistem_Operative_Device
-  '123e4567-e89b-12d3-a456-426614174000'  -- Id_User (Debe existir en Users)
+  '309c43c9-3a7f-4c58-80ad-4fecc4dd78a3'  -- Id_User (Debe existir en Users)
 );
 INSERT INTO Notifications_User (
   Id_Notification, Notes_Notification, Id_User
 ) VALUES (
   '456h7890-h89e-45g6-d789-748917497004', -- Id_Notification (UUID único)
   'Nota para Usuario1',                   -- Notes_Notification
-  '123e4567-e89b-12d3-a456-426614174000'  -- Id_User (Debe existir en Users)
+  '309c43c9-3a7f-4c58-80ad-4fecc4dd78a3'  -- Id_User (Debe existir en Users)
 );
 SHOW TABLES IN lock_and_stock;
 SELECT * FROM Admins;
