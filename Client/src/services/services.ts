@@ -2,25 +2,37 @@ import { FieldValues } from "react-hook-form";
 
 
 class Services {
-    constructor() {
+    constructor() {}
 
-    }
 
+    //profile
     async getProfile () {
         try {
             const method = await fetch('http://localhost:3000/users');
             const data = await method.json();
             return data
         } catch (error) {
-            console.log(error)
+          throw new Error(error.message);
         }
     }
 
 
+    async postProfile (data: FieldValues) {
+      try {
+          const method = await fetch('http://localhost:3000/users',{
+            method: 'POST',
+            headers: {'content-type':'application/json'},
+            body: JSON.stringify(data)
+          });
+          const response = await method.json();
 
-
-
-
+          return response
+      } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+      }
+  }
 
 
 
@@ -52,6 +64,9 @@ class Services {
               }
         }
       }
+
+
+
 
 
 
@@ -148,6 +163,35 @@ class Services {
 
 
       //Users
+      async getUser(){
+        try {
+          const method = await fetch('')
+          const {response} = await method.json();
+          return {response};
+        } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+        }
+      }
+
+
+      async postUser(data: FieldValues){
+        try {
+          const method = await fetch('',{
+            method: 'POST',
+            headers: {'content-type':'application/json'},
+            body: JSON.stringify(data)  
+          })
+          const response = await method.json();
+          return response;
+
+        } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+        }
+      }
 
 
 
@@ -172,6 +216,30 @@ class Services {
         }
       }
 
+      async postNotifications (data: FieldValues){
+        try {
+            const methodCrud = await fetch(`http://localhost:3000/Notifications_User`,{
+              method: 'POST',
+              headers: {'content-type':'application/json'},
+              body: JSON.stringify(data)
+            })
+
+              if (!methodCrud.ok) {
+                throw new Error('Error en la peticion');
+              }
+
+              const response = await methodCrud.json();
+
+              return response 
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(error.message);
+              }
+        }
+      }
+
+
+
 
 
 
@@ -195,7 +263,29 @@ class Services {
             }
 
             const response = await methodCrud.json();
-            
+
+            return response
+      } catch (error) {
+          if (error instanceof Error) {
+              throw new Error(error.message);
+            }
+      }
+      }
+
+      async postDelete(data: object){
+        try {
+          const methodCrud = await fetch(`http://localhost:3000/modal`, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+
+            if (!methodCrud.ok) {
+              throw new Error('Error en la peticion');
+            }
+
+            const response = await methodCrud.json();
+
             return response
       } catch (error) {
           if (error instanceof Error) {

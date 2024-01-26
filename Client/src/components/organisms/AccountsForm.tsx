@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import ModalPasswordMaster from "../templates/modalPasswordMaster";
+import { servicesApp } from "../../services/services";
+import { hashData } from "../../services/hash";
+import { FieldValues } from "react-hook-form";
 
 const AccountsForm = (): React.JSX.Element => {
 
@@ -10,9 +13,15 @@ const AccountsForm = (): React.JSX.Element => {
 
   //modal
   const [modal, setModal] = useState("hidden");
-  const changeModalVisibility = () => {
+
+  const navigate = useNavigate();
+
+  const changeModalVisibility = async () => {
     setModal((prevModal) => (prevModal === "hidden" ? "fixed" : "hidden"));
   };
+
+
+
 
 
   //filtro de cuentas
@@ -23,14 +32,87 @@ const AccountsForm = (): React.JSX.Element => {
     accounts.Name_Aplication.toLowerCase().includes(filtro.toLowerCase()) || accounts.Email_Aplication.toLowerCase().includes(filtro.toLowerCase())
     );
 
+
+
+
+
+
     //ver contraseña
     const [ view, setView ] = useState(true)
 
 
-    const viewPassword =()=>{
+    //enviar datos
+
+
+    const [ sendEdit, setSendEdit ]= useState(false)
+
+    
+    const navigateToEditPage = (itemId: string) => {
+      navigate(`/password-generator/${itemId}`);
+    };
+
+
+    
+    
+    const postConfirmPassword = async (data: FieldValues) => {
+      try {
+        const { passwordMaster } = data;
+        const newData = await hashData(passwordMaster);
+        const response = await servicesApp.postModal({
+          response: newData
+        })
+
+
+        console.log(response)
+
+        if (response) {
+          setModal((prevModal) => (prevModal === "hidden" ? "fixed" : "hidden"));
+
+          //ver contraseña
+          setView(false)
+
+        //ir a pagina de editar una cuenta
+
+          setSendEdit(true)
+
+          setTimeout(()=>{
+            setSendEdit(false)
+          },1*60*1000)
+
+        }
+   
+
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(error.message)
+        }
+      }
+    };
+
+
+
+    const postDelete = async (itemId: string) => {
+      try {
+
+        const newData={
+          id: itemId
+        }
+
+
+   
+          await servicesApp.postDelete(newData);
       
-      setView(false)
-    }
+
+        console.log(response)
+       
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(error.message);
+        }
+      }
+    };
+  
+    
 
 
   return (
@@ -53,13 +135,11 @@ const AccountsForm = (): React.JSX.Element => {
         <div className="flex w-10/12 gap-2">
           <input
             type="text"
-            className="w-10/12 flex-1 p-2 bg-white border border-black rounded-3xl"
+            placeholder="Busqueda"
+            className="w-10/12 h-8 flex-1 p-3 bg-white border border-black rounded-3xl"
             value={filtro}
             onChange={(e) => setFiltro(e.target.value)}
           />
-          <div className="p-2">
-            <img src="/src/images/search.svg" alt="search-icon" />
-          </div>
         </div>
 
         <section className="flex flex-col w-full items-center gap-4">
@@ -124,25 +204,40 @@ const AccountsForm = (): React.JSX.Element => {
                   alt="eye-icon"
                   className="h-5 cursor-pointer"
                   onClick={() => {
-                    setModal("fixed");
+                    sendEdit? postConfirmPassword(item.id) : setModal("fixed");
                   }}
                 />
 
 
               </div>
               <div className="flex justify-center text-black text-sm font-bold min-w-28 max-w-28 gap-4">
-                <Link to={`/password-generator/${item.id}`}>
-                  <img
-                    src="/src/images/editar-icon.svg"
-                    alt="pen-icon-icon"
-                    className="h-5 cursor-pointer"
+
+
+                
+                <img
+                  src="/src/images/editar-icon.svg"
+                  alt="pen-icon-icon"
+                  className="h-5 cursor-pointer"
+                  onClick={() => {
+                    sendEdit ? navigateToEditPage(item.id) : setModal('fixed');
+                  }}
                   />
-                </Link>
+
+
+
+
                 <img
                   src="/src/images/eliminar-icon.svg"
                   alt="trash-icon"
                   className="h-5 cursor-pointer"
+                  onClick={() => {
+                    sendEdit? postDelete(item.id): setModal('fixed');
+                  }}
                 />
+
+
+
+
               </div>
             </div>
           ))}
@@ -161,7 +256,7 @@ const AccountsForm = (): React.JSX.Element => {
           </Link>
         </div>
       </section>
-      <ModalPasswordMaster modal={modal} changeModal={changeModalVisibility} password={viewPassword}/>
+      <ModalPasswordMaster modal={modal} changeModal={changeModalVisibility}  postData={postConfirmPassword}/>
     </>
   );
 };
