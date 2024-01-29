@@ -19,6 +19,7 @@ import TokenAccess from "../TokenAccess";
 import RecoverPasswordForm from "../components/pages/User/RecoverPasswordForm";
 import AccountsUser from "../components/pages/User/AccountsUser";
 import Terms from "../components/pages/User/terms";
+import AuthenticationPage from "../components/templates/RegisterLoginCard";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
         path: '/',
         element: <Root />,
         children: [
+            {
+                path: '/authentication-page',
+                element: <TokenAccess><AuthenticationPage /></TokenAccess>
+            },
             {
                 path: '/password-master',
                 element: <TokenAccess><PasswordMasterForm /></TokenAccess>

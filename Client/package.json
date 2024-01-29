@@ -10,16 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@hookform/resolvers": "^3.3.4",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "json-server": "^1.0.0-alpha.21",
-=======
-    "@fortawesome/fontawesome-svg-core": "^6.5.1",
-    "@fortawesome/free-brands-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
->>>>>>> 6f444f0f8c1b76281e958bf4b3b982c34ffb5d29
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",

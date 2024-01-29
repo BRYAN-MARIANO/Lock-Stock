@@ -1,7 +1,8 @@
 import { FC, ReactNode } from 'react';
+import React from 'react';
 
 interface LoginButtonProps {
-  onClick: () => void;
+  onClick?: () => void ;
   children: ReactNode;
 }
 

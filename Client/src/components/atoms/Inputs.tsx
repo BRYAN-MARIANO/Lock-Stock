@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import React from 'react';
 
 interface InputProps {
   id: string;
@@ -16,7 +17,7 @@ const Input: FC<InputProps> = ({ id, type, label }) => (
       name={id}
       type={type}
       required
-      className="w-full h-14 rounded-lg border border-black bg-white mb-4"
+      className="w-full h-14 rounded-lg border border-black bg-white mb-4 p-2"
       style={{ color: 'black' }}
     />
   </div>

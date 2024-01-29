@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import RegisterCard from '../organisms/RegisterCard'
 import LoginCard from '../organisms/LoginCard';
+import React from 'react';
 
 const AuthenticationPage: FC = () => {
   const [activeCard, setActiveCard] = useState<'login' | 'register'>('login');
