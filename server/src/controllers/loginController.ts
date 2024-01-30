@@ -71,7 +71,7 @@ const PasswordInstance = user.get({ plain: true });
       Device: req.headers["user-agent"],
       Sistem_Operative: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
       Date: new Date(),
-      // Ip_Direction:,
+      Ip_Direction: req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress,
       Id_User: user,//HAY QUE ENLAZARLO CON EL ID USER
     })
 
