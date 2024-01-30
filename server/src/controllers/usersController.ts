@@ -9,7 +9,6 @@ import "dotenv/config";
 export const usersGetById = async (req: Request, res: Response) => {
   try {
     //enviar primero a comprobar token de bbdd haseado con token sesion en navegador haseado tambien 
-    // validateMiddelwareUser(req.body);
     const user = await UsersModel.findOne({
       where: {
         Id_User: req.params.id,
@@ -34,16 +33,15 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
     validateMiddelwareUser(req.body);
 
     const existingUser = await UsersModel.findOne({
-      where: [{ 
-        Email_User: req.body.Email_User 
-      },{
-        Name_User: req.body.Name_User 
-      }]
+      where: { 
+        Email_User: req.body.Email_User ,
+        Name_User: req.body.Name_User,
+        // Id_User: req.body.Id_User
+      }
     });
 
     if (existingUser) {
       res.status(400).json({ message: "Ya existe un usuario con el mismo nombre o correo electrónico" });
-      return;
     }
     
     const userUuid = generateUuid();
@@ -89,8 +87,10 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
         Block_User: false,
         Delete_User: false,
       });
-
-      res.status(201).json({ hashedTokenLogedUser });
+      // res.status(201).json({ hashedTokenLogedUser });
+      // return res.json({ message: "Logged in successfully", accessToken: token });
+      res.status(201).json({ message: "Logged in successfully", accessToken: hashedTokenLogedUser });
+      console.log("SUPERPOST TOKEN=>", hashedTokenLogedUser)
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -103,6 +103,7 @@ export const usersPut = async (req: Request, res: Response) => {
   try {
     
     // tenemos que comparar el token de sesión y la contraseña maestra
+    //verificar primero que existe el ususario, porque sino tambien deja hacer el put
     validateMiddelwareUser(req.body);
 
     await UsersModel.update(

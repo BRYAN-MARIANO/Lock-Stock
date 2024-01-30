@@ -62,8 +62,8 @@ export const adminPutUsers = async (req: Request, res: Response) => {
     
     await UsersModel.update(
       {
-        Notifications_User: req.body.Notifications_User,
         Block_User: req.body.Block_User,
+        Delete_User: req.body.Delete_User
       },
       {
         where: {
@@ -71,6 +71,9 @@ export const adminPutUsers = async (req: Request, res: Response) => {
         },
       }
       );
+
+      //PDT REVISAR QUE Compruebe que existe el idUser
+      //y que no nos engañe y diga que está actualizado cuando no cambia a true la propiedad de usuario bloqueado
       
       res.status(200).json({ message: "Usuario actualizado" });
     } catch (error) {
