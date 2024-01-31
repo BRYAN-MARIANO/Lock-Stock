@@ -4,7 +4,7 @@ import UsersModel from "../models/UsersModel";
 // import { v4 as generateUuid } from "uuid";
 // import bcrypt from "bcrypt";
 // import { sign } from "jsonwebtoken";
-import validateMiddelwareUser from "../middlewares/validateMiddelwareUser";
+import validateMiddelwareUser from "../middlewares/validateUserMiddelware";
 // import "dotenv/config";
 
 
@@ -21,6 +21,7 @@ export const adminGetUsers = async (_req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+      return
     }
   }
 };
@@ -42,10 +43,12 @@ export const adminGetUsersByID = async (req: Request, res: Response) => {
       res.status(200).json(user);
     } else {
       res.status(404).json({ message: "Credenciales Inválidas" });
+      return
     }
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+      return
     }
   }
 };
@@ -79,6 +82,7 @@ export const adminPutUsers = async (req: Request, res: Response) => {
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ message: error.message });
+        return
       }
     }
   };
@@ -99,6 +103,7 @@ export const adminPutUsers = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+      return
     }
   }
 };

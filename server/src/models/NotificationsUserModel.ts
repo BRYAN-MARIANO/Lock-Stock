@@ -9,7 +9,7 @@ const NotificationsUserModel = db.define('Notifications_User', {
       allowNull: false
     },
   Notes_Notification: {
-    type: DataTypes.STRING(500),
+    type: DataTypes.STRING(300),
   },
     Id_User: {
     type: DataTypes.UUID(),
@@ -24,6 +24,7 @@ const NotificationsUserModel = db.define('Notifications_User', {
   timestamps: false
 });
 
-// NotificationsUserModel.belongsTo(NotificationsUserModel, { foreignKey: 'Id_Users' });
+
+NotificationsUserModel.belongsTo(UsersModel, { foreignKey: 'Id_Users' });
 
 export default NotificationsUserModel;

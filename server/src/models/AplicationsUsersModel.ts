@@ -13,7 +13,7 @@ const AplicationsUsersModel = db.define('Aplications_User', {
       allowNull: false
   },
   Email_Aplication: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(40),
     allowNull: false
 },
   Category_Aplication: {
@@ -36,7 +36,7 @@ Id_User: {
   timestamps: false
 });
 
-AplicationsUsersModel.belongsTo(AplicationsUsersModel, { foreignKey: 'Id_Users' });
+AplicationsUsersModel.belongsTo(UsersModel, { foreignKey: 'Id_Users' });
 
 export default AplicationsUsersModel;
 

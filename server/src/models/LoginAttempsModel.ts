@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import db from '../database/db';
 import UsersModel from './UsersModel';
 
-const LoginAttempsModels = db.define('Attemp_Login', {
+const LoginAttempsModels = db.define('Login_Attemps', {
   Id_AttempLogin: {
     type: DataTypes.UUID(),
     primaryKey: true,
@@ -19,7 +19,7 @@ const LoginAttempsModels = db.define('Attemp_Login', {
   Sistem_Operative: {
     type: DataTypes.STRING(10)
   },
-   Date: {
+  DateLoginError: {
     type: DataTypes.DATE,
     allowNull: false
   },
@@ -35,10 +35,10 @@ const LoginAttempsModels = db.define('Attemp_Login', {
       }, 
     },
    }, {
-  tableName: 'Attemp_Login',
+  tableName: 'Login_Attemps',
   timestamps: false
 });
 
-LoginAttempsModels.belongsTo(LoginAttempsModels, { foreignKey: 'Id_Users' });
+LoginAttempsModels.belongsTo(UsersModel, { foreignKey: 'Id_User'})
 
 export default LoginAttempsModels;

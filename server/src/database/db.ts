@@ -1,4 +1,4 @@
-import { Dialect, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import 'dotenv/config';
 
 const db = new Sequelize(
@@ -7,7 +7,7 @@ const db = new Sequelize(
     process.env.DB_PASSWORD || 'default_password',
     { 
         host: process.env.DB_HOST || 'localhost',
-        dialect: process.env.DB_DIALECT as Dialect | undefined,
+        dialect: 'mysql',
     }
 );
 

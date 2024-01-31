@@ -16,19 +16,11 @@ const DevicesUserModel = db.define('Devices_User', {
    type: DataTypes.DATE,
    allowNull: false
  },
-  Date_Last_Conexion_Device: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  Status_Device: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false
-  },
   Sistem_Operative_Device: {
-    type: DataTypes.STRING(10)
+    type: DataTypes.STRING(30)
   },
     Ip_Direction_Device: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING(30)
   },
     Id_User: {
       type: DataTypes.UUID(),
@@ -43,6 +35,6 @@ const DevicesUserModel = db.define('Devices_User', {
   timestamps: false
 });
 
-DevicesUserModel.belongsTo(DevicesUserModel, { foreignKey: 'Id_Users' });
+DevicesUserModel.belongsTo(UsersModel, { foreignKey: 'Id_Users' });
 
 export default DevicesUserModel;

@@ -1,9 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../database/db";
 
-const UsersModel = db.define(
-  "Users",
-  {
+const UsersModel = db.define("Users", {
     Id_User: {
       type: DataTypes.UUID(),
       primaryKey: true,
@@ -45,7 +43,7 @@ const UsersModel = db.define(
     Notifications_User: {
       type: DataTypes.STRING,
     },
-    LoginAttempts: {
+    loginAttempts: {
       type: DataTypes.NUMBER,
     },
     TokenLogedUser: {

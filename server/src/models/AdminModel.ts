@@ -8,17 +8,13 @@ const AdminModel = db.define('Admins', {
     allowNull: false
   },
   Name_Admin: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.STRING(),
     allowNull: false
   },
   Password_Admin: {
-    type: DataTypes.UUID(),
+    type: DataTypes.STRING(),
     allowNull: false
   },
-  Notifications_Admin: {
-    type: DataTypes.STRING(255),
-    allowNull: false
-  }
 }, {
   tableName: 'Admins',
   timestamps: false
