@@ -3,13 +3,14 @@ import UsersModel from "../models/UsersModel";
 import { v4 as generateUuid } from "uuid";
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
-import validateMiddelwareUser from "../middlewares/validateMiddelwareUser";
+import validateUserMiddelware from "../middlewares/validateUserMiddelware";
 import "dotenv/config";
+import validateTokenMiddleware from "../middlewares/validateTokenMiddleware";
 
 export const usersGetById = async (req: Request, res: Response) => {
   try {
-    //enviar primero a comprobar token de bbdd haseado con token sesion en navegador haseado tambien 
-    const user = await UsersModel.findOne({
+    validateTokenMiddleware(req, res, async () => {
+      const user = await UsersModel.findOne({
       where: {
         Id_User: req.params.id,
       },
@@ -19,10 +20,13 @@ export const usersGetById = async (req: Request, res: Response) => {
       res.status(200).json(user);
     } else {
       res.status(404).json({ message: "Cedenciales Inválidas" });
+      return
     }
+  });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+      return
     }
   }
 };
@@ -30,18 +34,14 @@ export const usersGetById = async (req: Request, res: Response) => {
 
 export const usersRegisterPost = async (req: Request, res: Response) => {
   try {
-    validateMiddelwareUser(req.body);
+    validateUserMiddelware(req.body);
+    const { Email_User, Name_User } = req.body;
+    const existingUserByEmail = await UsersModel.findOne({ where: { Email_User } });
+    const existingUserByName = await UsersModel.findOne({ where: { Name_User } });
 
-    const existingUser = await UsersModel.findOne({
-      where: { 
-        Email_User: req.body.Email_User ,
-        Name_User: req.body.Name_User,
-        // Id_User: req.body.Id_User
-      }
-    });
-
-    if (existingUser) {
+    if (existingUserByEmail || existingUserByName) {
       res.status(400).json({ message: "Ya existe un usuario con el mismo nombre o correo electrónico" });
+      return
     }
     
     const userUuid = generateUuid();
@@ -64,7 +64,7 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
       throw new Error("error");
     } else {
       const tokenLogedUser = sign({ hashedUserUuid }, SECRET_KEY, { expiresIn: "86400s" });
-      const hashedTokenLogedUser = await bcrypt.hash(tokenLogedUser, 10);
+      // const hashedTokenLogedUser = await bcrypt.hash(tokenLogedUser, 10);
       const DateRegisterUser = new Date();
 
       await UsersModel.create({
@@ -82,30 +82,30 @@ export const usersRegisterPost = async (req: Request, res: Response) => {
         Device_User: req.body.Device_User, // tenemos que crearlo o se gwnera y guarda directamente?
         Notifications_User: req.body.Notifications_User,
         loginAttempts: 0,
-        TokenLogedUser:hashedTokenLogedUser,
+        TokenLogedUser:tokenLogedUser,
         ExpiryTokenDate: DateRegisterUser,
         Block_User: false,
         Delete_User: false,
       });
       // res.status(201).json({ hashedTokenLogedUser });
       // return res.json({ message: "Logged in successfully", accessToken: token });
-      res.status(201).json({ message: "Logged in successfully", accessToken: hashedTokenLogedUser });
-      console.log("SUPERPOST TOKEN=>", hashedTokenLogedUser)
+      res.status(201).json({ message: "Logged in successfully", accessToken: tokenLogedUser });
+      res.send(tokenLogedUser) ;     
+      console.log("SUPERPOST TOKEN=>", tokenLogedUser)
     }
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+      return
     }
   }
 };
 
+
 export const usersPut = async (req: Request, res: Response) => {
   try {
-    
-    // tenemos que comparar el token de sesión y la contraseña maestra
-    //verificar primero que existe el ususario, porque sino tambien deja hacer el put
-    validateMiddelwareUser(req.body);
-
+    validateUserMiddelware(req.body);
+    // validateTokenMiddleware(req, res, async () => {
     await UsersModel.update(
       {
         Email_User: req.body.Email_User,
@@ -122,7 +122,7 @@ export const usersPut = async (req: Request, res: Response) => {
         Block_User: req.body.Block_User,
         Delete_User: req.body.Delete_User,
         //añadir fecha de modificación/envío/conexión
-        //añadir ubicación de modificación/envío/conexión
+        //añadir ubicación de modificación/envío/conexión de la otra tabla
       },
       {
         where: {
@@ -132,28 +132,12 @@ export const usersPut = async (req: Request, res: Response) => {
     );
 
     res.status(200).json({ message: "Usuario actualizado" });
+  // });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
+      return
     }
   }
 };
 
-
-//modificar para que borre sus cuentas
-export const usersCountsDelete = async (req: Request, res: Response) => {
-  try {
-    // tenemos que comparar el token de sesión y la contraseña maestra
-    await UsersModel.destroy({
-      where: {
-        Id_applications: req.params.id,
-      },
-    });
-
-    res.status(200).json({ message: "Aplicación eliminado" });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-};

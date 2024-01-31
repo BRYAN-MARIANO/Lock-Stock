@@ -1,6 +1,7 @@
 # System configuration files
 .DS_Store
 Thumbs.db
+AINHOA
 
 # Local development environment directories
 node_modules/

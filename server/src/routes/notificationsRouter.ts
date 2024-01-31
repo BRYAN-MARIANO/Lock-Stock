@@ -1,10 +1,10 @@
 import express from 'express';
 import { usersGetNotifications } from '../controllers/notificationsController';
-import validateMiddelwareUserNotifications from '../middlewares/validateMiddelwareUser';
-import { NotificationsSchema } from '../schemas/NotificationsSchema';
+import { NotificationsSchema } from '../schemas/notificationsSchema';
+import validateNotificationsMiddelware from '../middlewares/validateNotificationsMiddelware';
 const notificationsRouter = express.Router();
 
-notificationsRouter.get('/notifications/id:', validateMiddelwareUserNotifications(NotificationsSchema), usersGetNotifications);
+notificationsRouter.get('/notifications/id:', validateNotificationsMiddelware(NotificationsSchema), usersGetNotifications);
 //get, delete, post
 
 
