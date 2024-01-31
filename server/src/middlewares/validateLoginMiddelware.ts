@@ -1,7 +1,7 @@
 import { z, ZodError } from "zod";
 import { Request, Response, NextFunction } from "express";
 
-const validateMiddelwareUser = (schema: z.ZodObject<{}>) => {
+const validateLoginMiddelware = (schema: z.ZodObject<{}>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req.body);
@@ -13,10 +13,10 @@ const validateMiddelwareUser = (schema: z.ZodObject<{}>) => {
           details: error instanceof Error ? error.message : "Error desconocido",
         });
       } else {
-        next(error);
+        next(error); 
       }
     }
   };
 };
 
-export default validateMiddelwareUser;
+export default validateLoginMiddelware;
