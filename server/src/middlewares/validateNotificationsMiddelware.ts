@@ -1,7 +1,7 @@
 import { z, ZodError } from "zod";
 import { Request, Response, NextFunction } from "express";
 
-const validateMiddelwareUserNotifications = (schema: z.ZodObject<{}>) => {
+const validateNotificationsMiddelware = (schema: z.ZodObject<{}>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req.body);
@@ -19,4 +19,4 @@ const validateMiddelwareUserNotifications = (schema: z.ZodObject<{}>) => {
   };
 };
 
-export default validateMiddelwareUserNotifications;
+export default validateNotificationsMiddelware;
