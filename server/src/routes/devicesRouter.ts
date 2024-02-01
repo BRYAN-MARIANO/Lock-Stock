@@ -1,5 +1,5 @@
 import express from 'express';
-import { usersGetDevices } from '../controllers/devicesController';
+import { usersDeleteDevices, usersGetByIdDevices, usersGetDevices } from '../controllers/devicesController';
 
 const devicesRouter = express.Router();
 
