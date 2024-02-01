@@ -5,8 +5,8 @@ import {  Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import UsersModel from "../models/UsersModel";
-import { UserInterface } from "../interface";
-import InterfaceUser from "../interface";
+import { UserInterface } from "../userInterface";
+import InterfaceUser from "../userInterface";
 
 const validateTokenMiddleware = async (req: InterfaceUser, res: Response, next: NextFunction) => {
   try {
@@ -37,6 +37,7 @@ const validateTokenMiddleware = async (req: InterfaceUser, res: Response, next: 
       return res.status(401).json({ message: "Unauthorized token error" });
     }
 
+    // verificar fecha y hora de expiracion 
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string) as jwt.JwtPayload;
 
     if (!decodedToken) {
@@ -50,6 +51,7 @@ const validateTokenMiddleware = async (req: InterfaceUser, res: Response, next: 
         Id_User: decodedToken.Id_User,
       },
     }) as UserInterface | null; // Use UserModel | null if findOne can return null
+    
     console.log(user);
     if ('user' in req) {
       console.log(req.body.Id_User);

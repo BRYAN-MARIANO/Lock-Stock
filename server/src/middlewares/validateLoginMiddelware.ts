@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from "express";
 const validateLoginMiddelware = (schema: z.ZodObject<{}>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
+      
       schema.parse(req.body);
       next();
     } catch (error) {
