@@ -232,14 +232,14 @@ class Services {
   //authentication-user
   async login(credentials: FieldValues) {
     try {
-      const response = await fetch("http://localhost:3000/modal", {
+      const response = await fetch("http://localhost:4000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
       });
       const data = await response.json();
       if (data.accessToken) {
-        localStorage.setItem("usertoken", JSON.stringify(data));
+        localStorage.setItem("accessToken", JSON.stringify(data));
       }
       return data;
     } catch (error) {
@@ -251,7 +251,7 @@ class Services {
 
   async register(credentials: FieldValues) {
     try {
-      const response = await fetch("http://localhost:3000/modal", {
+      const response = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),

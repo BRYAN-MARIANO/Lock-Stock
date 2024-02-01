@@ -45,9 +45,9 @@ const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
         <hr className="w-full" /><span className="p-2 text-sm text-gray-500">o</span><hr className="w-full" />
       </div>
       <label htmlFor="email">Email</label>
-      <input id="email" type="email"  {...register('email')}/>
+      <input id="email" type="email"  {...register('Email_User')}/>
       <label htmlFor="password">Contraseña</label>
-      <input id="password" type="password"  {...register('password')}/>
+      <input id="password" type="password"  {...register('Password_User')}/>
       <LoginButton >Login</LoginButton>
       <div className="flex justify-end">
         <a href="#" className="text-sm text-[#1D7607] hover:underline mt-4">¿Olvidaste tu contraseña?</a>
