@@ -242,7 +242,7 @@ class Services {
       if (data.accessToken) {
         sessionStorage.setItem("accessToken", JSON.stringify(data.accessToken));
       }
-      return data;
+      return data.accessToken;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);

@@ -32,6 +32,9 @@ const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
     console.log(data);
     console.log(response);
 
+    const token = sessionStorage.getItem('accesToken')
+    console.log(token);
+
     if (response) {
       Navigate('/accounts-user')
     }
