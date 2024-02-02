@@ -36,7 +36,8 @@ Id_User: {
   timestamps: false
 });
 
-AplicationsUsersModel.belongsTo(AplicationsUsersModel, { foreignKey: 'Id_Users' });
+AplicationsUsersModel.belongsTo(UsersModel, { foreignKey: 'Id_User' });
+
 
 export default AplicationsUsersModel;
 

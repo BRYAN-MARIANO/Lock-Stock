@@ -19,6 +19,8 @@ import TokenAccess from "../TokenAccess";
 import RecoverPasswordForm from "../components/pages/User/RecoverPasswordForm";
 import AccountsUser from "../components/pages/User/AccountsUser";
 import Terms from "../components/pages/User/terms";
+import AuthenticationPage from "../components/templates/RegisterLoginCard";
+import RegisterLogin from "../components/pages/User/RegisterLogin";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +28,10 @@ export const router = createBrowserRouter([
         path: '/',
         element: <Root />,
         children: [
+            {
+                path: '/authentication-page',
+                element: <TokenAccess><RegisterLogin /></TokenAccess>
+            },
             {
                 path: '/password-master',
                 element: <TokenAccess><PasswordMasterForm /></TokenAccess>
@@ -49,8 +55,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'connected-devices',
-                element: <TokenAccess><ConnectedDevices /></TokenAccess>,
-                loader: servicesApp.getDevices
+                element: <TokenAccess><ConnectedDevices /></TokenAccess>
+											  
             },
             {
                 path: 'notification-mailbox',
@@ -60,7 +66,7 @@ export const router = createBrowserRouter([
             {
                 path: 'password-generator/:id?',
                 element: <TokenAccess><PasswordGenerator/></TokenAccess>,
-                loader: servicesApp.getAccountsUser
+                loader: servicesApp.getAplications
             },
             {
                 path: 'recovery-password',
@@ -69,7 +75,7 @@ export const router = createBrowserRouter([
             {
                 path:'accounts-user',
                 element: <AccountsUser />,
-                 loader: servicesApp.getAccountsUser
+                 loader: servicesApp.getAplications
             }
         ],
     },
@@ -83,23 +89,23 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/dashboard-admin',
-                element: <DashboardAdmin />,
-                loader: servicesApp.getDashboardAdmin
+                element: <DashboardAdmin />
+													 
             },
             {
                 path: '/user-activity',
-                element: <UserActivity />,
-                loader: servicesApp.getUserActivity
+                element: <UserActivity />
+												   
             },
             {
                 path: 'dashboard-incidents',
-                element: <DashboardIncidents />,
-                loader: servicesApp.getDashboardIncidents
+                element: <DashboardIncidents />
+														 
             },
             {
                 path: '/notification-admin',
-                element: <NotificationAdmin />,
-                loader: servicesApp.getNotificationsAdmin
+                element: <NotificationAdmin />
+														 
             }
         ]
     }
