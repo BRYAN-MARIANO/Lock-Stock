@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import HeaderMenu from "../../templates/HeaderMenu";
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { usersContext } from "../../../UserContext";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordMasterSchema } from "./validations/passwordMaster";
 import { hashData } from "../../../services/hash";
 import { servicesApp } from "../../../services/services";
+import HeaderLogin from "../../templates/HeaderLogin";
+import { useNavigate } from "react-router";
 
 
 const PasswordMasterForm = (): React.JSX.Element => {
@@ -17,32 +18,49 @@ const PasswordMasterForm = (): React.JSX.Element => {
   const user = useContext(usersContext)
 
 
+  const Navigate = useNavigate();
 
-  const postData = async (data)=>{
-    const { password, answer, response } = data;
-
-    const hashedPassword = await hashData(password);
-    const hashedAnswer = await hashData(answer);
-    const hashedResponse = await hashData(response);
+  const postData = async (data: FieldValues)=>{
+    try {
 
 
-    //autenticathion
+      const Email_User = localStorage.getItem('Email_User');
+      const Name_User = localStorage.getItem('Name_User');
+      const SurName_User = localStorage.getItem('SurName_User');
+      const Mobile_User = localStorage.getItem('Mobile_User');
+      const Password_User = localStorage.getItem('Password_User');
+      const Confirm_Password = localStorage.getItem('Confirm_Password');
 
-    
+
+      const newData = {
+        ...data,
+        Email_User: Email_User,
+        Name_User: Name_User,
+        SurName_User: SurName_User,
+        Mobile_User: Mobile_User,
+        Password_User: Password_User,
+        Confirm_Password: Confirm_Password
+      }
 
 
-    const newData = {
-      hashedPassword,
-      hashedAnswer,
-      hashedResponse
+      localStorage.clear();
+
+
+
+      if (true) {
+        Navigate('/accounts-user')
+      }
+
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message)
+      }
     }
-
-    console.log(newData)
   }
 
   return (
     <>
-    <HeaderMenu />
+    <HeaderLogin />
       <section className="form-password w-screen h-screen flex justify-center items-center flex-col gap-7">
         <h1 className="text-primary font-medium text-5xl">Establecer Contraseña</h1>
 
@@ -56,13 +74,14 @@ const PasswordMasterForm = (): React.JSX.Element => {
                          {errors.password && (
               <p className="text-red-500 font-medium">{`${errors.password.message}`}</p>
             )}
-     
 
-     
+
+
 
           </label>
           <label htmlFor="confirmPassword" className="flex flex-col">Confirmar Contraseña
             <input id="confirmPassword" type="password" className="border border-black rounded" {...register('confirmPassword')} />
+
                          {errors.confirmPassword && (
               <p className="text-red-500 font-medium">{`${errors.confirmPassword.message}`}</p>
             )}

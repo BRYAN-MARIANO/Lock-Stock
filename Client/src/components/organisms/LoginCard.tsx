@@ -5,6 +5,9 @@ import LoginButton from '../molecules/LoginButton';
 import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { servicesApp } from '../../services/services';
+import { zodResolver } from '@hookform/resolvers/zod';
+import loginSchema from '../pages/User/validations/loginForm';
+import { useNavigate } from 'react-router';
 
 
 interface LoginCardProps {
@@ -13,22 +16,37 @@ interface LoginCardProps {
 }
 
 const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
+
+
+  const Navigate = useNavigate();
+
+
   const handleEmailLogin =async (data: FieldValues) => {
     
+
   try {
     
-    const response = await servicesApp.login(data)  
+    const response = await servicesApp.login(data) 
+    
+    
     console.log(data);
     console.log(response);
+
+    if (response) {
+      Navigate('/accounts-user')
+    }
+
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message)
     }
   }
-  
   };
 
-  const {handleSubmit, register} = useForm();
+
+  const {handleSubmit, register, formState: { errors }} = useForm({
+    resolver: zodResolver(loginSchema)
+  });
 
   const registerColor = !isActive ? "#1D7607" : "black";
   const loginColor = isActive ? "#1D7607" : "black";
@@ -41,17 +59,32 @@ const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
         <h1 className="text-lg font-bold" style={{ color: loginColor }}>Iniciar Sesión</h1>
       </div>
       {/* <GoogleSignInButton /> */}
-      <div className="my-4 flex items-center justify-between">
-        <hr className="w-full" /><span className="p-2 text-sm text-gray-500">o</span><hr className="w-full" />
-      </div>
-      <label htmlFor="email">Email</label>
-      <input id="email" type="email"  {...register('Email_User')}/>
-      <label htmlFor="password">Contraseña</label>
-      <input id="password" type="password"  {...register('Password_User')}/>
-      <LoginButton >Login</LoginButton>
+   
+
+      <section className='flex flex-col gap-4'>
+
+      <label htmlFor="Email_User" className="flex flex-col w-full">Email
+      <input id="Email_User" type="email" className="border border-black rounded h-9"  {...register('Email_User')}/>
+      {errors.Email_User && (
+              <p className="text-red-500 font-medium">{`${errors.Email_User.message}`}</p>
+            )}
+      </label>
+      
+      <label htmlFor="Password_User" className="flex flex-col w-full">Contraseña
+      <input id="password" type="password" className="border border-black rounded h-9" {...register('Password_User')}/>
+      {errors.Password_User && (
+              <p className="text-red-500 font-medium">{`${errors.Password_User.message}`}</p>
+            )}
+      </label>
+
+
+      <LoginButton>Acceso</LoginButton>
+      </section>
+
       <div className="flex justify-end">
-        <a href="#" className="text-sm text-[#1D7607] hover:underline mt-4">¿Olvidaste tu contraseña?</a>
+        <a href="#" className="font-semibold text-sm text-[#1D7607] hover:underline mt-4">¿Olvidaste tu contraseña?</a>
       </div>
+
     </div>
     </form>
   );

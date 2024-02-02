@@ -9,6 +9,7 @@ const TokenAccess = ({children}) => {
     const haveToken = async ()=>{
         let token = sessionStorage.getItem('token');        
         
+        
 
         try {
             const data = await fetch('',{

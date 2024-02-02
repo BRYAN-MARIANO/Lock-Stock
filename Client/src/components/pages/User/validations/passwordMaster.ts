@@ -2,12 +2,10 @@ import {z} from 'zod';
 
 
 export const passwordMasterSchema  = z.object({
-    password: z.string().min(12, { message: 'contraseña minimo de 12 caracteres' }).refine((value) => /^[^'"<>%]*$/.test(value), {
+    password: z.string().min(8, { message: 'contraseña minimo de 8 caracteres' }).refine((value) => /^[^'"<>%]*$/.test(value), {
         message: 'no se permiten esos caracteres como " < > % \' .',
       }),
-    confirmPassword: z.string().min(12, { message: 'contraseña es requerida' }),
-
-
+    confirmPassword: z.string().min(1, { message: 'contraseña es requerida' }),
 
 
     answer: z.string().min(12, { message: 'pregunta minimo de 12 caracteres' }).refine((value) => /^[a-zA-Z\s]+$/.test(value), {

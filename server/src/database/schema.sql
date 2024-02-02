@@ -7,7 +7,7 @@ CREATE TABLE Admins (
 );
 CREATE TABLE Users (
   Id_User VARCHAR(36) PRIMARY KEY,
-  Password_User VARCHAR(100) NOT NULL,
+  Password_User VARCHAR(100) NOT NULL, 
   Password_Master_User VARCHAR(100) NOT NULL,
   Email_User VARCHAR(50) NOT NULL,
   Name_User VARCHAR(40) NOT NULL,
@@ -16,13 +16,15 @@ CREATE TABLE Users (
   Question_Security_User VARCHAR(200),
   Answer_Security_User VARCHAR(30),
   Device_User VARCHAR(30),
-  Notifications_User VARCHAR(30),
+  Notifications_User VARCHAR(30), 
   loginAttempts INT (2),
   TokenLogedUser VARCHAR(300),
   ExpiryTokenDate DATETIME,
   Block_User BOOLEAN,
   Delete_User BOOLEAN
 );
+
+
 CREATE TABLE Aplications_User (
   Id_Aplications VARCHAR(36) PRIMARY KEY,
   Name_Aplication VARCHAR(20) NOT NULL,

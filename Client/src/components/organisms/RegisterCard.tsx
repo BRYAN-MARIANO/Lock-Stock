@@ -7,6 +7,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {  FieldValues, useForm } from "react-hook-form";
 import { servicesApp } from "../../services/services";
+import { zodResolver } from "@hookform/resolvers/zod";
+import registerSchema from "../pages/User/validations/registerValidation";
 
 interface RegisterCardProps {
   switchToLogin: () => void;
@@ -14,12 +16,25 @@ interface RegisterCardProps {
 }
 
 const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
+
+
+
+
   const handleRegistration = async (formdata: FieldValues) => {
     
   try {
     console.log(formdata);
-    const response = await servicesApp.register(formdata) 
-    console.log(response);
+
+    const { Email_User,  Name_User, SurName_User, Mobile_User, Password_User, Confirm_Password } = formdata;
+
+    localStorage.setItem('Email_User', Email_User);
+    localStorage.setItem('Name_User', Name_User);
+    localStorage.setItem('SurName_User', SurName_User);
+    localStorage.setItem('Mobile_User', Mobile_User);
+    localStorage.setItem('Password_User', Password_User);
+    localStorage.setItem('Confirm_Password', Confirm_Password);
+    
+
   } catch (error ) {
     if(error instanceof Error){
       throw new Error(error.message);
@@ -29,8 +44,13 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
   }  
   };
 
-  const { handleSubmit, register } = useForm();
-  const termsUrl = "/terms-and-conditions";
+
+  const { handleSubmit, register, formState: { errors } } = useForm({
+    resolver: zodResolver(registerSchema)
+  });
+
+
+
 
   const registerColor = isActive ? "#1D7607" : "black";
   const loginColor = !isActive ? "#1D7607" : "black";
@@ -54,45 +74,101 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
           </h1>
         </div>
         {/* <GoogleRegisterButton /> */}
-        <div className="my-4 flex items-center justify-between">
-          <hr className="w-full" />
-          <span className="p-2 text-sm text-gray-500">o</span>
-          <hr className="w-full" />
-        </div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" {...register("email")} />
-        <label htmlFor="username"></label>
-        <input id="username" type="text" {...register("username")} />
-        <label htmlFor="password">Contraseña</label>
-        <input id="password" type="password" {...register("password")} />
-        <label htmlFor="confirm-password">Confirmar contraseña</label>
+
+
+    <section className="flex flex-col gap-2">
+        <label htmlFor="Email_User" className="flex flex-col w-full">Correo Electronico
+        <input id="Email_User" type="email" {...register("Email_User")} className="border border-black rounded h-9" /> 
+
+{errors.Email_User && (
+              <p className="text-red-500 font-medium">{`${errors.Email_User.message}`}</p>
+            )}
+                  </label>
+
+
+
+
+
+        <label htmlFor="Name_User" className="flex flex-col w-full">Nombre
+        <input id="Name_User" type="text" className="border border-black rounded h-9" {...register("Name_User")} />
+        {errors.Name_User && (
+              <p className="text-red-500 font-medium">{`${errors.Name_User.message}`}</p>
+            )}
+                  </label>
+
+
+
+        <label htmlFor="SurName_User" className="flex flex-col w-full">Apellidos
+        <input id="SurName_User" type="text" className="border border-black rounded h-9" {...register("SurName_User")} />
+        {errors.SurName_User && (
+              <p className="text-red-500 font-medium">{`${errors.SurName_User.message}`}</p>
+            )}
+      </label>
+
+
+        <label htmlFor="Mobile_User" className="flex flex-col w-full">Numero de Telefono
+        <input id="Mobile_User" type="tel" className="border border-black rounded h-9" {...register("Mobile_User")} />
+        {errors.Mobile_User && (
+              <p className="text-red-500 font-medium">{`${errors.Mobile_User.message}`}</p>
+            )}
+      </label>
+
+
+
+        <label htmlFor="Password_User" className="flex flex-col w-full">Contraseña
+        <input id="Password_User" type="password" className="border border-black rounded h-9" {...register("Password_User")} />
+        {errors.Password_User && (
+              <p className="text-red-500 font-medium">{`${errors.Password_User.message}`}</p>
+            )}
+      </label>
+
+
+
+        <label htmlFor="Confirm_Password" className="flex flex-col w-full">Confirmar contraseña
         <input
-          id="confirm-password"
+          id="Confirm_Password"
           type="password"
-          {...register("confirm-password")}
+          className="border border-black rounded h-9"
+          {...register("Confirm_Password")}
         />
-        <div className="flex justify-center my-4">
+        {errors.Confirm_Password && (
+              <p className="text-red-500 font-medium">{`${errors.Confirm_Password.message}`}</p>
+            )}
+      </label>
+
+
+
+        <div className="flex justify-center items-center my-4 flex-col">
           <label className="flex items-center text-sm text-black">
             <input
               id="terms"
               type="checkbox"
-              onChange={handleRegistration}
               style={{ marginRight: "8px" }}
+              {...register('terms')}
             />
-            <span>
+            
+            <span className="font-semibold text-base">
               Acepta los{" "}
               <Link
                 to={"/terms"}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "#1D7607" }}
+                className="font-semibold"
               >
                 términos y condiciones
               </Link>
             </span>
           </label>
+          {errors.terms && (
+              <p className="text-red-500 font-medium">{`${errors.terms.message}`}</p>
+            )}
+            
         </div>
-        <LoginButton >Siguiente</LoginButton>
+        </section>
+
+
+        <LoginButton>Siguiente</LoginButton>
       </div>
     </form>
   );
