@@ -8,9 +8,10 @@ import { hashData } from "../../../services/hash";
 
 
 const PasswordGenerator = (): React.JSX.Element => {
-  // const id = "2";
 
+  //obtener id de cuenta
   let { id } = useParams();
+
 
   // ver contraseña
   const [view, setView] = useState("password");
@@ -18,28 +19,34 @@ const PasswordGenerator = (): React.JSX.Element => {
     view === "password" ? setView("text") : setView("password");
   };
 
+
+
   // actualizar datos
   const editDataAplication = async (data) => {
     try {
-      const {} = data;
+      //destructuring
+      const {Name_Aplication, Email_Aplication, Name_User, Password_Aplication} = data;
 
-      const newData = {};
+    
 
-      console.log(data)
+      //objeto
+      const newData = {
+        Name_Aplication: await hashData(Name_Aplication),
+        Email_Aplication: await hashData(Email_Aplication),
+        Name_User: await hashData(Name_User),
+        Password_Aplication: await hashData(Password_Aplication)
+      };
 
-      
+      //enviar
+      await servicesApp.putAccountUser(newData);
+      console.log(newData)
 
-      // await servicesApp.postAplications(newData);
-
-      console.log(data);
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error();
+        throw new Error(error.message);
       }
     }
   };
-
-  // cancelar nuevos datos y recuperar los antiguos
 
   const {
     register,
@@ -48,19 +55,36 @@ const PasswordGenerator = (): React.JSX.Element => {
   } = useForm();
 
 
-
+  //datos de cuentas
   const { response } = useLoaderData();
-  console.log(response)
 
+  //filtrar cuenta por el id
   const filterAplication = response.find((a: { Id_Aplications: string }) => {
     return a.Id_Aplications === id;
   });
 
+  
+
+  // sin id comienza con un objeto vacio
   const aplication = filterAplication || {}
 
+
+  const [value, setValue] = useState(false);
+
+useEffect(() => {
+  if (!id) {
+    setValue(true);
+  }
+}, [id]);
+
+
+  // boton cancelar
   const cancelarEdit = () => {
     window.location.reload();
   };
+
+
+
 
   // generar contraseña
   function generarLetraAleatoria() {
@@ -164,7 +188,11 @@ const PasswordGenerator = (): React.JSX.Element => {
     setgeneratePassword(contraseña);
   };
 
-  // copiar input
+
+
+
+
+  // boton de copiar
   const [textPassword, setTextPassword] = useState(
     aplication.Password_Aplication
   );
@@ -178,16 +206,6 @@ const PasswordGenerator = (): React.JSX.Element => {
 
 
 
-
-
-  //cambiar titulo
-  const [value, setValue] = useState(false);
-
-useEffect(() => {
-  if (!id) {
-    setValue(true);
-  }
-}, [id]);
 
 
   return (
@@ -271,14 +289,17 @@ useEffect(() => {
                       defaultValue={aplication.Name_User}
                       {...register("Name_User", {
                         onChange: (e) => setTextName(e.target.value),
-                        pattern: /^[a-zA-Z]+$/,
+                        pattern: {
+                          value: /^[a-zA-Z]+$/,
+                          message: 'el nombre de usuario es requerido'
+                        },
+                        required: {
+                          value: true,
+                          message: 'el nombre es requerido'
+                        }
                       })}
                     />
-                    {errors.Name_User && (
-                      <p className="text-red-500 font-medium">
-                        nombre de usuario invalido
-                      </p>
-                    )}
+        
                     <img
                       src="/src/images/copy-icon.svg"
                       alt="copy-icon"
@@ -286,6 +307,11 @@ useEffect(() => {
                       onClick={() => handleCopy(textName)}
                     />
                   </div>
+                  {errors.Name_User && (
+                      <p className="text-red-500 font-medium text-xl">
+                        {errors.Name_User.message}
+                      </p>
+                    )}
 
                   <label
                     htmlFor="password_aplication"
@@ -300,9 +326,22 @@ useEffect(() => {
                       defaultValue={textPassword}
                       id="password_aplication"
                       {...register("Password_Aplication", {
-                        onChange: (e) => setTextPassword(e.target.value),
+                        pattern: {
+                          value: /^(?:(?!['"%]).)*$/, // Regex para excluir ', ", %
+                          message: 'La contraseña no puede contener los caracteres \' " %',
+                        },
+                        required: 'La contraseña es requerida',
+                        maxLength: {
+                          value: 20,
+                          message: 'La contraseña debe tener como máximo 20 caracteres',
+                        },
+                        minLength: {
+                          value: 8,
+                          message: 'La contraseña debe tener al menos 8 caracteres',
+                        },
                       })}
                     />
+              
 
                     <img
                       src="/src/images/eye-icon.svg"
@@ -318,6 +357,11 @@ useEffect(() => {
                       onClick={() => handleCopy(textPassword)}
                     />
                   </div>
+                  {errors.Password_Aplication && (
+                      <p className="text-red-500 font-medium text-xl">
+                        {errors.Password_Aplication.message}
+                      </p>
+                    )}
 
                   <div className="flex gap-5">
                     <input

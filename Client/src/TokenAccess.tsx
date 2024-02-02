@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const TokenAccess = ({children}) => {
+const TokenAccess = ({children}:{children: string}): React.JSX.Element => {
 
     const [ rendering, setRendering ] = useState(true)
-    
+
+    const navigate = useNavigate();
 
 
     const haveToken = async ()=>{
         let token = sessionStorage.getItem('token');        
-        
         
 
         try {
@@ -31,7 +32,7 @@ const TokenAccess = ({children}) => {
 
   return (
     <>
-    {rendering? children: <h1 className='text-center w-screen'>tiene que hacer login</h1>}
+    {rendering? children: navigate('/login')}
     </>
   )
 }
