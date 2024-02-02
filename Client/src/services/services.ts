@@ -239,7 +239,7 @@ class Services {
       });
       const data = await response.json();
       if (data.accessToken) {
-        localStorage.setItem("accessToken", JSON.stringify(data));
+        localStorage.setItem("accessToken", JSON.stringify(data.accessToken));
       }
       return data;
     } catch (error) {
