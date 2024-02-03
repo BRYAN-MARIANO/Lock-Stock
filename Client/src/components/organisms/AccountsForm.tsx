@@ -10,6 +10,7 @@ const AccountsForm = (): React.JSX.Element => {
 
   //datos de cuentas
   const { response } = useLoaderData();
+  console.log(response);
 
   //modal
   const [modal, setModal] = useState("hidden");
@@ -91,7 +92,7 @@ const AccountsForm = (): React.JSX.Element => {
       try {
 
         const newData={
-          id: await hashData(itemId)
+          Id_Aplications: await hashData(itemId)
         }
 
         const response = await servicesApp.deleteAccountUser(newData);
@@ -164,7 +165,7 @@ const AccountsForm = (): React.JSX.Element => {
 
           {accountsFilter.map((item) => (
             <div
-              key={item.id}
+              key={item.Id_Aplications}
               className="flex justify-around items-center gap-4 w-11/12"
             >
               <figure className="flex justify-center min-w-16 max-w-16 text-black text-sm font-bold w-16">
@@ -200,7 +201,7 @@ const AccountsForm = (): React.JSX.Element => {
                   alt="eye-icon"
                   className="h-5 cursor-pointer"
                   onClick={() => {
-                    sendEdit? postConfirmPassword(item.id) : setModal("fixed");
+                    sendEdit? postConfirmPassword(item.Id_Aplications) : setModal("fixed");
                   }}
                 />
 
@@ -215,7 +216,7 @@ const AccountsForm = (): React.JSX.Element => {
                   alt="pen-icon-icon"
                   className="h-5 cursor-pointer"
                   onClick={() => {
-                    sendEdit ? navigateToEditPage(item.id) : setModal('fixed');
+                    sendEdit ? navigateToEditPage(item.Id_Aplications) : setModal('fixed');
                   }}
                   />
 
@@ -227,7 +228,7 @@ const AccountsForm = (): React.JSX.Element => {
                   alt="trash-icon"
                   className="h-5 cursor-pointer"
                   onClick={() => {
-                    sendEdit? deleteAccount(item.id): setModal('fixed');
+                    sendEdit? deleteAccount(item.Id_Aplications): setModal('fixed');
                   }}
                 />
 

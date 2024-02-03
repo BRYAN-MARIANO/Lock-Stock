@@ -18,8 +18,7 @@ import { servicesApp } from "../services/services";
 import TokenAccess from "../TokenAccess";
 import RecoverPasswordForm from "../components/pages/User/RecoverPasswordForm";
 import AccountsUser from "../components/pages/User/AccountsUser";
-import Terms from "../components/pages/User/terms";
-import AuthenticationPage from "../components/templates/RegisterLoginCard";
+import Terms from "../components/pages/User/Terms";
 import RegisterLogin from "../components/pages/User/RegisterLogin";
 
 
@@ -66,7 +65,7 @@ export const router = createBrowserRouter([
             {
                 path: 'password-generator/:id?',
                 element: <TokenAccess><PasswordGenerator/></TokenAccess>,
-                loader: servicesApp.getAplications
+                loader: servicesApp.getAccountsUser
             },
             {
                 path: 'recovery-password',
@@ -75,7 +74,7 @@ export const router = createBrowserRouter([
             {
                 path:'accounts-user',
                 element: <AccountsUser />,
-                 loader: servicesApp.getAplications
+                 loader: servicesApp.getAccountsUser
             }
         ],
     },

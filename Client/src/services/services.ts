@@ -91,13 +91,14 @@ class Services {
   //Accounts-user
   async getAccountsUser() {
     try {
-      const methodCrud = await fetch(`http://localhost:3000/Aplications_User`);
+      const methodCrud = await fetch(`http://localhost:4000/applications/`);
 
       if (!methodCrud.ok) {
         throw new Error("error para obtener los datosde las cuentas");
       }
 
       const response = await methodCrud.json();
+      console.log(response);
       return { response };
     } catch (error) {
       if (error instanceof Error) {
