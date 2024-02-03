@@ -40,12 +40,19 @@ export const usersGetById = async (req: Request, res: Response) => {
   }
 };
 
+
 export const usersPost = async (req: Request, res: Response) => {
   try {
-    //validateMiddelwareUser(req.body); comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
+     //validateMiddelwareUser(req.body); comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
     const userUuid = generateUuid();
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
-    const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User, 10);
+
+    // Valores predeterminados para campos no proporcionados por el frontend
+    const DEFAULT_MASTER_PASSWORD = 'default_master_password'; // Debe ser algo seguro y único por usuario
+    const hashedPassword_Master_User = await bcrypt.hash(DEFAULT_MASTER_PASSWORD, 10);
+    const DEFAULT_SECURITY_QUESTION = 'default_security_question';
+    const DEFAULT_SECURITY_ANSWER = 'default_security_answer';
+
     const SECRET_KEY = process.env.SECRET_KEY;
 
     if (!SECRET_KEY) {
@@ -53,7 +60,7 @@ export const usersPost = async (req: Request, res: Response) => {
     } else {
       const token = sign({ userUuid }, SECRET_KEY, { expiresIn: "86400s" });
 
-        await UsersModel.create({
+      await UsersModel.create({
         Id_User: userUuid,
         Password_User: hashedPassword_User,
         Password_Master_User: hashedPassword_Master_User,
@@ -61,17 +68,15 @@ export const usersPost = async (req: Request, res: Response) => {
         Name_User: req.body.Name_User,
         SurName_User: req.body.SurName_User,
         Mobile_User: req.body.Mobile_User,
-        Question_Security_User: req.body.Question_Security_User,
-        Answer_Security_User: req.body.Answer_Security_User,
-        Device_User: req.body.Device_User,
-        Notifications_User: req.body.Notifications_User,
+        Question_Security_User: DEFAULT_SECURITY_QUESTION,
+        Answer_Security_User: DEFAULT_SECURITY_ANSWER,
+        Device_User: 'default_device',
+        Notifications_User: 'default_notifications',
         loginAttempts: 0,
-        Block_User: req.body.Block_User,
-        Delete_User: req.body.Delete_User,
-        //añadir fecha de creación/envío/conexión
-        //añadir ubicación de creación/envío/conexión
-        //almacenar token haseado y guardar en bbdd y volver a crear para incluir los nuevos datos. y llevar al modelo y middelware
-      }) ;
+        Block_User: false,
+        Delete_User: false,
+        // Aquí puedes añadir los campos de fechas y ubicaciones como valores predeterminados o null si son opcionales
+      });
 
       res.status(201).json({ token });
     }
@@ -81,6 +86,8 @@ export const usersPost = async (req: Request, res: Response) => {
     }
   }
 };
+
+
 
 export const usersPut = async (req: Request, res: Response) => {
   try {
