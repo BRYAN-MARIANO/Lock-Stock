@@ -43,15 +43,13 @@ export const usersGetById = async (req: Request, res: Response) => {
 
 export const usersPost = async (req: Request, res: Response) => {
   try {
-     //validateMiddelwareUser(req.body); comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
+    //validateMiddelwareUser(req.body); comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
     const userUuid = generateUuid();
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
+    const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User || 'default_master_password', 10);
 
-    // Valores predeterminados para campos no proporcionados por el frontend
-    const DEFAULT_MASTER_PASSWORD = 'default_master_password'; // Debe ser algo seguro y único por usuario
-    const hashedPassword_Master_User = await bcrypt.hash(DEFAULT_MASTER_PASSWORD, 10);
-    const DEFAULT_SECURITY_QUESTION = 'default_security_question';
-    const DEFAULT_SECURITY_ANSWER = 'default_security_answer';
+    // Utiliza la información del dispositivo y la IP capturada por el middleware
+    const deviceType = req.deviceInfo.deviceType;
 
     const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -68,17 +66,17 @@ export const usersPost = async (req: Request, res: Response) => {
         Name_User: req.body.Name_User,
         SurName_User: req.body.SurName_User,
         Mobile_User: req.body.Mobile_User,
-        Question_Security_User: DEFAULT_SECURITY_QUESTION,
-        Answer_Security_User: DEFAULT_SECURITY_ANSWER,
-        Device_User: 'default_device',
-        Notifications_User: 'default_notifications',
+        Question_Security_User: req.body.Question_Security_User || 'default_question',
+        Answer_Security_User: req.body.Answer_Security_User || 'default_answer',
+        Device_User: deviceType, 
+        Notifications_User: req.body.Notifications_User || 'default_notifications',
         loginAttempts: 0,
         Block_User: false,
         Delete_User: false,
         // Aquí puedes añadir los campos de fechas y ubicaciones como valores predeterminados o null si son opcionales
       });
 
-      res.status(201).json({ token });
+      res.status(201).json({ token, deviceType }); // Opcionalmente, devuelve el tipo de dispositivo y la IP en la respuesta
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -86,6 +84,7 @@ export const usersPost = async (req: Request, res: Response) => {
     }
   }
 };
+
 
 
 
