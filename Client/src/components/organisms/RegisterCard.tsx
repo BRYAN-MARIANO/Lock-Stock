@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { servicesApp } from "../../services/services"; 
+import { servicesApp } from "../../services/services";
 import LoginButton from "../molecules/LoginButton";
 import { useNavigate } from "react-router-dom";
 //import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,21 +15,27 @@ interface RegisterCardProps {
 const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
   const navigate = useNavigate();
   // Aquí se elimina el resolver de la configuración
-  const { handleSubmit, register, formState: { errors } } = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   const handleRegistration = async (formData) => {
     console.log(formData);
     try {
       const response = await servicesApp.register(formData);
       console.log(response);
+      if (response.accessToken && response.userUuid) {
+        sessionStorage.setItem("accessToken", response.accessToken);
+        sessionStorage.setItem("userId", response.userUuid);
 
-      // Suponiendo que el token se guarda en el sessionStorage aquí
-      sessionStorage.setItem('token', response.token);
-      sessionStorage.setItem('userId', response.userUuid);
-
-      // Redirige al usuario al formulario PasswordMasterForm
-      navigate('/password-master'); // Asegúrate de reemplazar '/ruta-a-PasswordMasterForm' con la ruta correcta
-
+        // Redirige al usuario al formulario PasswordMasterForm
+        navigate("/password-master"); // Asegúrate de reemplazar '/ruta-a-PasswordMasterForm' con la ruta correcta
+      } else {
+        // Manejo del caso en que accessToken o userUuid no estén presentes en la respuesta
+        console.error("No se recibió accessToken o userUuid en la respuesta");
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -37,14 +43,11 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
     }
   };
 
-
-
-
   const registerColor = isActive ? "#1D7607" : "black";
   const loginColor = !isActive ? "#1D7607" : "black";
 
   return (
-    <form onSubmit={handleSubmit(handleRegistration)}> 
+    <form onSubmit={handleSubmit(handleRegistration)}>
       <div className="card-container p-4 bg-white rounded-lg shadow-md flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2
@@ -63,98 +66,112 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
         </div>
         {/* <GoogleRegisterButton /> */}
 
-
-    <section className="flex flex-col gap-2">
-        <label htmlFor="Email_User" className="flex flex-col w-full">Correo Electronico
-        <input id="Email_User" type="email" {...register("Email_User")} className="border border-black rounded h-9" /> 
-
-{errors.Email_User && (
+        <section className="flex flex-col gap-2">
+          <label htmlFor="Email_User" className="flex flex-col w-full">
+            Correo Electronico
+            <input
+              id="Email_User"
+              type="email"
+              {...register("Email_User")}
+              className="border border-black rounded h-9"
+            />
+            {errors.Email_User && (
               <p className="text-red-500 font-medium">{`${errors.Email_User.message}`}</p>
             )}
-                  </label>
+          </label>
 
-
-
-
-
-        <label htmlFor="Name_User" className="flex flex-col w-full">Nombre
-        <input id="Name_User" type="text" className="border border-black rounded h-9" {...register("Name_User")} />
-        {errors.Name_User && (
+          <label htmlFor="Name_User" className="flex flex-col w-full">
+            Nombre
+            <input
+              id="Name_User"
+              type="text"
+              className="border border-black rounded h-9"
+              {...register("Name_User")}
+            />
+            {errors.Name_User && (
               <p className="text-red-500 font-medium">{`${errors.Name_User.message}`}</p>
             )}
-                  </label>
+          </label>
 
-
-
-        <label htmlFor="SurName_User" className="flex flex-col w-full">Apellidos
-        <input id="SurName_User" type="text" className="border border-black rounded h-9" {...register("SurName_User")} />
-        {errors.SurName_User && (
+          <label htmlFor="SurName_User" className="flex flex-col w-full">
+            Apellidos
+            <input
+              id="SurName_User"
+              type="text"
+              className="border border-black rounded h-9"
+              {...register("SurName_User")}
+            />
+            {errors.SurName_User && (
               <p className="text-red-500 font-medium">{`${errors.SurName_User.message}`}</p>
             )}
-      </label>
+          </label>
 
-
-        <label htmlFor="Mobile_User" className="flex flex-col w-full">Numero de Telefono
-        <input id="Mobile_User" type="tel" className="border border-black rounded h-9" {...register("Mobile_User")} />
-        {errors.Mobile_User && (
+          <label htmlFor="Mobile_User" className="flex flex-col w-full">
+            Numero de Telefono
+            <input
+              id="Mobile_User"
+              type="tel"
+              className="border border-black rounded h-9"
+              {...register("Mobile_User")}
+            />
+            {errors.Mobile_User && (
               <p className="text-red-500 font-medium">{`${errors.Mobile_User.message}`}</p>
             )}
-      </label>
+          </label>
 
-
-
-        <label htmlFor="Password_User" className="flex flex-col w-full">Contraseña
-        <input id="Password_User" type="password" className="border border-black rounded h-9" {...register("Password_User")} />
-        {errors.Password_User && (
+          <label htmlFor="Password_User" className="flex flex-col w-full">
+            Contraseña
+            <input
+              id="Password_User"
+              type="password"
+              className="border border-black rounded h-9"
+              {...register("Password_User")}
+            />
+            {errors.Password_User && (
               <p className="text-red-500 font-medium">{`${errors.Password_User.message}`}</p>
             )}
-      </label>
+          </label>
 
-
-
-        <label htmlFor="Confirm_Password" className="flex flex-col w-full">Confirmar contraseña
-        <input
-          id="Confirm_Password"
-          type="password"
-          className="border border-black rounded h-9"
-          {...register("Confirm_Password")}
-        />
-        {errors.Confirm_Password && (
+          <label htmlFor="Confirm_Password" className="flex flex-col w-full">
+            Confirmar contraseña
+            <input
+              id="Confirm_Password"
+              type="password"
+              className="border border-black rounded h-9"
+              {...register("Confirm_Password")}
+            />
+            {errors.Confirm_Password && (
               <p className="text-red-500 font-medium">{`${errors.Confirm_Password.message}`}</p>
             )}
-      </label>
-
-
-
-        <div className="flex justify-center items-center my-4 flex-col">
-          <label className="flex items-center text-sm text-black">
-            <input
-              id="terms"
-              type="checkbox"
-              style={{ marginRight: "8px" }}
-              {...register('terms')}
-            />
-            
-            <span className="font-semibold text-base">
-              Acepta los{" "}
-              <Link
-                to={"/terms"}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#1D7607" }}
-                className="font-semibold"
-              >
-                términos y condiciones
-              </Link>
-            </span>
           </label>
-          {errors.terms && (
+
+          <div className="flex justify-center items-center my-4 flex-col">
+            <label className="flex items-center text-sm text-black">
+              <input
+                id="terms"
+                type="checkbox"
+                style={{ marginRight: "8px" }}
+                {...register("terms")}
+              />
+
+              <span className="font-semibold text-base">
+                Acepta los{" "}
+                <Link
+                  to={"/terms"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#1D7607" }}
+                  className="font-semibold"
+                >
+                  términos y condiciones
+                </Link>
+              </span>
+            </label>
+            {errors.terms && (
               <p className="text-red-500 font-medium">{`${errors.terms.message}`}</p>
             )}
-            
-        </div>
+          </div>
         </section>
-
 
         <LoginButton>Siguiente</LoginButton>
       </div>
