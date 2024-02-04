@@ -8,6 +8,8 @@ import { servicesApp } from '../../services/services';
 import { zodResolver } from '@hookform/resolvers/zod';
 import loginSchema from '../pages/User/validations/loginForm';
 import { useNavigate } from 'react-router';
+import  {jwtDecode}  from 'jwt-decode';
+
 
 
 interface LoginCardProps {
@@ -32,8 +34,12 @@ const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
     console.log(data);
     console.log(response);
 
-    const token = sessionStorage.getItem('accesToken')
-    console.log(token);
+    const token = sessionStorage.getItem('accessToken')
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log('Id_User:', decodedToken.Id_User);
+    }
+    
 
     if (response) {
       Navigate('/accounts-user')

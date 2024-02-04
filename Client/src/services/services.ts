@@ -3,6 +3,25 @@ import { FieldValues } from "react-hook-form";
 class Services {
   constructor() {}
 
+  async recoverPassword (formData: FieldValues){
+    try {
+      const methoudCrud = await fetch('añadir url',{
+        method: 'POST',
+        headers: {'content-type':'application/json'},
+        body: JSON.stringify(formData)
+      })
+      const response = await methoudCrud.json();
+      return response;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`message: ${error.message}`);
+        
+      }
+    }
+  }
+
+
+
   //profile
   async getProfile() {
     try {
@@ -33,27 +52,21 @@ class Services {
     }
   }
 
-  async putProfile(edit: object, id: number) {
+  async putProfile(edit: object, id: number, token: string) {
     try {
       const methodUser = await fetch(`http://localhost:3000/users/${id}`, {
         method: "PATCH",
-        headers: { "content-type": "application/json" },
+        headers: {
+          "content-type": "application/json",
+          "Authorization": `Bearer ${token}` 
+        },
         body: JSON.stringify(edit),
       });
-
-      const methodAplication = await fetch(
-        `http://localhost:3000/Devices_User/${id}`,
-        {
-          method: "PATCH",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(edit),
-        }
-      );
-
+  
       if (!methodUser.ok) {
         throw new Error("Response not ok");
       }
-
+  
       const data = await methodUser.json();
       return { data };
     } catch (error) {
@@ -62,6 +75,7 @@ class Services {
       }
     }
   }
+  
 
   //Accounts-user
 
@@ -129,12 +143,36 @@ class Services {
     }
   }
 
+  async updateUserProfile(data, userId, token) {
+    try {
+      const response = await fetch(`http://localhost:4000/users/${userId}`, { // Asegúrate de que el puerto sea el correcto.
+        method: "PUT", 
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error("No se pudo actualizar el perfil del usuario.");
+      }
+  
+      return await response.json();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  
+  
+
   //password generator
 
-  async putAccountUser(data: FieldValues) {
+  async putAccountUser(id, data: FieldValues) {
     try {
-      const methodCrud = await fetch(`http://localhost:3000/Devices_User`, {
-        method: "POST",
+      console.log(id);
+      const methodCrud = await fetch(`http://localhost:4000/applications/${id}`, {
+        method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -151,6 +189,20 @@ class Services {
       }
     }
   }
+
+  async postApplication(data) {
+    try {
+      const response = await fetch('http://localhost:4000/applications/', { // Asegúrate de que la URL sea correcta
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      return await response.json();
+    } catch (error) {
+      console.error('Error posting application:', error);
+    }
+  }
+  
 
   //notificationMailBox
   async postNotificationUser(data: boolean) {
@@ -202,7 +254,7 @@ class Services {
   async getNotifications() {
     try {
       const methodCrud = await fetch(
-        `http://localhost:3000/Notifications_User`
+        `http://localhost:4000/notifications`
       );
 
       if (!methodCrud.ok) {

@@ -1,113 +1,96 @@
 import React, { useContext } from "react";
-import HeaderMenu from "../../templates/HeaderMenu";
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 import { usersContext } from "../../../UserContext";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { passwordMasterSchema } from "./validations/passwordMaster";
 import { hashData } from "../../../services/hash";
 import { servicesApp } from "../../../services/services";
-
+import HeaderMenu from "../../templates/HeaderMenu";
 
 const PasswordMasterForm = (): React.JSX.Element => {
-
-  const { handleSubmit, register, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
     resolver: zodResolver(passwordMasterSchema)
-  })
+  });
+  const user = useContext(usersContext);
 
-  const user = useContext(usersContext)
+  // Observa los valores de los campos para la contraseña y la respuesta de seguridad
+  const password = watch("Password_Master_User");
+  const answer = watch("Answer_Security_User");
 
-
-
-  const postData = async (data)=>{
-    const { password, answer, response } = data;
-
-    const hashedPassword = await hashData(password);
-    const hashedAnswer = await hashData(answer);
-    const hashedResponse = await hashData(response);
-
-
-    //autenticathion
-
-
-
-
+  const postData = async (data) => {
+    console.log("Form data received:", data); // Esto mostrará los datos del formulario en la consola
+  
+    const hashedPassword = await hashData(data.password);
+    const hashedAnswer = await hashData(data.answer);
+  
     const newData = {
-      hashedPassword,
-      hashedAnswer,
-      hashedResponse
+      Password_Master_User: hashedPassword,
+      Question_Security_User: data.question,
+      Answer_Security_User: hashedAnswer,
+    };
+  
+    const token = sessionStorage.getItem('token');
+    const userId = user?.Id_User; // Suponiendo que user es un objeto y tiene una propiedad Id_User
+  
+    console.log("Updating user profile for user ID:", userId); // Esto confirmará el ID del usuario que se está actualizando
+  
+    if (token && userId) {
+      try {
+        const updateResponse = await servicesApp.updateUserProfile(newData, userId, token);
+        console.log("Update response:", updateResponse); // Esto mostrará la respuesta de la actualización
+      } catch (error) {
+        console.error("Error updating user profile:", error); // Esto capturará y mostrará cualquier error en la actualización
+      }
+    } else {
+      console.error("Authentication token or user ID is missing");
     }
-
-    console.log(newData)
-  }
+  };
+  
 
   return (
     <>
-    <HeaderMenu />
+      <HeaderMenu />
       <section className="form-password w-screen h-screen flex justify-center items-center flex-col gap-7">
-        <h1 className="text-primary font-medium text-5xl">Establecer Contraseña</h1>
+        <h1 className="text-primary font-medium text-5xl">Establecer Contraseña Maestra</h1>
 
         <form className="flex flex-col w-2/4 gap-3" onSubmit={handleSubmit(postData)}>
-
-
-
-
-          <label htmlFor="password" className="flex flex-col">Establecer Contraseña
-            <input id="password" type="password" className="border border-black rounded" {...register('password')} />
-                         {errors.password && (
-              <p className="text-red-500 font-medium">{`${errors.password.message}`}</p>
-            )}
-     
-
-     
-
-          </label>
-          <label htmlFor="confirmPassword" className="flex flex-col">Confirmar Contraseña
-            <input id="confirmPassword" type="password" className="border border-black rounded" {...register('confirmPassword')} />
-                         {errors.confirmPassword && (
-              <p className="text-red-500 font-medium">{`${errors.confirmPassword.message}`}</p>
+          <label htmlFor="Password_Master_User" className="flex flex-col">Establecer Contraseña Maestra
+            <input id="Password_Master_User" type="password" {...register('Password_Master_User')} />
+            {errors.Password_Master_User && (
+              <p className="text-red-500 font-medium">{errors.Password_Master_User.message}</p>
             )}
           </label>
 
-
-
-
-
-          <label htmlFor="answer" className="flex flex-col">Establecer Pregunta de Seguridad
-            <input type="text" id="answer" className="border border-black rounded" {...register('answer')} />
-            {errors.answer && (
-              <p className="text-red-500 font-medium">{`${errors.answer.message}`}</p>
+          <label htmlFor="Confirm_Password" className="flex flex-col">Confirmar Contraseña Maestra
+            <input id="Confirm_Password" type="password" {...register('Confirm_Password', { validate: value => value === password || 'Las contraseñas no coinciden' })} />
+            {errors.Confirm_Password && (
+              <p className="text-red-500 font-medium">{errors.Confirm_Password.message}</p>
             )}
           </label>
 
-
-
-
-
-          <label htmlFor="response" className="flex flex-col">Establecer Respuesta
-            <input id="response" type="text" className="border border-black rounded" {...register('response')} />
-            {errors.response && (
-              <p className="text-red-500 font-medium">{`${errors.response.message}`}</p>
-            )}
-          </label>
-          <label htmlFor="confirmResponse" className="flex flex-col">Confirmar Respuesta
-            <input id="confirmResponse" type="text" className="border border-black rounded" {...register('confirmResponse')} />
-            {errors.confirmResponse && (
-              <p className="text-red-500 font-medium">{`${errors.confirmResponse.message}`}</p>
+          <label htmlFor="Question_Security_User" className="flex flex-col">Pregunta de Seguridad
+            <input id="Question_Security_User" type="text" {...register('Question_Security_User')} />
+            {errors.Question_Security_User && (
+              <p className="text-red-500 font-medium">{errors.Question_Security_User.message}</p>
             )}
           </label>
 
+          <label htmlFor="Answer_Security_User" className="flex flex-col">Respuesta de Seguridad
+            <input id="Answer_Security_User" type="text" {...register('Answer_Security_User')} />
+            {errors.Answer_Security_User && (
+              <p className="text-red-500 font-medium">{errors.Answer_Security_User.message}</p>
+            )}
+          </label>
+
+          <label htmlFor="Confirm_Answer" className="flex flex-col">Confirmar Respuesta de Seguridad
+            <input id="Confirm_Answer" type="text" {...register('Confirm_Answer', { validate: value => value === answer || 'Las respuestas no coinciden' })} />
+            {errors.Confirm_Answer && (
+              <p className="text-red-500 font-medium">{errors.Confirm_Answer.message}</p>
+            )}
+          </label>
 
           <input type="submit" value="Confirmar" className="m-auto w-full rounded bg-primary text-white font-medium mt-4 h-10"/>
         </form>
-
-
-
-        <small className="font-semibold text-base">Sesion Iniciada como<span className="text-primary"> {user.Name_User}</span></small>
-
-
-
-        <small className="text-primary font-semibold text-base">Cerrar Sesion</small>
-
       </section>
     </>
   );

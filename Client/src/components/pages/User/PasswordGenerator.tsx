@@ -1,16 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
 import { servicesApp } from "../../../services/services";
 import { useForm } from "react-hook-form";
 import { useParams, useLoaderData } from "react-router-dom";
 import { hashData } from "../../../services/hash";
+import { usersContext } from "../../../UserContext";
 
 
 const PasswordGenerator = (): React.JSX.Element => {
 
   //obtener id de cuenta
   let { id } = useParams();
+  const users = useContext(usersContext)
 
 
   // ver contraseña
@@ -22,7 +24,7 @@ const PasswordGenerator = (): React.JSX.Element => {
 
 
   // actualizar datos
-  const editDataAplication = async (data) => {
+  const editDataAplication = async (data: FieldValues) => {
     try {
       //destructuring
       const {Name_Aplication, Email_Aplication, Name_User, Password_Aplication} = data;
@@ -34,11 +36,12 @@ const PasswordGenerator = (): React.JSX.Element => {
         Name_Aplication: await hashData(Name_Aplication),
         Email_Aplication: await hashData(Email_Aplication),
         Name_User: await hashData(Name_User),
-        Password_Aplication: await hashData(Password_Aplication)
+        Password_Aplication: await hashData(Password_Aplication),
+        id_user: users.Id_User
       };
 
       //enviar
-      await servicesApp.putAccountUser(newData);
+      await servicesApp.putAccountUser(id, newData);
       console.log(newData)
 
     } catch (error) {

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { servicesApp } from "../../services/services"; 
 import LoginButton from "../molecules/LoginButton";
+import { useNavigate } from "react-router-dom";
 //import { zodResolver } from "@hookform/resolvers/zod";
 //import registerSchema from "../pages/User/validations/registerValidation";
 
@@ -12,20 +13,26 @@ interface RegisterCardProps {
 }
 
 const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
+  const navigate = useNavigate();
   // Aquí se elimina el resolver de la configuración
   const { handleSubmit, register, formState: { errors } } = useForm();
 
   const handleRegistration = async (formData) => {
     console.log(formData);
     try {
-      // Directamente pasamos formData a la función register
       const response = await servicesApp.register(formData);
       console.log(response);
-      // Aquí puedes manejar la respuesta del backend, como mostrar un mensaje de éxito o redirigir al usuario
+
+      // Suponiendo que el token se guarda en el sessionStorage aquí
+      sessionStorage.setItem('token', response.token);
+      sessionStorage.setItem('userId', response.userUuid);
+
+      // Redirige al usuario al formulario PasswordMasterForm
+      navigate('/password-master'); // Asegúrate de reemplazar '/ruta-a-PasswordMasterForm' con la ruta correcta
+
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
-        // Aquí puedes manejar el error, como mostrar un mensaje al usuario
       }
     }
   };
