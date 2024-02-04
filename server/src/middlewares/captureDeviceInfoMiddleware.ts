@@ -5,7 +5,7 @@ const captureDeviceInfo = (req: Request, _res: Response, next: NextFunction) => 
   const parser = new UAParser(req.headers['user-agent']);
   const result = parser.getResult();
 
-  let deviceType = result.device.type;
+    let deviceType = result.device.type;
   if (!deviceType) {
 
     if (result.os.name && ['Windows', 'Mac OS', 'Linux'].includes(result.os.name)) {

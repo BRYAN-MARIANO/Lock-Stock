@@ -76,7 +76,7 @@ export const usersPost = async (req: Request, res: Response) => {
         // Aquí puedes añadir los campos de fechas y ubicaciones como valores predeterminados o null si son opcionales
       });
 
-      res.status(201).json({ token, deviceType }); // Opcionalmente, devuelve el tipo de dispositivo y la IP en la respuesta
+      res.status(201).json({ token, userUuid, deviceType }); // Opcionalmente, devuelve el tipo de dispositivo y la IP en la respuesta
     }
   } catch (error) {
     if (error instanceof Error) {

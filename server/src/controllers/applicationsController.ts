@@ -38,8 +38,36 @@ export const usersGetApplications = async (_req: Request, res: Response) => {
     }
   };
   
-  //post --------------------------
-  //put ---------------------------
+  
+  export const usersPostApplication = async (req: Request, res: Response) => {
+    try {
+      const newApplication = await AplicationsUsersModel.create(req.body); // asume que req.body tiene la estructura correcta
+      res.status(201).json(newApplication);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ message: error.message });
+      }
+    }
+  };
+  
+  
+  export const usersPutApplication = async (req: Request, res: Response) => {
+    console.log("Petición PUT recibida en usersPutApplication con id:", req.params.id, "y body:", req.body);
+    try {
+      const updatedApplication = await AplicationsUsersModel.update(req.body, {
+        where: {
+          Id_Applications: req.params.id,
+        },
+      });
+      console.log("Resultado de la actualización:", updatedApplication);
+      res.status(200).json({ message: "Aplicación actualizada" });
+    } catch (error) {
+      console.error("Error en usersPutApplication:", error);
+      res.status(500).json({ message: error.message });
+    }
+};
+
+  
   
 export const usersDeleteApplications = async (req: Request, res: Response) => {
   try {

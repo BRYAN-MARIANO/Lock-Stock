@@ -134,8 +134,10 @@ async function resetLoginAttempts(user: UserInterface): Promise<void> {
 
 async function generateUserToken(user: UserInterface, req: Request): Promise<string> {
   const secretKey = process.env.SECRET_KEY!;
+  // Incluye el Id_User como parte del payload del JWT
   return jwt.sign({
     Email_User: user.Email_User,
+    Id_User: user.Id_User, 
     location: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
     device: req.headers["user-agent"],
     connectionTime: new Date(),
