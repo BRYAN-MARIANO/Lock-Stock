@@ -25,7 +25,7 @@ class Services {
   //profile
   async getProfile() {
     try {
-      const method = await fetch("http://localhost:3000/users");
+      const method = await fetch("http://localhost:4000/users");
       const data = await method.json();
       return data;
     } catch (error) {
@@ -190,18 +190,41 @@ class Services {
     }
   }
 
-  async postApplication(data) {
-    try {
-      const response = await fetch('http://localhost:4000/applications/', { // Asegúrate de que la URL sea correcta
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      return await response.json();
-    } catch (error) {
-      console.error('Error posting application:', error);
-    }
+// En tu archivo services.ts
+
+// En tu archivo services.ts
+
+async postApplication(data) {
+  const accessToken = sessionStorage.getItem('accessToken');
+  if (!accessToken) {
+    throw new Error('Authentication token not found');
   }
+
+  try {
+    const response = await fetch('http://localhost:4000/applications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`, // Asegúrate de incluir el token aquí
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error posting application:', error);
+    throw error;
+  }
+}
+
+
+
+
+  
   
 
   //notificationMailBox

@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 import { usersContext } from "../../../UserContext";
 import { servicesApp } from "../../../services/services";
 import HeaderMenu from "../../templates/HeaderMenu";
+import { useNavigate } from "react-router-dom";
 
 const PasswordMasterForm = (): React.JSX.Element => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
   const user = useContext(usersContext);
 
   const postData = async (data) => {
@@ -38,6 +40,7 @@ const PasswordMasterForm = (): React.JSX.Element => {
         // Intentar actualizar el perfil del usuario con los nuevos datos
         const updateResponse = await servicesApp.updateUserProfile(newData, userId, token);
         console.log("Update response:", updateResponse);
+        navigate('/accounts-user');
       } catch (error) {
         console.error("Error updating user profile:", error);
       }

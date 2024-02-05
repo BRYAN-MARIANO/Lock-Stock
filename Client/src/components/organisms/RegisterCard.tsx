@@ -26,15 +26,13 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
     try {
       const response = await servicesApp.register(formData);
       console.log(response);
-      if (response.accessToken && response.userUuid) {
+      if (response.accessToken && response.Id_User) {
         sessionStorage.setItem("accessToken", response.accessToken);
-        sessionStorage.setItem("userId", response.userUuid);
-
-        // Redirige al usuario al formulario PasswordMasterForm
-        navigate("/password-master"); // Asegúrate de reemplazar '/ruta-a-PasswordMasterForm' con la ruta correcta
+        sessionStorage.setItem("userId", response.Id_User);
+      
+        navigate("/password-master");
       } else {
-        // Manejo del caso en que accessToken o userUuid no estén presentes en la respuesta
-        console.error("No se recibió accessToken o userUuid en la respuesta");
+        console.error("No se recibió accessToken o Id_User en la respuesta");
       }
     } catch (error) {
       if (error instanceof Error) {

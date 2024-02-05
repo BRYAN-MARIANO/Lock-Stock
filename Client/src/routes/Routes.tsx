@@ -65,7 +65,6 @@ export const router = createBrowserRouter([
             {
                 path: 'password-generator/:id?',
                 element: <PasswordGenerator/>,
-                loader: servicesApp.getAccountsUser
             },
             {
                 path: 'recovery-password',
