@@ -1,91 +1,50 @@
 import jwt from "jsonwebtoken";
-import {  Response, NextFunction } from "express";
-
-// import { v4 as generateUuid } from "uuid";
-import bcrypt from "bcrypt";
+import { Request, Response, NextFunction } from "express";
 import "dotenv/config";
 import UsersModel from "../models/UsersModel";
-import { UserInterface } from "../userInterface";
-import InterfaceUser from "../userInterface";
 
-const validateTokenMiddleware = async (req: InterfaceUser, res: Response, next: NextFunction) => {
+const validateTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
-
-    const token = req.headers.authorization?.split(" ")[1];
-    console.log("**TOKEN: ", token)
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split(' ')[1];
+    console.log('Token recibido:', token); // Agregar este console.log para ver el token
 
     if (!token) {
-      console.log("si que llega, pero el token esta hasheado y da error")
-      return res.status(401).json({ message: "Unauthorized token error" });
+      console.log('Token ausente. Respuesta 401.');
+      return res.status(401).json({ message: "Authentication token is missing." });
     }
 
-    // verificar fecha y hora de expiracion 
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string) as jwt.JwtPayload;
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY as string);
+    console.log('Token decodificado:', decodedToken); // Agregar este console.log para ver el token decodificado
 
-    if (!decodedToken) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+    const userId = (decodedToken as jwt.JwtPayload).Id_User;
+    console.log('ID de usuario extraído del token:', userId); // Agregar este console.log para ver el ID de usuario
 
-    
+    const user = await UsersModel.findOne({
+      where: { Id_User: userId },
+    });
 
-    let user = await UsersModel.findOne({
-      where: {
-        Id_User: decodedToken.Id_User,
-      },
-    }) as UserInterface | null; // Use UserModel | null if findOne can return null
-    
-    console.log(user);
-    if ('user' in req) {
-      console.log(req.body.Id_User);
-    } else {
-      console.log('User property does not exist on the req object');
-    }
-
-    
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      console.log('Usuario no encontrado. Respuesta 404.');
+      return res.status(404).json({ message: "User not found." });
     }
 
-    const isTokenExpired = decodedToken.exp && decodedToken.exp < Date.now() / 1000;
+    // Agregar información del usuario al objeto de solicitud
+    // Suponiendo que la interfaz de usuario tenga una propiedad Id_User
+    (req as any).user = user; // Utilizamos "as any" para evitar conflictos de tipos
 
-    if (isTokenExpired) {
-      await UsersModel.destroy({
-        where: {
-          Id_User: decodedToken.Id_User,
-        },
-      });
-
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const isSessionTokenValid = user.TokenLogedUser === decodedToken.TokenLogedUser;
-
-    if (!isSessionTokenValid) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const isMasterPasswordValid = await bcrypt.compare(req.body.Password_Master_User, user.Password_Master_User);
-
-    if (!isMasterPasswordValid) {
-      await UsersModel.destroy({
-        where: {
-          Id_User: decodedToken.Id_User,
-        },
-      });
-
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    req.body.Id_User = user;
-
-    next();
+    console.log('Middleware de validación de token exitoso. Continuando.');
+    next(); // Pasar al siguiente middleware/controlador
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ message: error.message });
+    console.error('Error en el middleware de validación de token:', error);
+
+    if (error instanceof jwt.JsonWebTokenError) {
+      console.log('Error de token JWT. Respuesta 401.');
+      return res.status(401).json({ message: "Invalid or expired token." });
+    } else {
+      console.log('Error interno del servidor. Respuesta 500.');
+      return res.status(500).json({ message: "Internal server error." });
     }
   }
-  return res.json({message: "llegué hasta aqui"});
-//   return next();
 };
-
-export default validateTokenMiddleware;
+ export default validateTokenMiddleware;

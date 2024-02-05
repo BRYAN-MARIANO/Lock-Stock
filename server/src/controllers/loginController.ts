@@ -133,15 +133,25 @@ async function resetLoginAttempts(user: UserInterface): Promise<void> {
 }
 
 async function generateUserToken(user: UserInterface, req: Request): Promise<string> {
-  const secretKey = process.env.SECRET_KEY!;
+  const SECRET_KEY = process.env.SECRET_KEY;
+  if (!SECRET_KEY) {
+    throw new Error("La clave secreta no está definida en las variables de entorno.");
+  }
+
   // Incluye el Id_User como parte del payload del JWT
-  return jwt.sign({
+  const tokenPayload = {
+    Id_User: user.Id_User,
     Email_User: user.Email_User,
-    Id_User: user.Id_User, 
     location: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
     device: req.headers["user-agent"],
     connectionTime: new Date(),
-  }, secretKey, { expiresIn: "1h" });
+  };
+
+  const signOptions: SignOptions = {
+    expiresIn: "86400s" 
+  };
+
+  return jwt.sign(tokenPayload, SECRET_KEY, signOptions);
 }
 
 async function updateUserTokenInfo(user: UserInterface, token: string, req: Request): Promise<void> {
