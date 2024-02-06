@@ -4,11 +4,11 @@ dotenv.config()
 
 
 const db = new Sequelize(
-    process.env.DB_LOCK_AND_STOCK || 'holamundo',
-    process.env.DB_USERS || 'hola',
-    process.env.DB_PASSWORD || 'mundo',
+    process.env.DB_LOCK_AND_STOCK || 'lock_and_stock',
+    process.env.DB_USERS || 'root',
+    process.env.DB_PASSWORD || '1234567',
     { 
-        host: process.env.DB_HOST || 'adios',
+        host: process.env.DB_HOST || 'localhost',
         dialect: 'mysql',
     }
 );
