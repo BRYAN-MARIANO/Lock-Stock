@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { hashData } from "../../services/hash";
 import { Link } from "react-router-dom";
-import { servicesApp } from "../../services/services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import validateMaster from "../pages/User/validations/accounts";
 
@@ -31,6 +29,7 @@ const ModalPasswordMaster = ({ modal, changeModal, password, postData }: modalIn
 
 
 
+
   return (
     <>
       <section className={`${modal} top-0 left-0 h-full w-full flex justify-center items-center z-50`}>
@@ -46,16 +45,19 @@ const ModalPasswordMaster = ({ modal, changeModal, password, postData }: modalIn
             className="w-11/12 h-10/12 flex flex-col gap-4 mx-auto"
             onSubmit={handleSubmit(postData)}
           >
-            <label htmlFor="passwordMaster">
+            <label htmlFor="Password_Master_User">
               <span>Contraseña</span>
+
+
               <input
                 type="password"
-                id="passwordMaster"
+                id="Password_Master_User"
                 className="w-full h-8 border border-black rounded"
-                {...register("passwordMaster")}
+                {...register("Password_Master_User")}
               />
-                {errors.passwordMaster && (
-              <p className="text-red-500 font-medium">{`${errors.passwordMaster.message}`}</p>
+
+                {errors.Password_Master_User && (
+              <p className="text-red-500 font-medium">{`${errors.Password_Master_User.message}`}</p>
             )}
             </label>
             <input

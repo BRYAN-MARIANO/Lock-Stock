@@ -3,6 +3,26 @@ import { FieldValues } from "react-hook-form";
 class Services {
   constructor() {}
 
+  async getUserInfo(id: string){
+    try {
+      const methoudCrud = await fetch(`http://localhost:4000/users/${id}`)
+
+      const response = await methoudCrud.json();
+
+      return response 
+
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+        
+      }
+    }
+  }
+
+
+
+
+
   async recoverPassword (formData: FieldValues){
     try {
       const methoudCrud = await fetch('añadir url',{
@@ -22,18 +42,22 @@ class Services {
 
 
 
-  //profile
-  async getProfile() {
-    try {
-      const method = await fetch("http://localhost:4000/users");
-      const data = await method.json();
-      return data;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
+  // //profile
+  // async getProfile() {
+  //   try {
+  //     const method = await fetch("http://localhost:4000/users");
+  //     const data = await method.json();
+  //     return data;
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       throw new Error(error.message);
+  //     }
+  //   }
+  // }
+
+
+
+
 
   async postProfile(data: FieldValues) {
     try {
@@ -105,7 +129,7 @@ class Services {
   //Accounts-user
   async getAccountsUser() {
     try {
-      
+
       const token = sessionStorage.getItem('accessToken'); // Asume que el token está almacenado en sessionStorage
       if (!token) {
         throw new Error("No se encontró el token de autenticación");
@@ -155,7 +179,7 @@ class Services {
     }
   }
 
-  async updateUserProfile(data, userId, token) {
+  async updateUserProfile(data: FieldValues, userId: string, token: string) {
     try {
       const response = await fetch(`http://localhost:4000/users/${userId}`, { // Asegúrate de que el puerto sea el correcto.
         method: "PUT", 
@@ -172,7 +196,9 @@ class Services {
   
       return await response.json();
     } catch (error) {
-      throw new Error(error.message);
+      if (error instanceof Error) {
+        throw new Error(error.message);        
+      }
     }
   }
   
@@ -180,7 +206,7 @@ class Services {
 
   //password generator
 
-  async putAccountUser(id, data: FieldValues) {
+  async putAccountUser(id: string, data: FieldValues) {
     try {
       console.log(id);
       const methodCrud = await fetch(`http://localhost:4000/applications/${id}`, {
@@ -206,7 +232,7 @@ class Services {
 
 // En tu archivo services.ts
 
-async postApplication(data) {
+async postApplication(data: FieldValues) {
   const accessToken = sessionStorage.getItem('accessToken');
   if (!accessToken) {
     throw new Error('Authentication token not found');
@@ -418,7 +444,7 @@ async postApplication(data) {
   }
 
   //DashboardAdmin
-  async deleteDashboardAdmin(id) {
+  async deleteDashboardAdmin(id: string) {
     try {
       const methodCrud = await fetch(`http://localhost:3000/modal`, {
         method: "POST",
@@ -434,7 +460,7 @@ async postApplication(data) {
     }
   }
 
-  async blockDashboardAdmin(id) {
+  async blockDashboardAdmin(id: string) {
     try {
       const methodCrud = await fetch(`http://localhost:3000/modal`, {
         method: "POST",
@@ -506,6 +532,9 @@ async postApplication(data) {
 
   //pruebas
 
+
+
+
   //modalPassword
   async postModal(data: FieldValues) {
     try {
@@ -528,6 +557,32 @@ async postApplication(data) {
       }
     }
   }
+
+
+  async postPasswordMaster (id: string, data: FieldValues){
+    try {
+      const methoudCrud = await fetch(`http://localhost:4000/users/master/${id}`,{
+        method:"POST",
+        headers: {'content-type':'application/json'},
+        body: JSON.stringify(data)
+      })
+
+
+      const response = await methoudCrud.json();
+      console.log(response.message)
+
+      return response
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+        
+      }
+    }
+  }
+
+
+
+
 }
 
 export const servicesApp = new Services();

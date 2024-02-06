@@ -20,6 +20,7 @@ const UserProfile = (): React.JSX.Element => {
   //datos de usuario
   const user = useContext(usersContext);
 
+  console.log(user)
 
   //editar perfil
 
@@ -39,10 +40,10 @@ const UserProfile = (): React.JSX.Element => {
 
   const editProfile = async (ref, fieldName) => {
     try {
-      await servicesApp.putProfile(
-        { [fieldName]: `${ref.current.textContent}` },
-        user.id
-      );
+      // await servicesApp.putProfile(
+      //   { [fieldName]: `${ref.current.textContent}` },
+      //   user.id
+      // );
 
       setModal('flex')
 

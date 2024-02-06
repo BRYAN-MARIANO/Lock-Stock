@@ -6,6 +6,7 @@ import devicesRouter from './routes/devicesRouter';
 import notificationsRouter from './routes/notificationsRouter';
 import usersRouter from './routes/userRouter';
 import loginRoutes from './routes/loginRoutes';
+import masterRouter from './routes/passwordMAster';
 
 export const app = express();
 
@@ -25,3 +26,4 @@ app.use('/', devicesRouter)
 app.use('/', notificationsRouter)
 app.use('/', usersRouter)
 app.use('/', loginRoutes)
+app.use('/', masterRouter)

@@ -10,6 +10,7 @@ const HeaderMenu = (): React.JSX.Element => {
     //metodo post que elimine el token de base de datos
 
     sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('userId');
 
   }
 
@@ -44,7 +45,7 @@ const HeaderMenu = (): React.JSX.Element => {
       <div className={`bg-black right-10 w-48 p-5 h-20 ${menu} `}>
         <ul className="flex flex-col h-full w-full text-white ">
           <li className="flex items-center h-full justify-center">
-            <Link to={"/login-admin"} onClick={deleteSesion} className="text-white hover:text-primary ">
+            <Link to={"/"} onClick={deleteSesion} className="text-white hover:text-primary ">
               Cerrar Sesion
             </Link>
           </li>
