@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import UAParser from 'ua-parser-js';
 
+
 const captureDeviceInfo = (req: Request, _res: Response, next: NextFunction) => {
   const parser = new UAParser(req.headers['user-agent']);
   const result = parser.getResult();
@@ -23,7 +24,7 @@ const captureDeviceInfo = (req: Request, _res: Response, next: NextFunction) => 
     osVersion: result.os.version || 'unknown',
     browserName: result.browser.name || 'unknown',
     browserVersion: result.browser.version || 'unknown',
-    ip: req.ip
+    ip: req.ip || 'unknown' // Proporciona un valor predeterminado en caso de que req.ip sea undefined
   };
 
   console.log(req.deviceInfo); // Para depuración
