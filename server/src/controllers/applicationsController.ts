@@ -1,23 +1,34 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import UsersModel from "../models/UsersModel";
 import { v4 as generateUuid } from "uuid";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 //import validateMiddelwareUser from "../middlewares/validateMiddelwareUser"; comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
 import "dotenv/config";
-import { UserInterface } from '../userInterface';
+import { UserInterface } from '../interfaces/userInterface';
+import AplicationsUsersModel from "../models/AplicationsUsersModel";
+import captureDeviceInfo from "../middlewares/captureDeviceInfoMiddleware";
 
 
 
 export const usersGetAllApplicationsByUserId = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.Id_User; // Extrae el Id_User añadido por el middleware
+    // const userId = (req as any).user.Id_User; 
+
+    const { Id_User } = req.params;
+
+    console.log('el id del usuario es:', Id_User)
+
     const applications = await AplicationsUsersModel.findAll({
-      where: { Id_User: userId },
+      where: { Id_User: Id_User },
     });
+
+    console.log("respuesta de aplicaciones", applications)
     res.status(200).json(applications);
   } catch (error) {
+
     res.status(500).json({ message: "Error al obtener las aplicaciones del usuario" });
+
   }
 };
 
@@ -55,8 +66,14 @@ req.params.id
     }
   }
 };
-export const usersPost = async (req: Request, res: Response) => {
+
+
+export const usersPostApplication = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    
+    const hola = captureDeviceInfo(req, res, next)
+    console.log(hola)
+
     const existingUser = await UsersModel.findOne({
       where: {
         Email_User: req.body.Email_User,
@@ -69,7 +86,10 @@ export const usersPost = async (req: Request, res: Response) => {
     const userUuid = generateUuid();
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
     const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User || 'quantum_master_password', 10);
+
+
     // const deviceType = req.deviceInfo.deviceType;
+
     const SECRET_KEY = process.env.SECRET_KEY;
     if (!SECRET_KEY) {
       throw new Error("La clave secreta no está definida en las variables de entorno.");
@@ -94,7 +114,7 @@ export const usersPost = async (req: Request, res: Response) => {
     Mobile_User: req.body.Mobile_User,
     Question_Security_User: req.body.Question_Security_User || 'default_question',
     Answer_Security_User: req.body.Answer_Security_User || 'default_answer',
-    Device_User: deviceType,
+    Device_User: 'mobile',
     Notifications_User: req.body.Notifications_User || 'default_notifications',
     loginAttempts: 0,
     TokenLogedUser: hashedToken,
@@ -103,14 +123,14 @@ export const usersPost = async (req: Request, res: Response) => {
     Delete_User: false,
     // Aquí puedes añadir los campos de fechas y ubicaciones como valores predeterminados o null si son opcionales
   });
-      res.status(201).json({ accessToken: token, Id_User: userUuid, deviceType }); // Opcionalmente, devuelve el tipo de dispositivo y la IP en la respuesta
+      res.status(201).json({ accessToken: token, Id_User: userUuid, hola: "deviceType" }); // Opcionalmente, devuelve el tipo de dispositivo y la IP en la respuesta
     } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
     }
   }
 };
-export const usersPut = async (req: Request, res: Response) => {
+export const usersPutApplication = async (req: Request, res: Response) => {
   try {
    // validateMiddelwareUser(req.body); comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
     await UsersModel.update(
@@ -143,7 +163,7 @@ req.params.id
     }
   }
 };
-export const usersDelete = async (req: Request, res: Response) => {
+export const usersDeleteApplication = async (req: Request, res: Response) => {
   try {
     await UsersModel.destroy({
       where: {

@@ -105,6 +105,7 @@ class Services {
   //Accounts-user
   async getAccountsUser() {
     try {
+      
       const token = sessionStorage.getItem('accessToken'); // Asume que el token está almacenado en sessionStorage
       if (!token) {
         throw new Error("No se encontró el token de autenticación");

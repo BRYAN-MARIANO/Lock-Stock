@@ -6,7 +6,7 @@ import { sign } from "jsonwebtoken";
 import jwt from 'jsonwebtoken';
 //import validateMiddelwareUser from "../middlewares/validateMiddelwareUser"; comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
 import "dotenv/config";
-import { UserInterface } from '../../userInterface';
+import { UserInterface } from '../interfaces/userInterface';
 
 
 
