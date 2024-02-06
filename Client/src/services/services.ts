@@ -105,21 +105,32 @@ class Services {
   //Accounts-user
   async getAccountsUser() {
     try {
-      const methodCrud = await fetch(`http://localhost:4000/applications/`);
-
-      if (!methodCrud.ok) {
-        throw new Error("error para obtener los datosde las cuentas");
+      const token = sessionStorage.getItem('accessToken'); // Asume que el token está almacenado en sessionStorage
+      if (!token) {
+        throw new Error("No se encontró el token de autenticación");
       }
-
-      const response = await methodCrud.json();
-      console.log(response);
-      return { response };
+      
+      const response = await fetch(`http://localhost:4000/applications/user`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Asegúrate de que el back end espera el token en este formato
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos de las cuentas");
+      }
+  
+      const accounts = await response.json();
+      console.log(accounts); // O maneja los datos de las cuentas como necesites
+      return { accounts }; // Ajusta según cómo necesites utilizar o manejar estos datos
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
+      console.error("Error en getAccountsUser:", error);
+      throw error; // O maneja el error de manera que sea más adecuado para tu aplicación
     }
   }
+  
 
   async deleteAccountUser(data: object) {
     try {
@@ -440,24 +451,42 @@ async postApplication(data) {
   }
 
   //authentication-user
-  async login(credentials: FieldValues) {
+  async login(credentials: FieldValues): Promise<string | void> {
     try {
+      console.log('Sending login request with credentials:', credentials);
       const response = await fetch("http://localhost:4000/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(credentials),
       });
+  
+      console.log('Login response status:', response.status);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
       const data = await response.json();
+      console.log('Login response data:', data);
+  
       if (data.accessToken) {
-        sessionStorage.setItem("accessToken", JSON.stringify(data.accessToken));
+        // Almacena el accessToken en el sessionStorage
+        sessionStorage.setItem("accessToken", data.accessToken);
+        console.log('Access token stored in sessionStorage');
+      } else {
+        throw new Error('No accessToken in response');
       }
       return data.accessToken;
     } catch (error) {
       if (error instanceof Error) {
+        console.error('Login error:', error.message);
         throw new Error(error.message);
       }
     }
   }
+  
 
   async register(credentials: FieldValues) {
     try {

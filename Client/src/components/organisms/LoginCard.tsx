@@ -1,55 +1,24 @@
-// LoginCard Component
 import { FC } from 'react';
-//import GoogleSignInButton from '../molecules/GoogleSignInButton';
-import LoginButton from '../molecules/LoginButton';
-import React from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { servicesApp } from '../../services/services';
 import { zodResolver } from '@hookform/resolvers/zod';
 import loginSchema from '../pages/User/validations/loginForm';
 import { useNavigate } from 'react-router';
-import  {jwtDecode}  from 'jwt-decode';
-
-
-
-interface LoginCardProps {
-  switchToRegister: () => void;
-  isActive: boolean;
-}
+import LoginButton from '../molecules/LoginButton';
 
 const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
+  const navigate = useNavigate();
 
-
-  const Navigate = useNavigate();
-
-
-  const handleEmailLogin =async (data: FieldValues) => {
-    
-
-  try {
-    
-    const response = await servicesApp.login(data) 
-    
-    
-    console.log(data);
-    console.log(response);
-
-    const token = sessionStorage.getItem('accessToken')
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      console.log('Id_User:', decodedToken.Id_User);
+  const handleEmailLogin = async (data: FieldValues) => {
+    try {
+      const response = await servicesApp.login(data);
+      if (response) { // Si el login es exitoso, navigate a '/accounts-user'
+        navigate('/accounts-user');
+      }
+    } catch (error) {
+      console.error(error);
+      // Manejar el error de manera adecuada (mostrar un mensaje al usuario, por ejemplo)
     }
-    
-
-    if (response) {
-      Navigate('/accounts-user')
-    }
-
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message)
-    }
-  }
   };
 
 

@@ -2,20 +2,23 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
 import { useForm } from "react-hook-form";
-import { usersContext } from "../../../UserContext";
+import usersContext  from "../../../UserContext"
 import { servicesApp } from "../../../services/services";
 
+
 const PasswordGenerator = (): React.JSX.Element => {
+ 
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { user } = useContext(usersContext);
-
-  
-
-  // Estados
   const [view, setView] = useState("password");
+  const { accounts, loadUserAccounts } = useContext(usersContext); // Uso correcto del contexto
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [CheckedNumber, setCheckedNumber] = useState(true);
   const [CheckedSpecial, setCheckedSpecial] = useState(true);
+
+  useEffect(() => {
+    generate();
+    //loadUserAccounts();
+  }, [CheckedNumber, CheckedSpecial, loadUserAccounts]);
 
   // Función para alternar la visibilidad de la contraseña
   const togglePasswordVisibility = () => {
@@ -74,6 +77,8 @@ const PasswordGenerator = (): React.JSX.Element => {
       ...data,
       Password_Aplication: generatedPassword,
     };
+
+    
   
     const token = sessionStorage.getItem('accessToken');
     console.log(token);
@@ -85,16 +90,13 @@ const PasswordGenerator = (): React.JSX.Element => {
   
     try {
       await servicesApp.postApplication(formData); // Pasas el token como argumento
-      alert("Cuenta añadida con éxito.");
+      loadUserAccounts();
     } catch (error) {
       console.error("Error al añadir la cuenta:", error);
     }
   };
   
 
-  useEffect(() => {
-    generate(); // Genera una contraseña al cargar el componente
-  }, [CheckedNumber, CheckedSpecial]);
 
 
 return (

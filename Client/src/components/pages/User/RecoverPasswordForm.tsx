@@ -3,7 +3,7 @@ import HeaderMenu from "../../templates/HeaderMenu";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { servicesApp } from "../../../services/services";
-import { usersContext } from "../../../UserContext";
+import usersContext  from "../../../UserContext";
 
 const RecoverPasswordForm = (): React.JSX.Element => {
   const { handleSubmit, register } = useForm();

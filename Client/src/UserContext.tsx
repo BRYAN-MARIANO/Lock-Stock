@@ -1,46 +1,41 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
-import React from 'react'
-import { servicesApp } from "./services/services";
+// UserContext.js
+import React, { createContext, useState, useEffect } from 'react';
+import { servicesApp } from '../src/services/services';
 
+const UserContext = createContext();
 
-//crear contexto
-export const usersContext = createContext();
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null); // Estado para la información del usuario
+  const [accounts, setAccounts] = useState([]); // Estado para las cuentas del usuario
 
+  // Función para cargar las cuentas del usuario
+  const loadUserAccounts = async () => {
+    try {
+      const fetchedAccounts = await servicesApp.getAccountsUser();
+      setAccounts(fetchedAccounts || []);
+    } catch (error) {
+      console.error("Error al obtener las cuentas de usuario:", error);
+    }
+  };
 
+  // Carga inicial de las cuentas
+  useEffect(() => {
+    loadUserAccounts();
+  }, []);
 
-
-const UserContext = ({ children }: {children: ReactNode}): React.JSX.Element => {
-  const id = "323e4567-e89b-12d3-a456-426614174003";
-
-  const [ user, setUser ] = useState('')
-
-  useEffect(()=>{
-      const getUser = async () =>{
-      try {
-
-        const data = await servicesApp.getProfile();
-
-        const findUser = data.find((a)=>{
-          return a.Id_User === id
-        })
-        setUser(findUser)
-        
-      } catch (error) {
-        console.log(error)
-      }
-      }
-      getUser()
-  },[])
-  
-
+  // El valor que se pasa a través del contexto
+  const contextValue = {
+    user,
+    setUser,
+    accounts,
+    loadUserAccounts,
+  };
 
   return (
-    <>
-      <usersContext.Provider value={user}>
-        {children}
-      </usersContext.Provider>
-    </>
-  )
-}
+    <UserContext.Provider value={contextValue}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-export default UserContext 
+export default UserContext;

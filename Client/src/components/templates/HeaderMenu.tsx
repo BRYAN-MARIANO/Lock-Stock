@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { usersContext } from "../../UserContext";
+import usersContext  from "../../UserContext";
 
 const HeaderMenu = (): React.JSX.Element => {
 
@@ -9,7 +9,7 @@ const HeaderMenu = (): React.JSX.Element => {
 
     //metodo post que elimine el token de base de datos
 
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('accessToken');
 
   }
 
