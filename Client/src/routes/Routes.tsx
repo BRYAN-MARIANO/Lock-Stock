@@ -50,7 +50,6 @@ export const router = createBrowserRouter([
             {
                 path: 'user-profile',
                 element: <UserProfile />,
-                loader: servicesApp.getProfile
             },
             {
                 path: 'connected-devices',
@@ -60,7 +59,6 @@ export const router = createBrowserRouter([
             {
                 path: 'notification-mailbox',
                 element: <NotificationMailbox />,
-                loader: servicesApp.getNotifications
             },
             {
                 path: 'password-generator/:id?',

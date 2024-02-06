@@ -42,90 +42,6 @@ class Services {
 
 
 
-  // //profile
-  // async getProfile() {
-  //   try {
-  //     const method = await fetch("http://localhost:4000/users");
-  //     const data = await method.json();
-  //     return data;
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       throw new Error(error.message);
-  //     }
-  //   }
-  // }
-
-
-
-
-
-  async postProfile(data: FieldValues) {
-    try {
-      const method = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const response = await method.json();
-
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  async putProfile(edit: object, id: number, token: string) {
-    try {
-      const methodUser = await fetch(`http://localhost:3000/users/${id}`, {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
-          "Authorization": `Bearer ${token}` 
-        },
-        body: JSON.stringify(edit),
-      });
-  
-      if (!methodUser.ok) {
-        throw new Error("Response not ok");
-      }
-  
-      const data = await methodUser.json();
-      return { data };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-  
-
-  //Accounts-user
-
-  async deleteAplications(id: number) {
-    try {
-      const methodCrud = await fetch(
-        `http://localhost:3000/Devices_User/${id}`,
-        {
-          method: "DELETE",
-          headers: { "content-type": "application/json" },
-        }
-      );
-
-      if (!methodCrud.ok) {
-        throw new Error("Error en la peticion");
-      }
-
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
   //Accounts-user
   async getAccountsUser() {
     try {
@@ -134,50 +50,38 @@ class Services {
       if (!token) {
         throw new Error("No se encontró el token de autenticación");
       }
+
+      const idUser = sessionStorage.getItem('userId')
+
       
-      const response = await fetch(`http://localhost:4000/applications/user`, {
+      const methoudCrud = await fetch(`http://localhost:4000/applications/${idUser}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Asegúrate de que el back end espera el token en este formato
+          'Authorization': `Bearer ${token}`, 
         },
       });
   
-      if (!response.ok) {
+      if (!methoudCrud.ok) {
         throw new Error("Error al obtener los datos de las cuentas");
       }
   
-      const accounts = await response.json();
-      console.log(accounts); // O maneja los datos de las cuentas como necesites
-      return { accounts }; // Ajusta según cómo necesites utilizar o manejar estos datos
+
+      const response = await methoudCrud.json();
+      
+      return {response} ; 
+      // Ajusta según cómo necesites utilizar o manejar estos datos
     } catch (error) {
       console.error("Error en getAccountsUser:", error);
       throw error; // O maneja el error de manera que sea más adecuado para tu aplicación
     }
   }
+
+
+
   
 
-  async deleteAccountUser(data: object) {
-    try {
-      const methodCrud = await fetch(`http://localhost:3000/modal`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      });
 
-      if (!methodCrud.ok) {
-        throw new Error("error en eliminacion de cuenta");
-      }
-
-      const response = await methodCrud.json();
-
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
 
   async updateUserProfile(data: FieldValues, userId: string, token: string) {
     try {
@@ -232,18 +136,18 @@ class Services {
 
 // En tu archivo services.ts
 
-async postApplication(data: FieldValues) {
+async postApplication(data: FieldValues, id: string) {
   const accessToken = sessionStorage.getItem('accessToken');
   if (!accessToken) {
     throw new Error('Authentication token not found');
   }
 
   try {
-    const response = await fetch('http://localhost:4000/applications', {
+    const response = await fetch(`http://localhost:4000/applications/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`, // Asegúrate de incluir el token aquí
+        'Authorization': `Bearer ${accessToken}`,
       },
       body: JSON.stringify(data),
     });
@@ -265,217 +169,10 @@ async postApplication(data: FieldValues) {
   
   
 
-  //notificationMailBox
-  async postNotificationUser(data: boolean) {
-    try {
-      const method = await fetch("", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const response = await method.json();
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
 
-  //Users
-  async getUser() {
-    try {
-      const method = await fetch("");
-      const { response } = await method.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
 
-  async postUser(data: FieldValues) {
-    try {
-      const method = await fetch("", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const response = await method.json();
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
 
-  //notifications user
-  async getNotifications() {
-    try {
-      const methodCrud = await fetch(
-        `http://localhost:4000/notifications`
-      );
 
-      if (!methodCrud.ok) {
-        throw new Error("Error en la peticion");
-      }
-
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  async postNotifications(data: FieldValues) {
-    try {
-      const methodCrud = await fetch(
-        `http://localhost:3000/Notifications_User`,
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      );
-
-      if (!methodCrud.ok) {
-        throw new Error("Error en la peticion");
-      }
-
-      const response = await methodCrud.json();
-
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //recovery password master
-  async recoveryPasswordMaster(data: FieldValues) {
-    try {
-      const methodCrud = await fetch(`http://localhost:3000/modal`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const response = await methodCrud.json();
-
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //dashboardAdmin
-  async getDashboardAdmin() {
-    try {
-      const methodCrud = await fetch("http://localhost:3000/dashboardAdmin");
-
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //userActivity
-  async getUserActivity() {
-    try {
-      const methodCrud = await fetch("http://localhost:3000/userActivity");
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //dashboardIncidents
-  async getDashboardIncidents() {
-    try {
-      const methodCrud = await fetch(
-        "http://localhost:3000/dashboardIncidents"
-      );
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //notificationsAdmin
-  async getNotificationsAdmin() {
-    try {
-      const methodCrud = await fetch("http://localhost:3000/notifications");
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //devices
-  async getDevices() {
-    try {
-      const methodCrud = await fetch("http://localhost:3000/devices");
-      const response = await methodCrud.json();
-      return { response };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  //DashboardAdmin
-  async deleteDashboardAdmin(id: string) {
-    try {
-      const methodCrud = await fetch(`http://localhost:3000/modal`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(id),
-      });
-      const response = await methodCrud.json();
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
-
-  async blockDashboardAdmin(id: string) {
-    try {
-      const methodCrud = await fetch(`http://localhost:3000/modal`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(id),
-      });
-      const response = await methodCrud.json();
-
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-    }
-  }
 
   //authentication-user
   async login(credentials: FieldValues): Promise<string | void> {

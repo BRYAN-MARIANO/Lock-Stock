@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import usersContext  from "../../../UserContext"
 import { servicesApp } from "../../../services/services";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 
 const PasswordGenerator = (): React.JSX.Element => {
  
@@ -137,6 +137,8 @@ useEffect(() => {
     setgeneratePassword(newPassword);
   };
 
+  const navigate = useNavigate()
+
 
 
   // Función para copiar la contraseña al portapapeles
@@ -145,11 +147,9 @@ useEffect(() => {
   };
   
   // Manejador del formulario para enviar los datos
-  const onSubmit = async (data) => {
-    const formData = {
-      ...data,
-      Password_Aplication: generatedPassword,
-    };
+  const onSubmit = async (data: FieldValues) => {
+
+
 
     
   
@@ -162,7 +162,13 @@ useEffect(() => {
     }
   
     try {
-      await servicesApp.postApplication(formData); // Pasas el token como argumento
+      console.log(data)
+      const idUser = sessionStorage.getItem('userId')
+      const response = await servicesApp.postApplication(data, idUser); // Pasas el token como argumento
+
+      if (response.message === "aplicacion creada") {
+        navigate('/accounts-user')
+      }
       loadUserAccounts();
     } catch (error) {
       console.error("Error al añadir la cuenta:", error);

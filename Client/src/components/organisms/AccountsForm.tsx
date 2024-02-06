@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 
 import { servicesApp } from "../../services/services";
@@ -21,6 +21,7 @@ const AccountsForm = (): React.JSX.Element => {
  
   //datos de cuentas
   let { response } = useLoaderData() ;
+  
 
   if (response === undefined) {
     response = alternative
@@ -69,9 +70,6 @@ const AccountsForm = (): React.JSX.Element => {
 
 
 
-
-
-
       console.log(modal);
 
 
@@ -112,6 +110,7 @@ const AccountsForm = (): React.JSX.Element => {
       }
     }
   };
+
 
   return (
     <>
