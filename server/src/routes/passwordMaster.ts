@@ -1,5 +1,5 @@
 import express from 'express'; 
-import captureDeviceInfo from '../middlewares/captureDeviceInfoMiddleware';
+
 import { userPostMaster } from '../controllers/passwordMasterController';
 
 
