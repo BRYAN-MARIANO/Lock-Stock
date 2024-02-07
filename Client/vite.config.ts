@@ -12,7 +12,7 @@ export default defineConfig({
     globals: true
   },
   build: {
-    outDir: '../dist'
+    outDir: 'dist'
   },
   server: {
     port: 8080
