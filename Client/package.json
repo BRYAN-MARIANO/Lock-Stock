@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "build": "tsc --emitDeclarationOnly --skipLibCheck && vite build",
+    "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest"
   },
+  
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@types/bcryptjs": "^2.4.6",
