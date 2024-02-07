@@ -1,14 +1,46 @@
 import React, { useState } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
-import { useLoaderData } from "react-router-dom";
+
 
 const ConnectedDevices = (): React.JSX.Element => {
 
 
+  let response = [
+    {
+      movil: 'Samsung Galaxy S21',
+      fecha: '2022-01-15',
+      delete: 'https://example.com/delete-icon.png'
+    },
+    {
+      movil: 'iPhone 13',
+      fecha: '2022-03-22',
+      delete: 'https://example.com/delete-icon.png'
+    },
+    {
+      movil: 'OnePlus 9',
+      fecha: '2022-05-30',
+      delete: 'https://example.com/delete-icon.png'
+    },
+    {
+      movil: 'Xiaomi Mi 11',
+      fecha: '2022-07-04',
+      delete: 'https://example.com/delete-icon.png'
+    },
+    {
+      movil: 'Google Pixel 6',
+      fecha: '2022-09-10',
+      delete: 'https://example.com/delete-icon.png'
+    },
+    {
+      movil: 'Huawei P50 Pro',
+      fecha: '2022-11-20',
+      delete: 'https://example.com/delete-icon.png'
+    }
+  ];
+  
+  
 
-  //obtener datos de dispositivos
-  const { response } = useLoaderData()  as any;
 
   //filtro de dispsitivos
   const [filtro, setFiltro] = useState("");

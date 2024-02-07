@@ -165,13 +165,13 @@ useEffect(() => {
       const idUser = localStorage.getItem('userId')
       if (typeof idUser === 'string' ) {
         const response = await servicesApp.postApplication(data, idUser); // Pasas el token como argumento
-        return response
+        if (response) {
+          navigate('/accounts-user')
+        }
 
       }
 
-      if (response.message === "aplicacion creada") {
-        navigate('/accounts-user')
-      }
+     
     } catch (error) {
       console.error("Error al añadir la cuenta:", error);
     }

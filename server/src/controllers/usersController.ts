@@ -42,6 +42,7 @@ export const usersGetById = async (req: Request, res: Response) => {
 
 export const usersPost = async (req: Request, res: Response) => {
   try {
+    console.log(req);
     const userUuid = generateUuid();
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
     const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User || 'quantum_master_password', 10);
