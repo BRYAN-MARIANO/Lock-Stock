@@ -23,7 +23,7 @@ const PasswordGenerator = (): React.JSX.Element => {
    }]
 
       //datos de cuentas
-      let { response } = useLoaderData();
+      let { response } = useLoaderData() as any;
 
 
   

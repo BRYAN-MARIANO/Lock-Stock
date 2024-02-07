@@ -27,7 +27,7 @@ const PasswordMasterForm = (): React.JSX.Element => {
     };
     // Recuperar el token y el ID del usuario del contexto o del almacenamiento de sesión
     const token = sessionStorage.getItem('accessToken');
-    const userId = user?.Id_User || sessionStorage.getItem('userId');
+    const userId =  sessionStorage.getItem('userId');
     if (token && userId) {
       try {
         // Intentar actualizar el perfil del usuario con los nuevos datos

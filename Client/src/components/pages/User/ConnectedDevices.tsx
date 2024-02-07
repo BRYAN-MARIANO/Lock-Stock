@@ -7,9 +7,8 @@ const ConnectedDevices = (): React.JSX.Element => {
 
 
 
-
   //obtener datos de dispositivos
-  const { response } = useLoaderData();
+  const { response } = useLoaderData()  as any;
 
   //filtro de dispsitivos
   const [filtro, setFiltro] = useState("");

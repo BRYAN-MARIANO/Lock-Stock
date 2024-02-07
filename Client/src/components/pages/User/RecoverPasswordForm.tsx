@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import HeaderMenu from "../../templates/HeaderMenu";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { servicesApp } from "../../../services/services";
 import usersContext  from "../../../UserContext";
 
 const RecoverPasswordForm = (): React.JSX.Element => {
@@ -15,10 +14,7 @@ const RecoverPasswordForm = (): React.JSX.Element => {
 
   const postRecoveryPassword = async (data: FieldValues) => {
     try {
-      const response = await servicesApp.recoveryPasswordMaster(data);
-      if (response) {
-        setPassword(true);
-      }
+   
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);

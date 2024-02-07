@@ -6,11 +6,11 @@ import { useLoaderData } from 'react-router-dom';
 
 const NotificationMailbox = (): React.JSX.Element => {
   // Obtener notificaciones
-  const { response } = useLoaderData();
+  const { response } = useLoaderData() as any;
 
 
   //numero de notificaiones
-  const notifications = response.map((a: { message: any; })=>{
+  const notifications = response.map((a)=>{
     return a.message
   })
 
@@ -31,7 +31,7 @@ const NotificationMailbox = (): React.JSX.Element => {
           </div>
           <section className="flex flex-col w-full h-full gap-5">
             {
-              response.map((a: { boolean: any; message: any; }, b: React.Key | null | undefined)=>{
+              response.map((a, b)=>{
                 return <Notification image={a.boolean} message={a.message} key={b}/>
               })
             }

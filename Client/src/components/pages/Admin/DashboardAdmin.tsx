@@ -8,7 +8,7 @@ import { hashData } from "../../../services/hash";
 const DashboardAdmin = (): React.JSX.Element => {
 
   //datos de la tabla
-  const { response } = useLoaderData();
+  const { response } = useLoaderData() as any;
 
 
 
