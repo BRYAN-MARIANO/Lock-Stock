@@ -113,7 +113,7 @@ export const login = async (req: Request, res: Response) => {
 async function findUserByEmail(email: string): Promise<UserInterface | null> {
   return User.findOne({
     where: { Email_User: { [Op.eq]: email } },
-  }) as Promise<UserInterface | null>;
+  }) as unknown as UserInterface;
 }
 async function isPasswordValid(user: UserInterface, password: string): Promise<boolean> {
   return bcrypt.compare(password, user.Password_User);

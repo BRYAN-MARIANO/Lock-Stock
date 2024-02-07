@@ -8,7 +8,7 @@ const validateTokenMiddleware = async (req: Request, res: Response, next: NextFu
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(' ')[1];
     console.log('Token recibido:', token); // Agregar este console.log para ver el token
-
+    
     if (!token) {
       console.log('Token ausente. Respuesta 401.');
       return res.status(401).json({ message: "Authentication token is missing." });

@@ -25,7 +25,7 @@ export const usersGetById = async (req: Request, res: Response) => {
       where: {
         Id_User: req.params.id,
       },
-    }) as UserInterface | null;
+    }) as unknown as UserInterface
 
     if (user) {
       res.status(200).json(user);

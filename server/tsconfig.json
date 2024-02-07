@@ -11,6 +11,6 @@
     "noImplicitThis": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
-    "noEmitOnError": false
+    "noEmitOnError": false,
   }
 }
