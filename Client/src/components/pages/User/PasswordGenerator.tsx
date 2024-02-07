@@ -152,7 +152,7 @@ useEffect(() => {
 
     
   
-    const token = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
     console.log(token);
     if (!token) {
       console.error("No se encontró el token de autenticación");
@@ -162,7 +162,7 @@ useEffect(() => {
   
     try {
       console.log(data)
-      const idUser = sessionStorage.getItem('userId')
+      const idUser = localStorage.getItem('userId')
       if (typeof idUser === 'string' ) {
         const response = await servicesApp.postApplication(data, idUser); // Pasas el token como argumento
         return response

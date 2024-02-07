@@ -32,11 +32,11 @@ class Services {
   }
   async getAccountsUser() {
     try {
-      const token = sessionStorage.getItem('accessToken');
+      const token = localStorage.getItem('accessToken');
       if (!token) {
         throw new Error("No se encontró el token de autenticación");
       }
-      const idUser = sessionStorage.getItem('userId');
+      const idUser = localStorage.getItem('userId');
       const methoudCrud = await fetch(`${BACKEND_URL}applications/${idUser}`, {
         method: 'GET',
         headers: {
@@ -93,7 +93,7 @@ class Services {
     }
   }
   async postApplication(data: FieldValues, id: string) {
-    const accessToken = sessionStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
       throw new Error('Authentication token not found');
     }
@@ -130,10 +130,10 @@ class Services {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      sessionStorage.setItem('userId', data.userId);
+      localStorage.setItem('userId', data.userId);
       if (data.accessToken) {
-        sessionStorage.setItem("accessToken", data.accessToken);
-        console.log('Access token stored in sessionStorage');
+        localStorage.setItem("accessToken", data.accessToken);
+        console.log('Access token stored in localStorage');
       } else {
         throw new Error('No accessToken in response');
       }

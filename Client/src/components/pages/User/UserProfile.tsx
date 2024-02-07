@@ -2,21 +2,17 @@ import React, { useContext, useRef, useState } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
 import { servicesApp } from "../../../services/services";
-import usersContext  from "../../../UserContext";
+import usersContext from "../../../UserContext";
 import { hashData } from "../../../services/hash";
 import { FieldValues } from "react-hook-form";
 
 const UserProfile = (): React.JSX.Element => {
-
-
   //datos de usuario
   const user = useContext(usersContext);
 
-  console.log(user)
-
   //editar perfil
 
-  const [ edit, setEdit ] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const [name, setName] = useState(false);
   const [lastName, setLastName] = useState(false);
@@ -30,60 +26,50 @@ const UserProfile = (): React.JSX.Element => {
   const mobileRef = useRef(null);
   const nameUserRef = useRef(null);
 
-  const editProfile = async (ref: React.MutableRefObject<null>, fieldName: string) => {
+  const editProfile = async (
+    ref: React.MutableRefObject<null>,
+    fieldName: string
+  ) => {
     try {
       // await servicesApp.putProfile(
       //   { [fieldName]: `${ref.current.textContent}` },
       //   user.id
       // );
 
-      setModal('flex')
-
+      setModal("flex");
     } catch (error) {
       console.error(`Error al editar ${fieldName}:`, error);
     }
   };
 
-
-  //modal 
-  const [ modal, setModal ] = useState('hidden');
+  //modal
+  const [modal, setModal] = useState("hidden");
 
   const changeModalVisibility = async () => {
     setModal((prevModal) => (prevModal === "hidden" ? "fixed" : "hidden"));
   };
-
 
   const postConfirmPassword = async (data: FieldValues) => {
     try {
       const { passwordMaster } = data;
 
       const response = await servicesApp.postModal({
-        password: await hashData(passwordMaster)
-      })
-
+        password: await hashData(passwordMaster),
+      });
 
       if (response) {
-        setEdit(true)
+        setEdit(true);
         setModal((prevModal) => (prevModal === "hidden" ? "fixed" : "hidden"));
-        setTimeout(()=>{
-          setEdit(false)
-        },1*60*5000)
+        setTimeout(() => {
+          setEdit(false);
+        }, 1 * 60 * 5000);
       }
-
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(error.message)
+        throw new Error(error.message);
       }
     }
   };
-
-
-
-
-
-  
-
-  
 
   return (
     <>
@@ -105,195 +91,126 @@ const UserProfile = (): React.JSX.Element => {
             </article>
             <article className="flex-col w-1/2">
               <table className="w-full h-full ">
+                <tr>
+                  <td className="font-semibold">Nombre</td>
 
+                  <td className="" contentEditable={name} ref={nameRef}>
+                    {user.Name_User}
+                  </td>
 
+                  <td className="flex gap-3 h-full w-full items-center">
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        edit ? setName(!name) : setModal("fixed");
+                      }}
+                    >
+                      <img src="/src/images/editar-icon.svg" alt="edit-icon" />
+                    </figure>
 
-
-
-
-
-
-
-
-
-
-              <tr>
-  <td className="font-semibold">Nombre</td>
-
-  <td className="" contentEditable={name} ref={nameRef}>
-    {user.Name_User}
-  </td>
-
-  <td className="flex gap-3 h-full w-full items-center">
-    <figure
-      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
-      onClick={() => {
-        edit ? setName(!name) : setModal('fixed');
-      }}
-    >
-      <img src="/src/images/editar-icon.svg" alt="edit-icon" />
-    </figure>
-
-    <figure
-      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
-      onClick={() => {
-        if (edit) {
-          editProfile(nameRef, "Name_User");
-          setName(!name);
-        } else {
-          setModal('fixed');
-        }
-      }}
-    >
-      <img src="/src/images/check-icon.svg" alt="edit-icon" />
-    </figure>
-
-
-  </td>
-</tr>
-
-
-
-
-
-
-
-
-
-
-
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        if (edit) {
+                          editProfile(nameRef, "Name_User");
+                          setName(!name);
+                        } else {
+                          setModal("fixed");
+                        }
+                      }}
+                    >
+                      <img src="/src/images/check-icon.svg" alt="edit-icon" />
+                    </figure>
+                  </td>
+                </tr>
 
                 <tr>
                   <td className="font-semibold">Apellidos</td>
                   <td contentEditable={lastName}>{user.SurName_User}</td>
                   <td className="flex gap-3 h-full w-full items-center">
-                    <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"                         onClick={() => {edit?setLastName(!lastName):setModal('fixed')}}
->
-                      <img
-                        src="/src/images/editar-icon.svg"
-                        alt="edit-icon"
-                      />
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        edit ? setLastName(!lastName) : setModal("fixed");
+                      }}
+                    >
+                      <img src="/src/images/editar-icon.svg" alt="edit-icon" />
                     </figure>
 
-                    <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"                         onClick={() => {
-                      if (edit) {
-                        editProfile(lastNameRef, "SurName_User");
-                        setLastName(!lastName);
-                      }else{
-                        setModal('fixed')
-                      }
-                       
-                        }}
->
-                      <img
-                        src="/src/images/check-icon.svg"
-                        alt="edit-icon"
-                      />
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        if (edit) {
+                          editProfile(lastNameRef, "SurName_User");
+                          setLastName(!lastName);
+                        } else {
+                          setModal("fixed");
+                        }
+                      }}
+                    >
+                      <img src="/src/images/check-icon.svg" alt="edit-icon" />
                     </figure>
-
                   </td>
                 </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <tr>
                   <td className="font-semibold">Correo Electrónico</td>
                   <td contentEditable={email}>{user.Email_User}</td>
 
                   <td className="flex gap-3 h-full w-full items-center">
-                    <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"                         onClick={() => {edit?setEmail(!email):setModal('fixed')}}
->
-                      <img
-                        src="/src/images/editar-icon.svg"
-                        alt="edit-icon"
-                      />
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        edit ? setEmail(!email) : setModal("fixed");
+                      }}
+                    >
+                      <img src="/src/images/editar-icon.svg" alt="edit-icon" />
                     </figure>
 
-                    <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center" onClick={() => {
-                      if (edit) {
-                        editProfile(emailRef, "Email_User");
-                        setEmail(!email);
-                      } else {
-                        setModal('fixed')
-                      }
-                      
-                        }}>
-                      <img
-                        src="/src/images/check-icon.svg"
-                        alt="edit-icon"
-                        
-                      />
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        if (edit) {
+                          editProfile(emailRef, "Email_User");
+                          setEmail(!email);
+                        } else {
+                          setModal("fixed");
+                        }
+                      }}
+                    >
+                      <img src="/src/images/check-icon.svg" alt="edit-icon" />
                     </figure>
-
-                  
                   </td>
                 </tr>
-
-
-
-
-
-
-
-
-
-
 
                 <tr>
                   <td className="font-semibold">Teléfono Móvil</td>
                   <td contentEditable={mobile}>{user.Mobile_User}</td>
                   <td className="flex gap-3 h-full w-full items-center">
-                    <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center" onClick={() => {edit?setMobile(!mobile):setModal('fixed')}}>
-                      <img
-                        src="/src/images/editar-icon.svg"
-                        alt="edit-icon"
-                        
-                      />
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        edit ? setMobile(!mobile) : setModal("fixed");
+                      }}
+                    >
+                      <img src="/src/images/editar-icon.svg" alt="edit-icon" />
                     </figure>
 
-                    <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center" onClick={() => {
-                      if (edit) {
-                        editProfile(mobileRef, "Mobile_User");
-                        setMobile(!mobile); 
-                      } else {
-                        setModal('fixed')
-                      }
-                        }}>
-                      <img
-                        src="/src/images/check-icon.svg"
-                        alt="edit-icon"
-                        
-                      />
+                    <figure
+                      className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center"
+                      onClick={() => {
+                        if (edit) {
+                          editProfile(mobileRef, "Mobile_User");
+                          setMobile(!mobile);
+                        } else {
+                          setModal("fixed");
+                        }
+                      }}
+                    >
+                      <img src="/src/images/check-icon.svg" alt="edit-icon" />
                     </figure>
-
-          
                   </td>
                 </tr>
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <tr>
                   <td className="font-semibold">Nombre de Usuario</td>
@@ -315,8 +232,6 @@ const UserProfile = (): React.JSX.Element => {
                         className="cursor-pointer hover:bg-primary rounded"
                       />
                     </figure>
-
-            
                   </td>
                 </tr>
               </table>
@@ -324,10 +239,8 @@ const UserProfile = (): React.JSX.Element => {
           </section>
         </section>
       </section>
-
     </>
   );
 };
 
 export default UserProfile;
-

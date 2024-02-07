@@ -23,8 +23,8 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
       const response = await servicesApp.register(formData);
       console.log(response);
       if (response.accessToken && response.Id_User) {
-        sessionStorage.setItem("accessToken", response.accessToken);
-        sessionStorage.setItem("userId", response.Id_User);
+        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("userId", response.Id_User);
       
         navigate("/password-master");
       } else {

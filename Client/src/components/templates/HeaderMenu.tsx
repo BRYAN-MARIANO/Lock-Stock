@@ -9,8 +9,8 @@ const HeaderMenu = (): React.JSX.Element => {
 
     //metodo post que elimine el token de base de datos
 
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('userId');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userId');
 
   }
 

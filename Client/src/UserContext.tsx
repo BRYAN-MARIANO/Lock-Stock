@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
   useEffect(()=>{
     const getUser =async ()=>{
       try {
-        const userId =  sessionStorage.getItem('userId') as string;
+        const userId = localStorage.getItem('userId') as string;
         const users = await servicesApp.getUserInfo(userId)
 
         setUser(users)
