@@ -1,11 +1,9 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { servicesApp } from "../../services/services";
 import LoginButton from "../molecules/LoginButton";
 import { useNavigate } from "react-router-dom";
-//import { zodResolver } from "@hookform/resolvers/zod";
-//import registerSchema from "../pages/User/validations/registerValidation";
 
 interface RegisterCardProps {
   switchToLogin: () => void;
@@ -14,15 +12,13 @@ interface RegisterCardProps {
 
 const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
   const navigate = useNavigate();
-  // Aquí se elimina el resolver de la configuración
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
 
-  const handleRegistration = async (formData) => {
-    console.log(formData);
+  const handleRegistration = async (formData: FieldValues) => {
     try {
       const response = await servicesApp.register(formData);
       console.log(response);
@@ -62,7 +58,6 @@ const RegisterCard: FC<RegisterCardProps> = ({ switchToLogin, isActive }) => {
             Iniciar Sesión
           </h1>
         </div>
-        {/* <GoogleRegisterButton /> */}
 
         <section className="flex flex-col gap-2">
           <label htmlFor="Email_User" className="flex flex-col w-full">

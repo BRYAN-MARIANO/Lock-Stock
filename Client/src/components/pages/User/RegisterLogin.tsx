@@ -2,7 +2,7 @@ import React from 'react'
 import HeaderLogin from '../../templates/HeaderLogin'
 import AuthenticationPage from '../../templates/RegisterLoginCard'
 
-const RegisterLogin = () => {
+const RegisterLogin = ():React.JSX.Element => {
   return (
     <>
     <HeaderLogin />

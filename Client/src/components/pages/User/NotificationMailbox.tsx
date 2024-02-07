@@ -10,7 +10,7 @@ const NotificationMailbox = (): React.JSX.Element => {
 
 
   //numero de notificaiones
-  const notifications = response.map((a)=>{
+  const notifications = response.map((a: { message: any; })=>{
     return a.message
   })
 
@@ -31,7 +31,7 @@ const NotificationMailbox = (): React.JSX.Element => {
           </div>
           <section className="flex flex-col w-full h-full gap-5">
             {
-              response.map((a, b)=>{
+              response.map((a: { boolean: any; message: any; }, b: React.Key | null | undefined)=>{
                 return <Notification image={a.boolean} message={a.message} key={b}/>
               })
             }

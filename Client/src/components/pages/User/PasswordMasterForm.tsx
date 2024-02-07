@@ -8,7 +8,7 @@ const PasswordMasterForm = (): React.JSX.Element => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const user = useContext(usersContext);
-  const postData = async (data) => {
+  const postData = async (data: { Password_Master_User: any; Confirm_Password: any; Question_Security_User: any; Answer_Security_User: any; Confirm_Answer: any; }) => {
     const { Password_Master_User, Confirm_Password, Question_Security_User, Answer_Security_User, Confirm_Answer } = data;
     // Verificación de que las contraseñas y respuestas coinciden
     if (Password_Master_User !== Confirm_Password) {

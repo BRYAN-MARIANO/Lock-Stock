@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { servicesApp } from '../../services/services';
 import { zodResolver } from '@hookform/resolvers/zod';
 import loginSchema from '../pages/User/validations/loginForm';
@@ -38,9 +38,7 @@ const LoginCard: FC<LoginCardProps> = ({ switchToRegister, isActive }) => {
         
         >Regístrate</h2>
         <h1 className="text-lg font-bold cursor-pointer" style={{ color: loginColor }}>Iniciar Sesión</h1>
-      </div>
-      {/* <GoogleSignInButton /> */}
-   
+      </div>   
 
       <section className='flex flex-col gap-4'>
 

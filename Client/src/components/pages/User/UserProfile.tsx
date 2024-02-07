@@ -1,20 +1,12 @@
 import React, { useContext, useRef, useState } from "react";
 import Navbar from "../../templates/Navbar";
 import HeaderMenu from "../../templates/HeaderMenu";
-import { useLoaderData } from "react-router-dom";
 import { servicesApp } from "../../../services/services";
 import usersContext  from "../../../UserContext";
-import ModalPasswordMaster from "../../templates/modalPasswordMaster";
 import { hashData } from "../../../services/hash";
 import { FieldValues } from "react-hook-form";
 
 const UserProfile = (): React.JSX.Element => {
-  // // Almacenar el token en sessionStorage
-  // sessionStorage.setItem('token', 'hola mundo');
-  // let token = sessionStorage.getItem('token');
-
-
-
 
 
   //datos de usuario
@@ -38,7 +30,7 @@ const UserProfile = (): React.JSX.Element => {
   const mobileRef = useRef(null);
   const nameUserRef = useRef(null);
 
-  const editProfile = async (ref, fieldName) => {
+  const editProfile = async (ref: React.MutableRefObject<null>, fieldName: string) => {
     try {
       // await servicesApp.putProfile(
       //   { [fieldName]: `${ref.current.textContent}` },
@@ -305,7 +297,7 @@ const UserProfile = (): React.JSX.Element => {
 
                 <tr>
                   <td className="font-semibold">Nombre de Usuario</td>
-                  <td>{"bryan"}</td>
+                  <td>usuario</td>
 
                   <td className="flex gap-3 h-full w-full items-center">
                     <figure className="h-8 w-8 p-1 cursor-pointer hover:bg-primary rounded flex justify-center items-center">
@@ -332,7 +324,6 @@ const UserProfile = (): React.JSX.Element => {
           </section>
         </section>
       </section>
-      <ModalPasswordMaster modal={modal} changeModal={changeModalVisibility}  postData={postConfirmPassword}/>
 
     </>
   );

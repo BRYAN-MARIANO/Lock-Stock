@@ -12,13 +12,11 @@ export const usersGetAllApplicationsByUserId = async (req: Request, res: Respons
 
     const { Id_User } = req.params;
 
-    console.log('el id del usuario es:', Id_User)
 
     const applications = await AplicationsUsersModel.findAll({
       where: { Id_User: Id_User },
     });
 
-    console.log("respuesta de aplicaciones", applications)
     res.status(200).json(applications);
   } catch (error) {
 
@@ -73,7 +71,6 @@ export const usersPostApplication = async (req: Request, res: Response, next: Ne
 
     const { Id_User } = req.params;
 
-    console.log(Id_User)
 
     const existingUser = await UsersModel.findOne({
       where: {
@@ -81,7 +78,6 @@ export const usersPostApplication = async (req: Request, res: Response, next: Ne
       },
     })
 
-    console.log('este es el usuarioooooooooooooooooooo', existingUser)
 
  
     const userUuid = generateUuid();
@@ -89,12 +85,6 @@ export const usersPostApplication = async (req: Request, res: Response, next: Ne
 
     const { Name_Aplication, Email_Aplication, Password_Aplication }= req.body
 
-
-    console.log('este es mi uuuidddddd',userUuid)
-    console.log('este es el nombre', Name_Aplication)
-    console.log('este es el email', Email_Aplication)
-    console.log('este es el contraseña', Password_Aplication)
-    console.log('este id del usuario', Id_User)
 
     if (userUuid && Name_Aplication && Email_Aplication && Password_Aplication && Id_User) {
       const info = await AplicationsUsersModel.create({
@@ -106,10 +96,7 @@ export const usersPostApplication = async (req: Request, res: Response, next: Ne
         Id_User: Id_User
       });
     
-    
-      console.log('informacion del create', info)
-      console.log('hola mundooooooooooooooooooooooooooooooooooooooooo')
-    
+        
         res.status(201).json({ message: "aplicacion creada" });
     
     }
@@ -132,7 +119,6 @@ export const usersPostApplication = async (req: Request, res: Response, next: Ne
 
 export const usersPutApplication = async (req: Request, res: Response) => {
   try {
-   // validateMiddelwareUser(req.body); comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
     await UsersModel.update(
       {
         Email_User: req.body.Email_User,
@@ -145,8 +131,6 @@ export const usersPutApplication = async (req: Request, res: Response) => {
         Notifications_User: req.body.Notifications_User,
         Block_User: req.body.Block_User,
         Delete_User: req.body.Delete_User,
-        //añadir fecha de modificación/envío/conexión
-        //añadir ubicación de modificación/envío/conexión
       },
       {
         where: {

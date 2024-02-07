@@ -68,7 +68,7 @@ class Services {
   
 
       const response = await methoudCrud.json();
-      
+
       return {response} ; 
       // Ajusta según cómo necesites utilizar o manejar estos datos
     } catch (error) {
@@ -193,7 +193,8 @@ async postApplication(data: FieldValues, id: string) {
       }
   
       const data = await response.json();
-      console.log('Login response data:', data);
+
+       sessionStorage.setItem('userId', data.userId);
   
       if (data.accessToken) {
         // Almacena el accessToken en el sessionStorage

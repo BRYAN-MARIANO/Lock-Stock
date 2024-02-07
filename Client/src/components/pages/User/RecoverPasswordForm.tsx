@@ -26,7 +26,7 @@ const RecoverPasswordForm = (): React.JSX.Element => {
     }
   };
 
-  const handleCopy = (input) => {
+  const handleCopy = (input: string) => {
     navigator.clipboard.writeText(input);
   };
 

@@ -1,7 +1,5 @@
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-// import { vi } from "vitest";
-import Terms from "../src/components/pages/User/terms";
 import HowUse from "../src/components/pages/User/HowUse";
 import HeaderMenu from "../src/components/templates/HeaderMenu";
 import Help from "../src/components/pages/User/Help";
@@ -17,6 +15,7 @@ import DashboardIncidents from "../src/components/pages/Admin/DashboardIncidents
 import LoginAdmin from "../src/components/pages/Admin/LoginAdmin";
 import NotificationAdmin from "../src/components/pages/Admin/NotificationAdmin";
 import UserActivity from "../src/components/pages/Admin/UserActivity";
+import Terms from "../src/components/pages/User/Terms";
 
   
   describe('rendering User', () => { 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HeaderMenu from "../../templates/HeaderMenu";
 import NavbarAdmin from "../../templates/NavbarAdmin";
 import { useLoaderData } from "react-router-dom";
@@ -19,7 +19,7 @@ const NotificationAdmin = (): React.JSX.Element => {
             </h1>
           </div>
           <section className="flex flex-col w-full h-full gap-5">
-            {response.map((notification, index) => (
+            {response.map((notification: { message: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; icon: any; }, index: React.Key | null | undefined) => (
               <article key={index} className="flex justify-center gap-3 h-8">
                 <div
                   className={`w-3/4 border border-black rounded-xl flex items-center text-black bg-white`}

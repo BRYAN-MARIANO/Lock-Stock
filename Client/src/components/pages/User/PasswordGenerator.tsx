@@ -40,12 +40,11 @@ const PasswordGenerator = (): React.JSX.Element => {
 
   // Estados
   const [view, setView] = useState("password");
-  const { accounts, loadUserAccounts } = useContext(usersContext); // Uso correcto del contexto
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [CheckedNumber, setCheckedNumber] = useState(true);
   const [CheckedSpecial, setCheckedSpecial] = useState(true);
 
-  const checkboxNumber = (event) => {
+  const checkboxNumber = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setCheckedNumber(event.target.checked);
     console.log(CheckedNumber);
   };
@@ -142,7 +141,7 @@ useEffect(() => {
 
 
   // Función para copiar la contraseña al portapapeles
-  const handleCopy = (input) => {
+  const handleCopy = (input: string) => {
     navigator.clipboard.writeText(input);
   };
   
@@ -164,12 +163,15 @@ useEffect(() => {
     try {
       console.log(data)
       const idUser = sessionStorage.getItem('userId')
-      const response = await servicesApp.postApplication(data, idUser); // Pasas el token como argumento
+      if (typeof idUser === 'string' ) {
+        const response = await servicesApp.postApplication(data, idUser); // Pasas el token como argumento
+        return response
+
+      }
 
       if (response.message === "aplicacion creada") {
         navigate('/accounts-user')
       }
-      loadUserAccounts();
     } catch (error) {
       console.error("Error al añadir la cuenta:", error);
     }

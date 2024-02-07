@@ -10,7 +10,6 @@ const DashboardAdmin = (): React.JSX.Element => {
   //datos de la tabla
   const { response } = useLoaderData();
 
-  console.log(response)
 
 
 
@@ -19,7 +18,7 @@ const DashboardAdmin = (): React.JSX.Element => {
   const [filteredTable, setFilteredTable] = useState(response);
 
   const handleFilter = () => {
-    const filteredTable = response.filter((user) =>
+    const filteredTable = response.filter((user: { Usuario: string; }) =>
       user.Usuario.toLowerCase().includes(filter.toLowerCase())
     );
     setFilteredTable(filteredTable);
@@ -53,20 +52,9 @@ const DashboardAdmin = (): React.JSX.Element => {
   //eliminar usuario
   const deleteUser = async (itemId: string) => {
     try {
-
-
-      const newData = {
-        id: await hashData(itemId)
-      };
   
-      const idHash = await servicesApp.deleteDashboardAdmin(newData);
 
-      //ver datos enviados
-      console.log(newData)
-
-      //respuesta de la peticion
-      console.log(idHash)
-
+  
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -112,7 +100,7 @@ const DashboardAdmin = (): React.JSX.Element => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {filteredTable.map((user, index) => (
+              {filteredTable.map((user: { Usuario: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; FechaRegistro: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; UltimaConexion: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; DireccionIP: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; Bloquear: any; id: string; }, index: React.Key | null | undefined) => (
                 <tr key={index}>
                   <td className="text-white">{user.Usuario}</td>
                   <td className="text-white">{user.FechaRegistro}</td>

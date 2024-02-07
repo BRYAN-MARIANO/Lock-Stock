@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
-
 import { servicesApp } from "../../services/services";
 import { hashData } from "../../services/hash";
 import { FieldValues } from "react-hook-form";
 import React from "react";
-import ModalPasswordMaster from "../templates/modalPasswordMaster";
 import UserContext from "../../UserContext";
 // import { jwtDecode } from "jwt-decode";
 
@@ -21,14 +19,13 @@ const AccountsForm = (): React.JSX.Element => {
  
   //datos de cuentas
   let { response } = useLoaderData() ;
-  
+
 
   if (response === undefined) {
     response = alternative
   }
 
 
-  console.log(response);
 
 
   //modal
@@ -63,14 +60,12 @@ const AccountsForm = (): React.JSX.Element => {
   const postConfirmPassword = async (data: FieldValues) => {
     try {
 
-      console.log(data)
 
 
       const modal = await servicesApp.postPasswordMaster( user?.Id_User ,data)
 
 
 
-      console.log(modal);
 
 
       if (response) {
@@ -230,11 +225,6 @@ const AccountsForm = (): React.JSX.Element => {
           </Link>
         </div>
       </section>
-      <ModalPasswordMaster
-        modal={modal}
-        changeModal={changeModalVisibility}
-        postData={postConfirmPassword}
-      />
     </>
   );
 };

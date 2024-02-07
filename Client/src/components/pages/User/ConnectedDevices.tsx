@@ -13,7 +13,7 @@ const ConnectedDevices = (): React.JSX.Element => {
 
   //filtro de dispsitivos
   const [filtro, setFiltro] = useState("");
-  const dispositivosFiltrados = response.filter((dispositivo) =>
+  const dispositivosFiltrados = response.filter((dispositivo: { movil: string; fecha: string; }) =>
     dispositivo.movil.toLowerCase().includes(filtro.toLowerCase()) ||
     dispositivo.fecha.toLowerCase().includes(filtro.toLowerCase())
   );
@@ -51,7 +51,7 @@ const ConnectedDevices = (): React.JSX.Element => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {dispositivosFiltrados.map((dispositivo, index) => (
+              {dispositivosFiltrados.map((dispositivo: { movil: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; fecha: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; delete: string | undefined; }, index: React.Key | null | undefined) => (
                 <tr key={index}>
                   <td>{dispositivo.movil}</td>
                   <td>{dispositivo.fecha}</td>

@@ -104,8 +104,12 @@ export const login = async (req: Request, res: Response) => {
   await resetLoginAttempts(user);
   const token = await generateUserToken(user, req);
   await updateUserTokenInfo(user, token, req);
-  return res.json({ message: "Logged in successfully", accessToken: token });
+  return res.json({ message: "Logged in successfully", accessToken: token, userId:  user.Id_User });
 };
+
+
+
+
 async function findUserByEmail(email: string): Promise<UserInterface | null> {
   return User.findOne({
     where: { Email_User: { [Op.eq]: email } },

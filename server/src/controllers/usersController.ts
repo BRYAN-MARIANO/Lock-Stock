@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import UsersModel from "../models/UsersModel";
 import { v4 as generateUuid } from "uuid";
 import bcrypt from "bcrypt";
-import { sign } from "jsonwebtoken";
 import jwt from 'jsonwebtoken';
-//import validateMiddelwareUser from "../middlewares/validateMiddelwareUser"; comentado para desactivar temporalmente el middlware, al igual que en la ruta y el propio controlador
 import "dotenv/config";
 import { UserInterface } from '../interfaces/userInterface';
 
@@ -47,13 +45,12 @@ export const usersPost = async (req: Request, res: Response) => {
     const userUuid = generateUuid();
     const hashedPassword_User = await bcrypt.hash(req.body.Password_User, 10);
     const hashedPassword_Master_User = await bcrypt.hash(req.body.Password_Master_User || 'quantum_master_password', 10);
-    const deviceType = req.deviceInfo.deviceType;
+    const deviceType = 'mobile'
     const SECRET_KEY = process.env.SECRET_KEY;
     if (!SECRET_KEY) {
       throw new Error("La clave secreta no está definida en las variables de entorno.");
     }
 
-    // Ahora SECRET_KEY tiene un valor definido y no es ni undefined ni null
     const token = jwt.sign(
       { Id_User: userUuid },
       SECRET_KEY,
@@ -76,7 +73,6 @@ export const usersPost = async (req: Request, res: Response) => {
         loginAttempts: 0,
         Block_User: false,
         Delete_User: false,
-        // Aquí puedes añadir los campos de fechas y ubicaciones como valores predeterminados o null si son opcionales
       });
 
       res.status(201).json({ accessToken: token, Id_User: userUuid, deviceType }); // Opcionalmente, devuelve el tipo de dispositivo y la IP en la respuesta
