@@ -6,7 +6,7 @@ class Services {
   constructor() {}
   async getUserInfo(id: string) {
     try {
-      const methoudCrud = await fetch(`${BACKEND_URL}/users/${id}`);
+      const methoudCrud = await fetch(`${BACKEND_URL}users/${id}`);
       const response = await methoudCrud.json();
       return response;
     } catch (error) {
@@ -17,7 +17,7 @@ class Services {
   }
   async recoverPassword(formData: FieldValues) {
     try {
-      const methoudCrud = await fetch(`${BACKEND_URL}/recover`, { // Asegúrate de ajustar la ruta según corresponda
+      const methoudCrud = await fetch(`${BACKEND_URL}recover`, { // Asegúrate de ajustar la ruta según corresponda
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(formData),
@@ -37,7 +37,7 @@ class Services {
         throw new Error("No se encontró el token de autenticación");
       }
       const idUser = sessionStorage.getItem('userId');
-      const methoudCrud = await fetch(`${BACKEND_URL}/applications/${idUser}`, {
+      const methoudCrud = await fetch(`${BACKEND_URL}applications/${idUser}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ class Services {
   }
   async updateUserProfile(data: FieldValues, userId: string, token: string) {
     try {
-      const response = await fetch(`${BACKEND_URL}/users/${userId}`, {
+      const response = await fetch(`${BACKEND_URL}users/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +76,7 @@ class Services {
   }
   async putAccountUser(id: string, data: FieldValues) {
     try {
-      const methodCrud = await fetch(`${BACKEND_URL}/applications/${id}`, {
+      const methodCrud = await fetch(`${BACKEND_URL}applications/${id}`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(data),
@@ -98,7 +98,7 @@ class Services {
       throw new Error('Authentication token not found');
     }
     try {
-      const response = await fetch(`${BACKEND_URL}/applications/${id}`, {
+      const response = await fetch(`${BACKEND_URL}applications/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ class Services {
   async login(credentials: FieldValues): Promise<string | void> {
     try {
       console.log('Sending login request with credentials:', credentials);
-      const response = await fetch(`${BACKEND_URL}/login`, {
+      const response = await fetch(`${BACKEND_URL}login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -147,7 +147,7 @@ class Services {
   }
   async register(credentials: FieldValues) {
     try {
-      const response = await fetch(`${BACKEND_URL}/users`, {
+      const response = await fetch(`${BACKEND_URL}users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
@@ -161,7 +161,7 @@ class Services {
   }
   async postModal(data: FieldValues) {
     try {
-      const methodCrud = await fetch(`${BACKEND_URL}/modal`, { // Asegúrate de que esta ruta es correcta
+      const methodCrud = await fetch(`${BACKEND_URL}modal`, { // Asegúrate de que esta ruta es correcta
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(data),
@@ -179,7 +179,7 @@ class Services {
   }
   async postPasswordMaster(id: string, data: FieldValues) {
     try {
-      const methoudCrud = await fetch(`${BACKEND_URL}/users/master/${id}`, {
+      const methoudCrud = await fetch(`${BACKEND_URL}users/master/${id}`, {
         method: "POST",
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(data),
